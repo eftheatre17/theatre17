@@ -193,6 +193,60 @@ nav a.active {
     margin-bottom: var(--espace-xl);
 }
 
+/* Bio */
+
+.bio-card__text {
+    max-height: 50%;     
+    overflow-y: auto;      
+    padding-right: 0.5rem; 
+    flex: 1;
+    text-align: left;
+}
+
+
+.bio-card__paragraph {
+    margin-bottom: var(--espace-sm);
+}
+
+    /* 2 colonnes: titre à gauche / texte à droite */
+.bio-card .card-content{
+    display: flex;
+    gap: var(--espace-lg);
+    align-items: flex-start;
+}
+
+/* Colonne gauche */
+.bio-card__title{
+    flex: 0 0 25%;   /* largeur fixe (ajuste) */
+}
+
+/* Image à gauche */
+.bio-card__image{
+    align-items: center;
+    width: 100%;
+    max-width: 220px;  /* ajuste */
+    height: auto;
+    display: block;
+    border-radius: 50%;
+    margin-bottom: var(--espace-sm);
+}
+
+/* Responsive: en mobile, on repasse en colonne */
+@media (max-width: 768px){
+  .bio-card .card-content{
+    flex-direction: column;
+  }
+  .bio-card__title{
+    flex-basis: auto;
+  }
+}
+
+.bio-section {
+    text-align: center;
+    max-width: 65%;
+    margin: 0 auto;
+}
+
 /* Carrousel */
 .carousel {
     position: relative;
