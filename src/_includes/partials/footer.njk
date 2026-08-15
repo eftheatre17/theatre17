@@ -4,7 +4,11 @@
         <div class="footer-content">
             <p><strong>{{ site.professeure }} — {{ site.nom }}</strong></p>
             <p>Cours de théâtre et d'éloquence en Charente-Maritime (17)</p>
-            <p><a href="/contact.html">Contact &amp; Mentions légales</a></p>
+            <p>
+                <a href="/contact.html">Contact &amp; Mentions légales</a> ·
+                {# Retirer son consentement doit être aussi simple que de le donner. #}
+                <button type="button" class="lien-bouton js-cookies-rouvrir">Gérer les cookies</button>
+            </p>
             <p class="footer-legal">
                 © {{ annee }} {{ site.nom }}. Tous droits réservés.
             </p>

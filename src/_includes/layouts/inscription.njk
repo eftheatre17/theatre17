@@ -16,40 +16,40 @@ layout: layouts/base.njk
                 <p>Pour vous pré-inscrire, remplissez le formulaire.
                    Les champs marqués d'un * sont obligatoires.</p>
 
-                {# Le formulaire Google n'est charge qu'apres un clic explicite.
-                   Tant que le visiteur n'a rien demande, aucune requete n'est
-                   envoyee a Google et aucun cookie n'est depose. #}
-                <div class="form-consent" data-form-url="{{ formUrl }}" data-form-titre="Formulaire de préinscription — {{ lieu }}">
-                    <p class="form-consent__texte">
-                        Le formulaire de préinscription est hébergé par <strong>Google Forms</strong>.
-                        En l'affichant, vous acceptez que Google puisse déposer des cookies
-                        sur votre appareil et recevoir votre adresse IP.
-                    </p>
-                    {# Deux actions equivalentes. Leur hierarchie s'inverse
-                       selon la taille de l'ecran, uniquement en CSS : sur
-                       telephone le lien sortant passe devant, car une iframe
-                       Google Forms de 600 px y impose un defilement imbrique
-                       tres inconfortable. Sur grand ecran, l'affichage sur
-                       place reste le plus fluide. #}
-                    <div class="form-consent__actions">
-                        <a class="btn form-consent__ouvrir"
-                           href="{{ formUrl }}" target="_blank" rel="noopener noreferrer">
-                            Ouvrir le formulaire
-                            <span class="form-consent__indice">nouvel onglet</span>
-                        </a>
-                        <button type="button" class="btn form-consent__afficher js-charger-formulaire">
-                            Afficher ici
-                            <span class="form-consent__indice">sur cette page</span>
-                        </button>
-                    </div>
+                {# Zone du formulaire.
+                   Le HTML ne contient JAMAIS l'iframe : c'est le JavaScript qui
+                   l'insère, et seulement si le visiteur a accepté les cookies
+                   tiers dans le bandeau. Sans accord, aucune requête ne part
+                   vers Google — le repli ci-dessous reste affiché. #}
+                <div class="form-zone"
+                     data-form-url="{{ formUrl }}"
+                     data-form-titre="Formulaire de préinscription — {{ lieu }}">
 
-                    {# Ce paragraphe reste affiche apres le chargement de
-                       l'iframe : il doit se lire correctement dans les deux cas. #}
-                    <p class="form-consent__alternative">
-                        Vous pouvez aussi
-                        <a href="mailto:{{ site.contact.email }}?subject=Préinscription — {{ lieu }}">m'écrire directement</a>,
-                        sans passer par Google.
-                    </p>
+                    <div class="form-repli">
+                        <p class="form-repli__texte">
+                            Le formulaire est hébergé par <strong>Google Forms</strong> et n'est pas
+                            affiché ici, faute d'accord pour les cookies tiers. Vous pouvez malgré
+                            tout vous inscrire :
+                        </p>
+
+                        <div class="form-repli__actions">
+                            <a class="btn" href="{{ formUrl }}" target="_blank" rel="noopener noreferrer">
+                                Ouvrir le formulaire sur Google
+                                <span class="form-repli__indice">nouvel onglet</span>
+                            </a>
+                            <a class="btn btn-secondary"
+                               href="mailto:{{ site.contact.email }}?subject=Préinscription — {{ lieu }}">
+                                M'écrire par email
+                                <span class="form-repli__indice">sans passer par Google</span>
+                            </a>
+                        </div>
+
+                        <p class="form-repli__choix">
+                            <button type="button" class="lien-bouton js-cookies-rouvrir">
+                                Modifier mon choix de cookies
+                            </button>
+                        </p>
+                    </div>
                 </div>
 
                 <p class="form-infos">

@@ -9,6 +9,13 @@
     box-sizing: border-box;
 }
 
+/* Le navigateur masque [hidden] avec `display: none`, mais cette règle
+   est plus faible que n'importe quelle règle d'auteur : un élément en
+   `display: flex` resterait visible malgré l'attribut. */
+[hidden] {
+    display: none !important;
+}
+
 :root {
     /* Palette de couleurs chaleureuse */
     --bordeaux: #8B2635;
@@ -809,116 +816,6 @@ footer a:focus-visible {
     font-style: italic;
 }
 
-/* Bloc affiché à la place du formulaire tant que le visiteur n'a pas
-   accepté le dépôt de cookies par Google. */
-.form-consent {
-    background: var(--ivoire);
-    border: 1px solid rgba(139, 38, 53, 0.2);
-    border-radius: 8px;
-    padding: var(--espace-lg);
-    margin-bottom: var(--espace-lg);
-    text-align: center;
-}
-
-.form-consent__texte {
-    font-size: 0.95rem;
-    color: var(--gris-chaleureux);
-}
-
-/* Les deux façons d'accéder au formulaire.
-   Le HTML place le lien sortant en premier : c'est la hiérarchie du
-   téléphone, où l'iframe Google est la plus pénible. Sur grand écran,
-   les rôles s'inversent en CSS seule — l'ordre du HTML, donc l'ordre
-   de tabulation, reste cohérent avec l'action recommandée. */
-.form-consent__actions {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espace-sm);
-    align-items: stretch;
-}
-
-.form-consent__actions .btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    line-height: 1.3;
-}
-
-/* Indice discret sous le libellé du bouton */
-.form-consent__indice {
-    font-weight: 400;
-    font-size: 0.8rem;
-    opacity: 0.75;
-}
-
-/* Mobile : « Ouvrir » est l'action principale, « Afficher ici » la
-   solution de repli. */
-.form-consent__afficher {
-    background: transparent;
-    color: var(--bordeaux);
-    border: 2px solid var(--bordeaux);
-}
-
-.form-consent__afficher:hover {
-    background: var(--bordeaux);
-    color: white;
-}
-
-/* Grand écran : l'affichage sur place redevient l'action principale,
-   et les deux boutons se placent côte à côte. */
-@media (min-width: 768px) {
-    .form-consent__actions {
-        flex-direction: row;
-        justify-content: center;
-    }
-
-    .form-consent__ouvrir {
-        order: 2;
-        background: transparent;
-        color: var(--bordeaux);
-        border: 2px solid var(--bordeaux);
-    }
-
-    .form-consent__ouvrir:hover {
-        background: var(--bordeaux);
-        color: white;
-    }
-
-    .form-consent__afficher {
-        order: 1;
-        background: var(--bordeaux);
-        color: white;
-        border: 2px solid var(--bordeaux);
-    }
-
-    .form-consent__afficher:hover {
-        background: var(--bordeaux-fonce);
-        border-color: var(--bordeaux-fonce);
-    }
-}
-
-/* Message d'attente puis de confirmation, annoncé aux lecteurs d'écran */
-.form-consent__statut {
-    font-size: 0.95rem;
-    color: var(--gris-chaleureux);
-    font-style: italic;
-    margin-bottom: var(--espace-md);
-}
-
-.form-consent__statut:focus {
-    outline: none;
-}
-
-.form-consent__alternative {
-    font-size: 0.9rem;
-    margin-top: var(--espace-md);
-    margin-bottom: 0;
-}
-
-.form-consent__alternative a {
-    color: var(--bordeaux);
-}
-
 .form-iframe {
     width: 100%;
     min-height: 600px;
@@ -997,4 +894,173 @@ footer a:focus-visible {
 
 .bandeau-beta a {
     color: var(--doré);
+}
+
+/* ========================================
+   BANDEAU DE CONSENTEMENT
+   ======================================== */
+
+.bandeau-cookies {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1200;
+    background: var(--noir-theatre);
+    color: var(--ivoire);
+    padding: var(--espace-md);
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.35);
+}
+
+.bandeau-cookies__contenu {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espace-md);
+}
+
+.bandeau-cookies h2 {
+    color: var(--doré-clair);
+    font-size: 1.25rem;
+    margin-bottom: var(--espace-xs);
+}
+
+.bandeau-cookies p {
+    font-size: 0.95rem;
+    margin-bottom: var(--espace-xs);
+}
+
+.bandeau-cookies__precision {
+    opacity: 0.85;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+.bandeau-cookies a {
+    color: var(--doré);
+}
+
+/* Les deux boutons ont strictement le même poids visuel : refuser doit
+   être aussi immédiat qu'accepter, faute de quoi le consentement recueilli
+   n'est pas valable. */
+.bandeau-cookies__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espace-sm);
+}
+
+.bandeau-cookies__actions .btn {
+    flex: 1;
+    text-align: center;
+    background: var(--ivoire);
+    color: var(--noir-theatre);
+    border: 2px solid var(--ivoire);
+}
+
+.bandeau-cookies__actions .btn:hover {
+    background: var(--doré-clair);
+    border-color: var(--doré-clair);
+    color: var(--noir-theatre);
+}
+
+@media (min-width: 768px) {
+    .bandeau-cookies__contenu {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .bandeau-cookies__actions {
+        flex-direction: row;
+        flex-shrink: 0;
+    }
+
+    .bandeau-cookies__actions .btn {
+        min-width: 150px;
+    }
+}
+
+/* Bouton présenté comme un lien — pour « Gérer les cookies » */
+.lien-bouton {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+footer .lien-bouton {
+    color: var(--doré);
+}
+
+footer .lien-bouton:hover {
+    color: var(--doré-clair);
+}
+
+/* ========================================
+   ZONE DU FORMULAIRE
+   ======================================== */
+
+.form-zone {
+    margin-bottom: var(--espace-lg);
+}
+
+.form-zone__statut {
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--gris-chaleureux);
+}
+
+/* Affiché tant que les cookies tiers ne sont pas acceptés */
+.form-repli {
+    background: var(--ivoire);
+    border: 1px solid rgba(139, 38, 53, 0.2);
+    border-radius: 8px;
+    padding: var(--espace-lg);
+    text-align: center;
+}
+
+.form-repli__texte {
+    font-size: 0.95rem;
+    color: var(--gris-chaleureux);
+}
+
+.form-repli__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espace-sm);
+    align-items: stretch;
+}
+
+.form-repli__actions .btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.3;
+}
+
+.form-repli__indice {
+    font-weight: 400;
+    font-size: 0.8rem;
+    opacity: 0.75;
+}
+
+.form-repli__choix {
+    margin-top: var(--espace-md);
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+.form-repli__choix .lien-bouton {
+    color: var(--bordeaux);
+}
+
+@media (min-width: 768px) {
+    .form-repli__actions {
+        flex-direction: row;
+        justify-content: center;
+    }
 }

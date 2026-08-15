@@ -15,72 +15,162 @@ document.addEventListener('DOMContentLoaded', function() {
     // Smooth scroll pour les ancres
     initSmoothScroll();
 
-    // Formulaires Google chargés uniquement sur accord du visiteur
-    initConsentForms();
+    // Bandeau de consentement + affichage conditionnel des formulaires
+    initCookies();
 });
 
 // ========================================
-// FORMULAIRES SOUS CONSENTEMENT
+// CONSENTEMENT AUX COOKIES TIERS
 // ========================================
 
-// Les formulaires de préinscription sont hébergés par Google, qui dépose
-// des cookies dès l'affichage. On ne charge donc l'iframe qu'après un clic
-// explicite : tant que le visiteur n'a rien demandé, aucune requête n'est
-// envoyée à Google.
-function initConsentForms() {
-    const blocs = document.querySelectorAll('.form-consent');
+// Le site ne dépose aucun cookie de son fait. Seuls les formulaires
+// Google Forms en déposent, et uniquement s'ils sont affichés. Le bandeau
+// recueille donc un consentement unique, valable pour tout le site.
+//
+// Le choix est conservé dans localStorage plutôt que dans un cookie : c'est
+// un stockage strictement nécessaire au respect du choix de l'utilisateur,
+// donc lui-même exempt de consentement.
+function initCookies() {
+    const CLE = 'theatre17-cookies';
+    const bandeau = document.getElementById('bandeau-cookies');
+    const zones = document.querySelectorAll('.form-zone');
+    let declencheur = null;
 
-    blocs.forEach(bloc => {
-        const bouton = bloc.querySelector('.js-charger-formulaire');
-        const url = bloc.dataset.formUrl;
+    // localStorage lève une exception en navigation privée sur certains
+    // navigateurs : on dégrade sans casser le reste de la page.
+    function lireChoix() {
+        try { return localStorage.getItem(CLE); } catch (e) { return null; }
+    }
 
-        if (!bouton || !url) return;
+    function ecrireChoix(valeur) {
+        try { localStorage.setItem(CLE, valeur); } catch (e) { /* sans effet */ }
+    }
 
-        const texte = bloc.querySelector('.form-consent__texte');
-        const actions = bloc.querySelector('.form-consent__actions');
-        const alternative = bloc.querySelector('.form-consent__alternative');
+    function afficherFormulaires() {
+        zones.forEach(zone => {
+            if (zone.querySelector('.form-iframe')) return;
 
-        bouton.addEventListener('click', function() {
-            // On masque l'explication et les boutons, mais on laisse la
-            // solution de repli affichée : si Google est bloque par le
-            // navigateur (protection anti-pistage, mode restreint), le
-            // visiteur garde un moyen de s'inscrire.
-            if (texte) texte.hidden = true;
-            if (actions) actions.hidden = true;
+            const url = zone.dataset.formUrl;
+            if (!url) return;
 
-            // Zone d'annonce : les lecteurs d'ecran signalent le chargement
-            // puis l'arrivee du formulaire, sans deplacer le focus de force.
+            const repli = zone.querySelector('.form-repli');
+            if (repli) repli.hidden = true;
+
             const statut = document.createElement('p');
-            statut.className = 'form-consent__statut';
+            statut.className = 'form-zone__statut';
             statut.setAttribute('role', 'status');
-            statut.tabIndex = -1;
-            statut.textContent = 'Chargement du formulaire…';
-            bloc.insertBefore(statut, alternative);
-            statut.focus();
+            statut.textContent = 'Chargement du formulaire\u2026';
+            zone.appendChild(statut);
 
             const iframe = document.createElement('iframe');
             iframe.src = url + (url.includes('?') ? '&' : '?') + 'embedded=true';
-            iframe.title = bloc.dataset.formTitre || 'Formulaire de préinscription';
+            iframe.title = zone.dataset.formTitre || 'Formulaire de préinscription';
             iframe.className = 'form-iframe';
 
-            let abouti = false;
+            const texteRepli = repli ? repli.querySelector('.form-repli__texte') : null;
+            const texteOrigine = texteRepli ? texteRepli.innerHTML : null;
 
-            iframe.addEventListener('load', function() {
+            let abouti = false;
+            iframe.addEventListener('load', function () {
                 abouti = true;
-                statut.textContent = 'Formulaire chargé.';
+                statut.remove();
+                // Le formulaire a fini par arriver, même tardivement : on
+                // remasque le repli pour ne pas afficher deux messages
+                // contradictoires l'un au-dessus de l'autre.
+                if (repli) {
+                    repli.hidden = true;
+                    if (texteRepli && texteOrigine) texteRepli.innerHTML = texteOrigine;
+                }
             });
 
-            // Une iframe bloquee ne declenche jamais d'erreur : elle reste
-            // simplement vide. On previent donc au bout d'un delai.
-            setTimeout(function() {
-                if (!abouti) {
-                    statut.textContent =
-                        "Le formulaire met du temps à s'afficher, ou votre navigateur le bloque. " +
-                        'Utilisez un des liens ci-dessous.';
+            // Une iframe bloquée par le navigateur ne déclenche aucune erreur :
+            // elle reste simplement vide. On propose donc une porte de sortie
+            // au bout d'un délai, en reformulant le repli — son texte d'origine
+            // parle d'un refus de cookies, ce qui n'est pas le cas ici.
+            setTimeout(function () {
+                if (abouti) return;
+                statut.remove();
+                if (repli) {
+                    if (texteRepli) {
+                        texteRepli.textContent = "Le formulaire tarde à s'afficher, ou votre "
+                            + 'navigateur le bloque. Vous pouvez vous inscrire autrement :';
+                    }
+                    repli.hidden = false;
                 }
             }, 8000);
 
-            bloc.insertBefore(iframe, alternative);
+            zone.appendChild(iframe);
+        });
+    }
+
+    function retirerFormulaires() {
+        zones.forEach(zone => {
+            zone.querySelectorAll('.form-iframe, .form-zone__statut').forEach(e => e.remove());
+            const repli = zone.querySelector('.form-repli');
+            if (repli) repli.hidden = false;
+        });
+    }
+
+    function ouvrirBandeau(origine) {
+        if (!bandeau) return;
+        declencheur = origine || null;
+        bandeau.hidden = false;
+        const premier = bandeau.querySelector('button');
+        if (premier && origine) premier.focus();
+    }
+
+    function fermerBandeau() {
+        if (!bandeau) return;
+        bandeau.hidden = true;
+        if (declencheur) {
+            declencheur.focus();
+            declencheur = null;
+        }
+    }
+
+    function appliquer(choix) {
+        if (choix === 'accepte') {
+            afficherFormulaires();
+        } else {
+            retirerFormulaires();
+        }
+    }
+
+    // État initial
+    const choixInitial = lireChoix();
+    if (choixInitial) {
+        appliquer(choixInitial);
+    } else {
+        ouvrirBandeau(null);
+    }
+
+    if (bandeau) {
+        const accepter = bandeau.querySelector('.js-cookies-accepter');
+        const refuser = bandeau.querySelector('.js-cookies-refuser');
+
+        if (accepter) accepter.addEventListener('click', function () {
+            ecrireChoix('accepte');
+            appliquer('accepte');
+            fermerBandeau();
+        });
+
+        if (refuser) refuser.addEventListener('click', function () {
+            ecrireChoix('refuse');
+            appliquer('refuse');
+            fermerBandeau();
+        });
+
+        // Échap vaut refus tacite : on referme sans rien enregistrer,
+        // le bandeau réapparaîtra à la prochaine visite.
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && !bandeau.hidden) fermerBandeau();
+        });
+    }
+
+    // « Gérer les cookies » — pied de page et pages d'inscription
+    document.querySelectorAll('.js-cookies-rouvrir').forEach(bouton => {
+        bouton.addEventListener('click', function () {
+            ouvrirBandeau(bouton);
         });
     });
 }

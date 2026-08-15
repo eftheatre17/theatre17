@@ -1,0 +1,32 @@
+{# Bandeau de consentement.
+   Conformité : refuser doit être aussi simple et aussi visible qu'accepter
+   (mêmes dimensions, même écran, aucune case pré-cochée), le choix est
+   mémorisé, et il reste révocable à tout moment depuis le pied de page.
+   Le bandeau est masqué par défaut : le JavaScript ne l'affiche que si
+   aucun choix n'a encore été exprimé, ce qui évite qu'il clignote au
+   chargement pour les visiteurs déjà décidés. #}
+<div class="bandeau-cookies" id="bandeau-cookies" role="region"
+     aria-labelledby="bandeau-cookies-titre" hidden>
+    <div class="bandeau-cookies__contenu">
+        <div class="bandeau-cookies__texte">
+            <h2 id="bandeau-cookies-titre">Formulaires d'inscription et cookies</h2>
+            <p>
+                Les formulaires de préinscription sont hébergés par <strong>Google Forms</strong>.
+                Les afficher permet à Google de déposer des cookies sur votre appareil et de
+                recevoir votre adresse IP, y compris hors de l'Union européenne.
+            </p>
+            <p class="bandeau-cookies__precision">
+                Ce site n'utilise aucun autre traceur : ni publicité, ni mesure d'audience.
+                Vous pouvez refuser et vous inscrire par email ou en ouvrant le formulaire
+                directement sur Google. <a href="/contact.html">En savoir plus</a>.
+            </p>
+        </div>
+
+        {# Deux boutons de même poids visuel : c'est une exigence, pas un choix
+           esthétique. Un « Refuser » discret rendrait le consentement invalide. #}
+        <div class="bandeau-cookies__actions">
+            <button type="button" class="btn js-cookies-accepter">Accepter</button>
+            <button type="button" class="btn js-cookies-refuser">Refuser</button>
+        </div>
+    </div>
+</div>

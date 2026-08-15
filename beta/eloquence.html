@@ -164,30 +164,32 @@
                    Les champs marqués d'un * sont obligatoires.</p>
 
                 
-                <div class="form-consent" data-form-url="https://docs.google.com/forms/d/e/1FAIpQLSekTxzmU3o4qataYryi6I_Kkjj0RHyLbMBeatTYdtPjiJEEjQ/viewform" data-form-titre="Formulaire de préinscription — Cours d&#39;éloquence">
-                    <p class="form-consent__texte">
-                        Le formulaire de préinscription est hébergé par <strong>Google Forms</strong>.
-                        En l'affichant, vous acceptez que Google puisse déposer des cookies
-                        sur votre appareil et recevoir votre adresse IP.
-                    </p>
-                    
-                    <div class="form-consent__actions">
-                        <a class="btn form-consent__ouvrir" href="https://docs.google.com/forms/d/e/1FAIpQLSekTxzmU3o4qataYryi6I_Kkjj0RHyLbMBeatTYdtPjiJEEjQ/viewform" target="_blank" rel="noopener noreferrer">
-                            Ouvrir le formulaire
-                            <span class="form-consent__indice">nouvel onglet</span>
-                        </a>
-                        <button type="button" class="btn form-consent__afficher js-charger-formulaire">
-                            Afficher ici
-                            <span class="form-consent__indice">sur cette page</span>
-                        </button>
-                    </div>
+                <div class="form-zone" data-form-url="https://docs.google.com/forms/d/e/1FAIpQLSekTxzmU3o4qataYryi6I_Kkjj0RHyLbMBeatTYdtPjiJEEjQ/viewform" data-form-titre="Formulaire de préinscription — Cours d&#39;éloquence">
 
-                    
-                    <p class="form-consent__alternative">
-                        Vous pouvez aussi
-                        <a href="mailto:eftheatre17@gmail.com?subject=Préinscription — Cours d&#39;éloquence">m'écrire directement</a>,
-                        sans passer par Google.
-                    </p>
+                    <div class="form-repli">
+                        <p class="form-repli__texte">
+                            Le formulaire est hébergé par <strong>Google Forms</strong> et n'est pas
+                            affiché ici, faute d'accord pour les cookies tiers. Vous pouvez malgré
+                            tout vous inscrire :
+                        </p>
+
+                        <div class="form-repli__actions">
+                            <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSekTxzmU3o4qataYryi6I_Kkjj0RHyLbMBeatTYdtPjiJEEjQ/viewform" target="_blank" rel="noopener noreferrer">
+                                Ouvrir le formulaire sur Google
+                                <span class="form-repli__indice">nouvel onglet</span>
+                            </a>
+                            <a class="btn btn-secondary" href="mailto:eftheatre17@gmail.com?subject=Préinscription — Cours d&#39;éloquence">
+                                M'écrire par email
+                                <span class="form-repli__indice">sans passer par Google</span>
+                            </a>
+                        </div>
+
+                        <p class="form-repli__choix">
+                            <button type="button" class="lien-bouton js-cookies-rouvrir">
+                                Modifier mon choix de cookies
+                            </button>
+                        </p>
+                    </div>
                 </div>
 
                 <p class="form-infos">
@@ -208,13 +210,42 @@
         <div class="footer-content">
             <p><strong>Emmanuelle Foltête — Théâtre 17</strong></p>
             <p>Cours de théâtre et d'éloquence en Charente-Maritime (17)</p>
-            <p><a href="/beta/contact.html">Contact &amp; Mentions légales</a></p>
+            <p>
+                <a href="/beta/contact.html">Contact &amp; Mentions légales</a> ·
+                
+                <button type="button" class="lien-bouton js-cookies-rouvrir">Gérer les cookies</button>
+            </p>
             <p class="footer-legal">
                 © 2026 Théâtre 17. Tous droits réservés.
             </p>
         </div>
     </div>
 </footer>
+
+    
+<div class="bandeau-cookies" id="bandeau-cookies" role="region" aria-labelledby="bandeau-cookies-titre" hidden="">
+    <div class="bandeau-cookies__contenu">
+        <div class="bandeau-cookies__texte">
+            <h2 id="bandeau-cookies-titre">Formulaires d'inscription et cookies</h2>
+            <p>
+                Les formulaires de préinscription sont hébergés par <strong>Google Forms</strong>.
+                Les afficher permet à Google de déposer des cookies sur votre appareil et de
+                recevoir votre adresse IP, y compris hors de l'Union européenne.
+            </p>
+            <p class="bandeau-cookies__precision">
+                Ce site n'utilise aucun autre traceur : ni publicité, ni mesure d'audience.
+                Vous pouvez refuser et vous inscrire par email ou en ouvrant le formulaire
+                directement sur Google. <a href="/beta/contact.html">En savoir plus</a>.
+            </p>
+        </div>
+
+        
+        <div class="bandeau-cookies__actions">
+            <button type="button" class="btn js-cookies-accepter">Accepter</button>
+            <button type="button" class="btn js-cookies-refuser">Refuser</button>
+        </div>
+    </div>
+</div>
 
 
     <script src="/beta/js/main.js" defer=""></script>
