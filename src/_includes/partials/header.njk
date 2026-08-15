@@ -1,0 +1,23 @@
+{# En-tete unique du site. Modifier ce fichier met a jour les 6 pages. #}
+<header>
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="logo">
+                <span class="logo-text">{{ site.nom }}</span>
+                <span class="logo-subtitle">{{ site.professeure }}</span>
+            </a>
+
+            <nav aria-label="Navigation principale">
+                <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-principal">☰</button>
+                <ul id="menu-principal">
+                    {%- for lien in site.nav %}
+                    <li>
+                        <a href="{{ lien.url }}"
+                           {% if lien.url == page.url %}class="active" aria-current="page"{% endif %}>{{ lien.texte }}</a>
+                    </li>
+                    {%- endfor %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,62 @@
+name: Construire et publier le site
+
+# ⚠️ DÉSACTIVÉ POUR L'INSTANT — ne se lance que sur demande manuelle.
+#
+# Tant que le site classique est servi depuis la racine du dépôt et que la
+# nouvelle version est en essai dans /beta/, GitHub Pages doit rester réglé
+# sur « Deploy from a branch » (main, dossier racine). Ce workflow servira
+# le jour où la nouvelle version remplacera l'ancienne : il faudra alors
+# décommenter le déclencheur ci-dessous ET basculer le réglage Pages sur
+# « GitHub Actions ». Faire l'un sans l'autre casserait le site.
+on:
+  # push:
+  #   branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Une seule publication à la fois ; on ne coupe pas celle en cours.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construire:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Construire le site
+        run: npm run build
+
+      - name: Configurer GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Téléverser le site construit
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  publier:
+    needs: construire
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
+      - name: Publier sur GitHub Pages
+        id: deploiement
+        uses: actions/deploy-pages@v4

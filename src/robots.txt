@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://theatre17.fr/sitemap.xml

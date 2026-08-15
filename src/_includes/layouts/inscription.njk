@@ -1,0 +1,63 @@
+---
+layout: layouts/base.njk
+---
+{# Gabarit commun aux trois pages d'inscription.
+   Auparavant ces pages etaient trois fichiers de 92 lignes identiques
+   a 95 % : seules changeaient l'adresse du formulaire et le titre.
+   Elles ne sont plus decrites que par quelques lignes d'en-tete. #}
+<section class="form-page">
+    <div class="container">
+        <div class="form-container">
+            <div class="form-placeholder fade-in-up">
+                <h1>{{ titre1 | safe }}</h1>
+
+                {% if intro %}<p class="form-intro">{{ intro }}</p>{% endif %}
+
+                <p>Pour vous pré-inscrire, remplissez le formulaire.
+                   Les champs marqués d'un * sont obligatoires.</p>
+
+                {# Le formulaire Google n'est charge qu'apres un clic explicite.
+                   Tant que le visiteur n'a rien demande, aucune requete n'est
+                   envoyee a Google et aucun cookie n'est depose. #}
+                <div class="form-consent" data-form-url="{{ formUrl }}" data-form-titre="Formulaire de préinscription — {{ lieu }}">
+                    <p class="form-consent__texte">
+                        Le formulaire de préinscription est hébergé par <strong>Google Forms</strong>.
+                        En l'affichant, vous acceptez que Google puisse déposer des cookies
+                        sur votre appareil et recevoir votre adresse IP.
+                    </p>
+                    {# Deux actions equivalentes. Leur hierarchie s'inverse
+                       selon la taille de l'ecran, uniquement en CSS : sur
+                       telephone le lien sortant passe devant, car une iframe
+                       Google Forms de 600 px y impose un defilement imbrique
+                       tres inconfortable. Sur grand ecran, l'affichage sur
+                       place reste le plus fluide. #}
+                    <div class="form-consent__actions">
+                        <a class="btn form-consent__ouvrir"
+                           href="{{ formUrl }}" target="_blank" rel="noopener noreferrer">
+                            Ouvrir le formulaire
+                            <span class="form-consent__indice">nouvel onglet</span>
+                        </a>
+                        <button type="button" class="btn form-consent__afficher js-charger-formulaire">
+                            Afficher ici
+                            <span class="form-consent__indice">sur cette page</span>
+                        </button>
+                    </div>
+
+                    {# Ce paragraphe reste affiche apres le chargement de
+                       l'iframe : il doit se lire correctement dans les deux cas. #}
+                    <p class="form-consent__alternative">
+                        Vous pouvez aussi
+                        <a href="mailto:{{ site.contact.email }}?subject=Préinscription — {{ lieu }}">m'écrire directement</a>,
+                        sans passer par Google.
+                    </p>
+                </div>
+
+                <p class="form-infos">
+                    <strong>Informations complémentaires :</strong><br>
+                    Professeure : {{ site.professeure }}<br>
+                    Contact : <a href="/contact.html">voir la page Contact</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

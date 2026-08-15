@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="{{ site.langue }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ description }}">
+    <meta name="author" content="{{ site.professeure }}">
+
+    {% if beta %}
+    {# Version d'essai : interdite d'indexation, pour qu'elle ne fasse
+       jamais doublon avec le site en ligne dans les resultats Google. #}
+    <meta name="robots" content="noindex, nofollow">
+    {% endif %}
+
+    {# Adresse de reference de la page : evite que /page.html et /page
+       soient vus par Google comme deux pages differentes. #}
+    <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+
+    <title>{{ title }}</title>
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="{{ site.nom }}">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:title" content="{{ ogTitle or title }}">
+    <meta property="og:description" content="{{ ogDescription or description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+    <meta property="og:image" content="{{ site.url }}{{ site.ogImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Théâtre 17 — cours de théâtre et d'éloquence avec {{ site.professeure }}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ ogTitle or title }}">
+    <meta name="twitter:description" content="{{ ogDescription or description }}">
+    <meta name="twitter:image" content="{{ site.url }}{{ site.ogImage }}">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+
+    {# Polices servies par notre propre domaine : aucune requete vers
+       Google, donc aucune transmission d'adresse IP des visiteurs. #}
+    <link rel="preload" href="/fonts/playfair-display-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/source-sans-3-300-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    {# Donnees structurees : c'est ce qui permet a Google de comprendre
+       qu'il s'agit d'une activite locale d'enseignement, et non d'un
+       site quelconque. #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "{{ site.url }}/#organisation",
+      "name": "{{ site.nom }}",
+      "description": "Cours de théâtre et d'éloquence pour enfants, adolescents et adultes en Charente-Maritime.",
+      "url": "{{ site.url }}",
+      "telephone": "{{ site.contact.telephoneLien }}",
+      "email": "{{ site.contact.email }}",
+      "image": "{{ site.url }}{{ site.ogImage }}",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "{{ site.legal.adresse }}",
+        "postalCode": "{{ site.legal.codePostal }}",
+        "addressLocality": "{{ site.legal.ville }}",
+        "addressCountry": "{{ site.legal.pays }}"
+      },
+      "areaServed": [
+        {%- for zone in site.zonesDesservies %}
+        { "@type": "Place", "name": "{{ zone }}" }{% if not loop.last %},{% endif %}
+        {%- endfor %}
+      ],
+      "founder": {
+        "@type": "Person",
+        "@id": "{{ site.url }}/#emmanuelle",
+        "name": "{{ site.professeure }}",
+        "jobTitle": "Professeure de théâtre et d'éloquence"
+      }
+    }
+    </script>
+    {% if jsonLd %}
+    <script type="application/ld+json">{{ jsonLd | safe }}</script>
+    {% endif %}
+</head>
+<body>
+    <a href="#contenu" class="skip-link">Aller au contenu</a>
+
+    {% if beta %}
+    <p class="bandeau-beta">
+        Version d'essai — le site en ligne reste
+        <a href="https://theatre17.fr/">theatre17.fr</a>
+    </p>
+    {% endif %}
+
+    {% include "partials/header.njk" %}
+
+    <main id="contenu">
+        {{ content | safe }}
+    </main>
+
+    {% include "partials/footer.njk" %}
+
+    <script src="/js/main.js" defer></script>
+</body>
+</html>

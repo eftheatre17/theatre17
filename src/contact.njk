@@ -1,0 +1,180 @@
+---
+layout: layouts/base.njk
+permalink: /contact.html
+title: "Contact & Mentions légales | Emmanuelle Foltête — Théâtre 17"
+description: "Contactez Emmanuelle Foltête pour les cours de théâtre et d'éloquence autour de La Rochelle. Mentions légales et confidentialité du site Théâtre 17."
+ogTitle: "Contact & Mentions légales — Théâtre 17"
+jsonLd: |
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact — Théâtre 17",
+    "url": "https://theatre17.fr/contact.html",
+    "mainEntity": { "@id": "https://theatre17.fr/#organisation" }
+  }
+---
+<!-- Contact -->
+<section class="contact-page">
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <h1>Contact &amp; informations</h1>
+            <p>Pour toute question ou inscription, n'hésitez pas à me contacter.</p>
+        </div>
+
+        <div class="contact-section animate-on-scroll">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h2>{{ site.professeure }}</h2>
+                    <p>Professeure de théâtre et d'éloquence</p>
+                </div>
+
+                <div class="contact-item">
+                    <h2>Téléphone</h2>
+                    <p><a href="tel:{{ site.contact.telephoneLien }}">{{ site.contact.telephoneAffiche }}</a></p>
+                </div>
+
+                <div class="contact-item">
+                    <h2>Email</h2>
+                    <p><a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a></p>
+                </div>
+
+                <div class="contact-item">
+                    <h2>Lieux des cours</h2>
+                    <p>
+                        Autour de La Rochelle<br>
+                        Dompierre-sur-Mer<br>
+                        La Jarrie<br>
+                        Et plus encore !
+                    </p>
+                </div>
+            </div>
+
+            <div class="contact-horaires">
+                <h2>Horaires et planning</h2>
+                <p>
+                    Les cours sont organisés par groupes d'âge et de niveau sur différentes communes.
+                    Les détails figurent dans les formulaires de préinscription.
+                    Contactez-moi pour connaître les créneaux disponibles et trouver le cours adapté à vos besoins.
+                </p>
+                <a href="mailto:{{ site.contact.email }}?subject=Demande d'information — Cours de théâtre" class="btn">
+                    Me contacter par email
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mentions légales -->
+<section class="section--alt">
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <h2>Mentions légales</h2>
+        </div>
+
+        <div class="mentions-section animate-on-scroll">
+            <h3>1. Éditeur du site</h3>
+            <p>Le site <strong>theatre17.fr</strong> est édité par :</p>
+            <p>
+                <strong>{{ site.professeure }}</strong><br>
+                Professeure de théâtre et d'éloquence<br>
+                SIRET : {{ site.legal.siret }}<br>
+                {{ site.legal.adresse }}, {{ site.legal.codePostal }} {{ site.legal.ville }}<br>
+                Téléphone : {{ site.contact.telephoneAffiche }}<br>
+                Email : {{ site.contact.email }}
+            </p>
+            <p>Directrice de la publication : {{ site.legal.directeurPublication }}.</p>
+
+            <h3>2. Hébergement</h3>
+            <p>
+                Le site <strong>theatre17.fr</strong> est hébergé par GitHub Pages, service de GitHub, Inc.,
+                88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.
+            </p>
+            <p>
+                Le nom de domaine <strong>theatre17.fr</strong> est enregistré auprès de GoDaddy.com, LLC,
+                2155 East GoDaddy Way, Tempe, AZ 85284, États-Unis.
+            </p>
+
+            <h3>3. Propriété intellectuelle</h3>
+            <p>
+                L'ensemble des contenus présents sur ce site (textes, images, logos, vidéos) est la propriété
+                exclusive d'{{ site.professeure }} ou de ses partenaires, sauf mention contraire.
+                Toute reproduction, distribution, modification ou extraction, partielle ou complète, du contenu
+                de ce site est interdite sans autorisation écrite préalable.
+            </p>
+
+            <h3>4. Données personnelles</h3>
+            <p>
+                Conformément au Règlement général sur la protection des données (RGPD), les données personnelles
+                collectées via ce site sont protégées. Le responsable de traitement est {{ site.professeure }},
+                joignable à l'adresse {{ site.contact.email }}.
+            </p>
+            <p>
+                Les données collectées via les formulaires de préinscription (nom, prénom, adresse email,
+                numéro de téléphone) sont utilisées exclusivement pour l'organisation des cours de théâtre
+                et d'éloquence. Elles ne sont ni vendues, ni cédées, ni communiquées à des tiers à des fins
+                commerciales. Elles sont conservées le temps de la relation pédagogique, puis supprimées
+                au plus tard trois ans après le dernier contact.
+            </p>
+            <p>
+                Vous disposez d'un droit d'accès, de rectification, d'effacement, de portabilité et de
+                limitation du traitement de vos données, ainsi que d'un droit d'opposition. Pour exercer
+                ces droits, écrivez à {{ site.contact.email }}. Vous pouvez également introduire une
+                réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>).
+            </p>
+
+            <h3>5. Cookies et services tiers</h3>
+            <p>
+                <strong>Ce site ne dépose aucun cookie de sa propre initiative.</strong> Il n'utilise ni cookie
+                publicitaire, ni traceur, ni outil de mesure d'audience. Les polices de caractères sont
+                hébergées sur nos propres serveurs : leur affichage n'entraîne aucune communication avec
+                un service extérieur.
+            </p>
+            <p>
+                Un seul service tiers intervient sur ce site : <strong>Google Forms</strong>, utilisé pour les
+                formulaires de préinscription des pages Dompierre, La Jarrie et Éloquence. Ce service est
+                fourni par Google Ireland Limited et est susceptible de déposer des cookies sur votre appareil
+                et de collecter votre adresse IP, y compris pour un transfert hors de l'Union européenne.
+            </p>
+            <p>
+                Pour cette raison, <strong>le formulaire ne se charge pas automatiquement</strong> : il ne
+                s'affiche qu'après un clic explicite de votre part sur le bouton prévu à cet effet. Tant que
+                vous ne cliquez pas, aucune donnée n'est transmise à Google. Vous pouvez également vous
+                préinscrire par simple email, sans passer par ce service.
+            </p>
+            <p>
+                Les données que vous saisissez dans ce formulaire sont soumises à la
+                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">politique de confidentialité de Google</a>.
+            </p>
+
+            <h3>6. Liens externes</h3>
+            <p>
+                Ce site peut contenir des liens vers des sites tiers. {{ site.professeure }} décline toute
+                responsabilité quant au contenu de ces sites externes.
+            </p>
+
+            <h3>7. Limitation de responsabilité</h3>
+            <p>
+                {{ site.professeure }} s'efforce de fournir des informations exactes et à jour, sans pouvoir
+                garantir leur exhaustivité. L'utilisateur est invité à vérifier les informations auprès de
+                l'éditrice.
+            </p>
+
+            <h3>8. Droit applicable</h3>
+            <p>
+                Les présentes mentions légales sont soumises au droit français. En cas de litige, les
+                tribunaux français sont seuls compétents.
+            </p>
+
+            <h3>9. Contact</h3>
+            <p>
+                Pour toute question concernant ces mentions légales :<br>
+                Email : <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a><br>
+                Téléphone : <a href="tel:{{ site.contact.telephoneLien }}">{{ site.contact.telephoneAffiche }}</a>
+            </p>
+
+            <p class="mentions-maj">
+                <em>Dernière mise à jour : {{ site.legal.derniereMiseAJour }}</em>
+            </p>
+        </div>
+    </div>
+</section>

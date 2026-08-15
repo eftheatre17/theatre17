@@ -1,0 +1,198 @@
+---
+layout: layouts/base.njk
+permalink: /
+title: "Théâtre 17 — Cours de théâtre et d'éloquence | Emmanuelle Foltête | La Rochelle"
+description: "Cours de théâtre et d'éloquence avec Emmanuelle Foltête. L'art du théâtre à La Rochelle, Dompierre-sur-Mer, La Jarrie et alentours. Inscriptions ouvertes."
+ogTitle: "Théâtre 17 — Cours de théâtre et d'éloquence — Emmanuelle Foltête"
+ogDescription: "Découvrez l'art du théâtre avec Emmanuelle Foltête. Cours pour tous niveaux à La Rochelle et environs."
+jsonLd: |
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://theatre17.fr/#emmanuelle",
+    "name": "Emmanuelle Foltête",
+    "jobTitle": "Professeure de théâtre et d'éloquence",
+    "description": "Professeure de théâtre et d'éloquence à Dompierre-sur-Mer, La Jarrie et La Rochelle depuis 2017.",
+    "url": "https://theatre17.fr",
+    "worksFor": { "@id": "https://theatre17.fr/#organisation" }
+  }
+---
+<!-- Hero -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content fade-in-up">
+            <h1>Cours de théâtre et éloquence</h1>
+            <p class="hero-auteur">avec {{ site.professeure }}</p>
+            <p class="subtitle">Venez découvrir votre potentiel scénique</p>
+        </div>
+
+        <!-- Carrousel -->
+        <div class="carousel fade-in-up" aria-roledescription="carrousel" aria-label="Le théâtre en images">
+            <div class="carousel-inner" aria-live="polite">
+                <div class="carousel-item" role="group" aria-roledescription="diapositive" aria-label="1 sur 3">
+                    {% image "src/img/theatre1.png", "Scène de théâtre moderne avec un éclairage chaleureux", "(max-width: 900px) 100vw, 900px", "", true %}
+                    <div class="carousel-caption">
+                        <h2>Un espace d'expression libre</h2>
+                        <p>Développez votre potentiel sur scène au sein d'une ambiance chaleureuse</p>
+                    </div>
+                </div>
+                <div class="carousel-item" role="group" aria-roledescription="diapositive" aria-label="2 sur 3">
+                    {% image "src/img/theatre2.png", "Cours de théâtre réunissant plusieurs élèves", "(max-width: 900px) 100vw, 900px" %}
+                    <div class="carousel-caption">
+                        <h2>Apprentissage collectif</h2>
+                        <p>Cours adaptés à tous âges et tous niveaux, enfants comme adultes</p>
+                    </div>
+                </div>
+                <div class="carousel-item" role="group" aria-roledescription="diapositive" aria-label="3 sur 3">
+                    {% image "src/img/theatre3.png", "Texte de théâtre annoté lors d'une répétition", "(max-width: 900px) 100vw, 900px" %}
+                    <div class="carousel-caption">
+                        <h2>Compétences</h2>
+                        <p>Vous maîtriserez les techniques de diction, d'expression et de jeu scénique</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-controls">
+                <button class="carousel-control prev" aria-label="Diapositive précédente">‹</button>
+                <button class="carousel-control next" aria-label="Diapositive suivante">›</button>
+            </div>
+
+            <div class="carousel-indicators" role="tablist" aria-label="Choisir une diapositive">
+                <button class="indicator active" data-slide="0" role="tab" aria-selected="true" aria-label="Diapositive 1"></button>
+                <button class="indicator" data-slide="1" role="tab" aria-selected="false" aria-label="Diapositive 2"></button>
+                <button class="indicator" data-slide="2" role="tab" aria-selected="false" aria-label="Diapositive 3"></button>
+            </div>
+
+            <button class="carousel-pause" aria-label="Mettre le carrousel en pause">❚❚</button>
+        </div>
+    </div>
+</section>
+
+<!-- Présentation -->
+<section class="presentation section--alt">
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <h2>Théâtre 17</h2>
+            <p>Venez explorer l'art dramatique à travers des cours adaptés à tous les niveaux, des débutants aux confirmés.</p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card animate-on-scroll">
+                <div class="card-image">
+                    {% image "src/img/theatre2.png", "Apprentissage du théâtre en groupe", "(max-width: 768px) 100vw, 380px" %}
+                </div>
+                <div class="card-content">
+                    <h3>Cours de théâtre</h3>
+                    <p>Développez votre expressivité, votre présence scénique et votre créativité à travers des exercices pratiques et des mises en scène collectives.</p>
+                    <p><strong>Lieux :</strong> Dompierre-sur-Mer, La Jarrie</p>
+                    <p class="card-actions">
+                        <a href="/dompierre.html" class="btn">Découvrir Dompierre</a>
+                        <a href="/la-jarrie.html" class="btn btn-secondary">Découvrir La Jarrie</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="card animate-on-scroll">
+                <div class="card-image">
+                    {% image "src/img/eloquence.png", "Prise de parole en public lors d'un cours d'éloquence", "(max-width: 768px) 100vw, 380px" %}
+                </div>
+                <div class="card-content">
+                    <h3>Cours d'éloquence</h3>
+                    <p>Maîtrisez l'art de la prise de parole en public. Apprenez à communiquer avec assurance et impact, dans toutes les situations professionnelles et personnelles.</p>
+                    <p><strong>Lieu :</strong> Dompierre-sur-Mer</p>
+                    <p class="card-actions">
+                        <a href="/eloquence.html" class="btn">S'inscrire</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="card animate-on-scroll">
+                <div class="card-image">
+                    {% image "src/img/theatre1.png", "Atelier de théâtre sur une scène éclairée", "(max-width: 768px) 100vw, 380px" %}
+                </div>
+                <div class="card-content">
+                    <h3>Ateliers thématiques</h3>
+                    <p>Contactez-moi pour créer un atelier sur mesure : improvisation, travail du corps, voix, texte classique ou contemporain. Tout s'apprend !</p>
+                    <p><strong>Public :</strong> enfants, adolescents, adultes, débutants et confirmés</p>
+                    <p class="card-actions">
+                        <a href="/contact.html" class="btn">Contact</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Emmanuelle Foltête -->
+<section class="bio-section">
+    <article class="card bio-card animate-on-scroll">
+        <div class="card-content">
+            <div class="bio-card__title">
+                {% image "src/img/moi.png", "Portrait d'Emmanuelle Foltête, professeure de théâtre et d'éloquence à La Rochelle, Dompierre-sur-Mer et La Jarrie", "220px", "bio-card__image" %}
+                <h2>Emmanuelle Foltête</h2>
+                <p class="subtitle">Professeure de théâtre et d'éloquence</p>
+            </div>
+
+            <div class="bio-card__text">
+                <h3>Me connaître</h3>
+                <p>Une vie de théâtre, de Nice à La Rochelle en passant par Paris.</p>
+                <p>
+                    Dès 6 ans, j'ai découvert le théâtre à Nice, et très vite, monter sur scène est devenu
+                    une évidence : un moyen de m'épanouir, de m'exprimer et d'aller à la rencontre des mots,
+                    des histoires et de leurs personnages.
+                </p>
+                <p>
+                    Après le Cousin Bibi Club, le Conservatoire, l'Espace Magnan et l'Université de théâtre,
+                    j'ai intégré une compagnie, joué, écrit, et complété mon parcours par un diplôme complet
+                    de maquilleuse professionnelle, de multiflexologue du visage et d'un bachelor chargée de
+                    projets événementiels.
+                </p>
+                <p>
+                    Installée à La Rochelle depuis 2014, je suis professeure de théâtre et d'éloquence à
+                    Dompierre-sur-Mer, La Jarrie et La Rochelle depuis 2017. Je transmets ma passion à des
+                    enfants, des adolescents et des adultes, dans différentes structures privées
+                    (France Travail, Ville de La Rochelle, CIPECMA, Comédie La Rochelle, ISFAC) et publiques
+                    (lycées, collèges, écoles, associations).
+                </p>
+                <p>
+                    Transmettre, c'est apprendre une deuxième fois — et c'est une source infinie de plaisir,
+                    de rencontres, de surprises, d'émotions partagées et d'adrénaline dont je ne pourrais
+                    plus me passer.
+                </p>
+            </div>
+        </div>
+    </article>
+</section>
+
+<!-- Valeurs -->
+<section class="valeurs section--alt">
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <h2>Nous rejoindre vous intéresse ?</h2>
+            <p>Intégrez des cours avec l'humain au cœur de chaque séance, où le développement personnel et le lien social sont la première richesse.</p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card animate-on-scroll">
+                <div class="card-content">
+                    <h3>Confiance en soi</h3>
+                    <p>Apprenez à vous exprimer avec assurance, développez votre présence et votre impact personnel. Le théâtre aide à surmonter la timidité et à oser se montrer.</p>
+                </div>
+            </div>
+
+            <div class="card animate-on-scroll">
+                <div class="card-content">
+                    <h3>Créativité</h3>
+                    <p>Développez votre imagination et votre capacité à créer des personnages, des situations, des émotions. Explorez de nouvelles facettes de votre personnalité.</p>
+                </div>
+            </div>
+
+            <div class="card animate-on-scroll">
+                <div class="card-content">
+                    <h3>Travail d'équipe</h3>
+                    <p>Apprenez à écouter, à vous adapter, à collaborer. Le théâtre est une pratique collective qui forge des liens durables et développe l'empathie.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

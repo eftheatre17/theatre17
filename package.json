@@ -1,0 +1,15 @@
+{
+  "name": "theatre17",
+  "version": "2.0.0",
+  "description": "Site de Theatre 17 - cours de theatre et d'eloquence",
+  "private": true,
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "build:beta": "BETA=1 eleventy --pathprefix=/beta/ --output=beta"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.6",
+    "@11ty/eleventy-img": "^6.0.4"
+  }
+}
