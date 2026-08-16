@@ -1034,7 +1034,12 @@ footer a:focus-visible {
     padding: var(--espace-md);
 }
 
-.cours-carte__nom {
+/* Les règles suivantes sont préfixées par .saison, et c'est volontaire : le
+   bloc est imbriqué dans .form-placeholder, dont les règles « p » et « h3 »
+   imposent leurs marges à tout descendant. Elles conviennent au texte qui
+   accompagne le formulaire, pas à des fiches, et une simple classe ne suffit
+   pas à reprendre la main. */
+.saison .cours-carte__nom {
     font-family: var(--font-corps);
     font-size: 1.05rem;
     font-weight: 600;
@@ -1042,7 +1047,7 @@ footer a:focus-visible {
     margin-bottom: var(--espace-xs);
 }
 
-.cours-carte__creneau {
+.saison .cours-carte__creneau {
     margin-bottom: var(--espace-sm);
 }
 
@@ -1068,7 +1073,7 @@ footer a:focus-visible {
     content: none;
 }
 
-.cours-carte__tarif {
+.saison .cours-carte__tarif {
     margin-bottom: 0;
     font-size: 1.1rem;
 }
@@ -1084,7 +1089,7 @@ footer a:focus-visible {
     color: var(--gris-chaleureux);
 }
 
-.cours-carte__note {
+.saison .cours-carte__note {
     margin-top: var(--espace-sm);
     margin-bottom: 0;
     font-style: italic;
@@ -1130,7 +1135,7 @@ footer a:focus-visible {
 
 /* La réserve sur l'exactitude des informations. Visible sans être alarmante :
    c'est une précision utile, pas un avertissement. */
-.saison__reserve {
+.saison .saison__reserve {
     background: var(--ivoire);
     border-left: 4px solid var(--doré);
     padding: var(--espace-md);

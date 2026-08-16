@@ -1,5 +1,7 @@
 const Image = require("@11ty/eleventy-img");
 const path = require("path");
+const fs = require("fs");
+const crypto = require("crypto");
 
 // Construction de la version d'essai, publiee dans un sous-dossier
 // (theatre17.fr/beta/) a cote du site classique, qui reste intact.
@@ -94,6 +96,31 @@ module.exports = async function (eleventyConfig) {
 
   // Annee courante : plus de "2026" ecrit en dur dans les pieds de page
   eleventyConfig.addGlobalData("annee", () => new Date().getFullYear());
+
+  // Empreinte du contenu, ajoutee aux feuilles de style et aux scripts.
+  //
+  // GitHub Pages sert les .css et les .js avec un cache de quatre heures,
+  // contre dix minutes pour les pages. Sans cette empreinte, un visiteur
+  // recupere le nouveau HTML mais garde l'ancienne feuille de style : la
+  // mise en page casse jusqu'a l'expiration du cache. Le nom du fichier
+  // ne changeant pas, seul le parametre bouge — et il ne bouge que si le
+  // contenu a reellement change.
+  const empreintes = new Map();
+  // Sans cela, le cache survivrait aux reconstructions et « eleventy --serve »
+  // continuerait de servir l'empreinte d'une feuille de style deja modifiee.
+  eleventyConfig.on("eleventy.before", () => empreintes.clear());
+  eleventyConfig.addFilter("empreinte", (url) => {
+    if (!empreintes.has(url)) {
+      const fichier = path.join(__dirname, "src", url);
+      const somme = crypto
+        .createHash("sha1")
+        .update(fs.readFileSync(fichier))
+        .digest("hex")
+        .slice(0, 8);
+      empreintes.set(url, `${url}?v=${somme}`);
+    }
+    return empreintes.get(url);
+  });
 
   return {
     dir: {

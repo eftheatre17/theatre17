@@ -47,8 +47,8 @@
        Google, donc aucune transmission d'adresse IP des visiteurs. #}
     <link rel="preload" href="/fonts/playfair-display-400-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/source-sans-3-300-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/css/fonts.css">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="{{ '/css/fonts.css' | empreinte }}">
+    <link rel="stylesheet" href="{{ '/css/style.css' | empreinte }}">
 
     {# Donnees structurees : c'est ce qui permet a Google de comprendre
        qu'il s'agit d'une activite locale d'enseignement, et non d'un
@@ -167,6 +167,6 @@
     {% include "partials/bandeau-cookies.njk" %}
     {% include "partials/modale-cookies.njk" %}
 
-    <script src="/js/main.js" defer></script>
+    <script src="{{ '/js/main.js' | empreinte }}" defer></script>
 </body>
 </html>
