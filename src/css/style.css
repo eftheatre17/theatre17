@@ -227,15 +227,22 @@ nav a.active {
     flex: 0 0 25%;   /* largeur fixe (ajuste) */
 }
 
-/* Image à gauche */
+/* Image à gauche.
+   L'image optimisée est enveloppée dans un <picture>, qui est inline par
+   defaut : l'image se calait donc à gauche de la colonne pendant que le nom
+   et le sous-titre, eux, étaient centrés. On rend le <picture> bloc, et on
+   centre l'image dedans. */
+.bio-card__title picture{
+    display: block;
+}
+
 .bio-card__image{
-    align-items: center;
     width: 100%;
     max-width: 220px;  /* ajuste */
     height: auto;
     display: block;
     border-radius: 50%;
-    margin-bottom: var(--espace-sm);
+    margin: 0 auto var(--espace-sm);
 }
 
 /* Responsive: en mobile, on repasse en colonne */
@@ -435,6 +442,21 @@ section {
 
 .card p {
     margin-bottom: var(--espace-md);
+}
+
+/* Chaîne nécessaire au « margin-top: auto » des boutons plus bas : la hauteur
+   de la carte doit se transmettre jusqu'au bloc de contenu pour qu'il reste
+   de l'espace à repousser. Volontairement limité aux cartes en grille, pour
+   ne pas défaire la mise en deux colonnes de la carte biographie. */
+.cards-grid .card {
+    display: flex;
+    flex-direction: column;
+}
+
+.cards-grid .card-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 /* Boutons */
@@ -798,6 +820,11 @@ footer a:focus-visible {
     flex-wrap: wrap;
     gap: var(--espace-sm);
     margin-bottom: 0;
+    /* Repousse la rangée de boutons tout en bas de la carte. La grille donne
+       déjà la même hauteur à toutes les cartes ; sans cela, chaque bouton se
+       calait sous son texte et se retrouvait à une hauteur différente selon
+       la longueur du paragraphe. */
+    margin-top: auto;
 }
 
 /* ---- Pages d'inscription ---- */
