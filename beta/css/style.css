@@ -508,18 +508,32 @@ section {
     text-align: center;
 }
 
-.form-container {
-    max-width: 800px;
+/* .form-page centre son contenu en flex : sans largeur explicite, .container
+   s'ajuste à son contenu au lieu d'occuper la place disponible, et la carte
+   se réglait alors sur le plus large des textes qu'elle contient. */
+.form-page .container {
     width: 100%;
+}
+
+/* 820 px et pas davantage : Google Forms plafonne lui-même son contenu à
+   640 px et centre le reste dans son fond blanc. Au-delà, la carte gagne en
+   largeur mais le formulaire non — on n'ajoute qu'une bande vide. */
+.form-container {
+    max-width: 820px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 /* Le liseré doré en pointillés faisait lire la page comme un brouillon
    inachevé. Un filet plein en tête donne la même touche de couleur sans
    cet effet de zone à remplir. */
+/* Rembourrage latéral plus mesuré que vertical : c'est lui qui rognait la
+   largeur utile du formulaire, alors que Google Forms ajoute déjà ses
+   propres marges à l'intérieur de l'iframe. */
 .form-placeholder {
     background: white;
     border-radius: 12px;
-    padding: var(--espace-xxl);
+    padding: var(--espace-xl) var(--espace-lg);
     box-shadow: 0 10px 40px var(--ombre-chaude);
     border-top: 4px solid var(--doré);
 }
@@ -708,9 +722,13 @@ footer a:hover {
     .cards-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .contact-info {
         grid-template-columns: 1fr;
+    }
+
+    .form-placeholder {
+        padding: var(--espace-lg) var(--espace-md);
     }
 }
 
@@ -742,8 +760,24 @@ footer a:hover {
         font-size: 0.9rem;
     }
 
+    /* Sur un téléphone, trois rembourrages s'additionnaient avant même que
+       Google n'ajoute les siens dans l'iframe : il ne restait qu'environ
+       290 px de formulaire utile sur un écran de 390 px. On resserre le
+       conteneur et la carte... */
+    .form-page .container {
+        padding: 0 var(--espace-xs);
+    }
+
     .form-placeholder {
-        padding: var(--espace-lg);
+        padding: var(--espace-lg) var(--espace-sm);
+    }
+
+    /* ...et l'iframe déborde du rembourrage de la carte pour occuper toute
+       sa largeur. Le texte, lui, garde sa marge : seul le formulaire, qui
+       est à l'étroit, va jusqu'au bord. */
+    .form-iframe {
+        width: calc(100% + 2 * var(--espace-sm));
+        margin-left: calc(-1 * var(--espace-sm));
     }
 }
 
@@ -879,6 +913,15 @@ footer a:focus-visible {
 .form-placeholder h1 {
     font-size: clamp(1.8rem, 3.5vw, 2.4rem);
     margin-bottom: var(--espace-md);
+}
+
+/* La carte s'élargit pour le formulaire, mais pas le texte : au-delà d'une
+   soixantaine de caractères, l'œil peine à retrouver le début de la ligne
+   suivante — d'autant plus sur des paragraphes centrés. */
+.form-placeholder > p {
+    max-width: 58ch;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .form-intro {
