@@ -3,8 +3,10 @@
    chargement d'une page : réafficher une demande de consentement à chaque
    visite après un refus constituerait du harcèlement au consentement, et
    invaliderait le recueil.
-   Les deux boutons de sortie ont volontairement le même poids visuel — le
-   refus reste un choix pleinement praticable.
+   Le recueil du consentement lui-même a lieu dans le bandeau, où accepter et
+   refuser ont rigoureusement le même poids. Ici le choix est déjà enregistré
+   et respecté : cette modale explique ce qu'il implique, et « accepter » y
+   est mis en avant.
    L'élément <dialog> natif fournit le piège à focus et la fermeture par
    Échap sans code supplémentaire. #}
 {# tabindex="-1" permet de poser le focus sur la modale elle-même à
@@ -45,11 +47,11 @@
     </p>
 
     <div class="modale-cookies__actions">
-        <button type="button" class="btn js-modale-continuer">
-            J'accepte de ne pas accéder aux informations sur les cours
+        <button type="button" class="btn btn-secondary js-modale-continuer">
+            Je maintiens mon refus et renonce à voir les informations sur les cours
         </button>
         <button type="button" class="btn js-modale-accepter">
-            Finalement, Accepter
+            Finalement, j'accepte
         </button>
     </div>
 </dialog>

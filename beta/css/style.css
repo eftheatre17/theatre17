@@ -177,9 +177,11 @@ nav a.active {
    HERO & CARROUSEL
    ======================================== */
 
+/* Moins de retombée sous le carrousel : elle s'ajoutait à celle de la
+   section suivante, ce qui creusait un vide de 8 rem au milieu de la page. */
 .hero {
     background: var(--blanc-casse);
-    padding: var(--espace-xxl) 0;
+    padding: var(--espace-xxl) 0 var(--espace-lg);
     text-align: center;
 }
 
@@ -288,14 +290,17 @@ nav a.active {
     object-fit: cover;
 }
 
+/* La réserve du bas laisse la place aux pastilles de navigation, qui sont
+   posées par-dessus la légende et chevauchaient sa dernière ligne. */
 .carousel-caption {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(transparent, rgba(26, 26, 26, 0.8));
+    background: linear-gradient(transparent, rgba(26, 26, 26, 0.85));
     color: var(--blanc-casse);
-    padding: var(--espace-xl) var(--espace-lg) var(--espace-lg);
+    padding: var(--espace-xl) var(--espace-lg);
+    padding-bottom: var(--espace-xl);
     text-align: left;
 }
 
@@ -508,12 +513,15 @@ section {
     width: 100%;
 }
 
+/* Le liseré doré en pointillés faisait lire la page comme un brouillon
+   inachevé. Un filet plein en tête donne la même touche de couleur sans
+   cet effet de zone à remplir. */
 .form-placeholder {
     background: white;
     border-radius: 12px;
     padding: var(--espace-xxl);
     box-shadow: 0 10px 40px var(--ombre-chaude);
-    border: 2px dashed var(--doré);
+    border-top: 4px solid var(--doré);
 }
 
 .form-placeholder h2 {
@@ -545,9 +553,13 @@ section {
     margin-bottom: var(--espace-xl);
 }
 
+/* Deux colonnes fixes plutôt qu'un auto-fit : il y a quatre entrées, et
+   l'auto-fit en logeait trois par ligne sur grand écran, laissant « Lieux
+   des cours » seul sur une deuxième ligne avec un grand vide à sa droite.
+   En 2 × 2, la grille reste équilibrée à toutes les largeurs. */
 .contact-info {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--espace-xl);
     margin-bottom: var(--espace-xl);
 }
@@ -556,19 +568,20 @@ section {
     text-align: center;
 }
 
-.contact-item h3 {
-    color: var(--bordeaux);
-    margin-bottom: var(--espace-sm);
-}
-
+/* Le téléphone et l'email sont l'objet même de cette page : ils doivent se
+   voir comme des liens. La couleur seule ne suffit pas à les signaler à qui
+   distingue mal les teintes, d'où le soulignement. */
 .contact-item a {
-    color: var(--gris-chaleureux);
-    text-decoration: none;
+    color: var(--bordeaux);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--doré);
     transition: var(--transition);
 }
 
 .contact-item a:hover {
-    color: var(--bordeaux);
+    color: var(--bordeaux-fonce);
+    text-decoration-color: var(--bordeaux);
 }
 
 .mentions-section {
@@ -665,14 +678,33 @@ footer a:hover {
         padding: var(--espace-md);
     }
     
+    /* Sur un téléphone, la légende occupait plus de la moitié de la
+       diapositive et les flèches se retrouvaient posées sur son titre. On
+       donne un peu de hauteur, on resserre le titre sur une ligne et on
+       remonte les flèches au-dessus de la zone de texte. */
     .carousel-item {
-        height: 300px;
+        height: 340px;
     }
-    
+
     .carousel-caption {
-        padding: var(--espace-lg) var(--espace-md) var(--espace-md);
+        padding: var(--espace-lg) var(--espace-md);
+        padding-bottom: var(--espace-xl);
     }
-    
+
+    .carousel-caption h2,
+    .carousel-caption h3 {
+        font-size: 1.25rem;
+    }
+
+    .carousel-controls {
+        top: 38%;
+    }
+
+    .carousel-control {
+        width: 40px;
+        height: 40px;
+    }
+
     .cards-grid {
         grid-template-columns: 1fr;
     }
@@ -695,10 +727,21 @@ footer a:hover {
         padding: var(--espace-xl) 0;
     }
     
+    /* À 250 px, la légende mangeait les deux tiers de la diapositive et il ne
+       restait presque plus d'image. On rend un peu de hauteur et on resserre
+       la légende plutôt que de la laisser tout recouvrir. */
     .carousel-item {
-        height: 250px;
+        height: 300px;
     }
-    
+
+    .carousel-caption {
+        padding-top: var(--espace-md);
+    }
+
+    .carousel-caption p {
+        font-size: 0.9rem;
+    }
+
     .form-placeholder {
         padding: var(--espace-lg);
     }
@@ -868,10 +911,13 @@ footer a:focus-visible {
     padding: var(--espace-xxl) 0;
 }
 
+/* « Téléphone », « Email », « Lieux des cours » sont des intitulés, pas des
+   titres de section : à 2rem ils rivalisaient avec le titre de la page et
+   écrasaient l'information qu'ils annoncent. */
 .contact-item h2 {
-    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-size: 1.3rem;
     color: var(--bordeaux);
-    margin-bottom: var(--espace-sm);
+    margin-bottom: var(--espace-xs);
 }
 
 .contact-horaires {
@@ -1143,8 +1189,7 @@ footer .lien-bouton:hover {
     color: var(--bordeaux);
 }
 
-/* Les deux sorties ont le même poids : refuser reste praticable.
-   Collées en bas de la modale : sur un téléphone, le texte dépasse la
+/* Collées en bas de la modale : sur un téléphone, le texte dépasse la
    hauteur d'écran et les boutons seraient sinon hors de vue. */
 .modale-cookies__actions {
     position: sticky;
@@ -1158,19 +1203,12 @@ footer .lien-bouton:hover {
     box-shadow: 0 -12px 16px -8px rgba(255, 255, 255, 0.9);
 }
 
-/* Traitement strictement identique pour les deux sorties. Donner plus de
-   relief à « accepter » qu'à « continuer » reviendrait à pousser le
-   visiteur à revenir sur un refus qu'il vient d'exprimer. */
+/* « Finalement, j'accepte » garde le bouton plein, le maintien du refus
+   prend le contour (.btn-secondary). Les libellés étant de longueurs très
+   inégales, le texte doit pouvoir passer à la ligne sans déborder. */
 .modale-cookies__actions .btn {
     text-align: center;
-    background: transparent;
-    color: var(--bordeaux);
-    border: 2px solid var(--bordeaux);
-}
-
-.modale-cookies__actions .btn:hover {
-    background: var(--bordeaux);
-    color: white;
+    line-height: 1.35;
 }
 
 @media (min-width: 560px) {
@@ -1178,8 +1216,11 @@ footer .lien-bouton:hover {
         flex-direction: row;
     }
 
+    /* Base « auto » et non 0 : à largeurs égales, le libellé long du refus
+       partait sur quatre lignes pendant que « Finalement, j'accepte » tenait
+       sur une. Chaque bouton part de la largeur de son texte. */
     .modale-cookies__actions .btn {
-        flex: 1;
+        flex: 1 1 auto;
     }
 }
 
