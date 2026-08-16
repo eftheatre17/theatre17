@@ -996,112 +996,136 @@ footer a:focus-visible {
 
 /* ---- Détail de la saison ---- */
 
-/* Aligné à gauche à l'intérieur d'une page centrée : un tableau et des
-   listes centrés se lisent mal, l'œil perd le début de chaque ligne. */
+/* Aligné à gauche à l'intérieur d'une page centrée : des listes et des
+   fiches centrées se lisent mal, l'œil perd le début de chaque ligne. */
 .saison {
-    max-width: 720px;
-    margin: 0 auto var(--espace-xl);
+    max-width: 760px;
+    margin: var(--espace-xxl) auto 0;
+    padding-top: var(--espace-xl);
+    border-top: 1px solid rgba(139, 38, 53, 0.15);
     text-align: left;
 }
 
-.saison__tableau {
-    /* Sur un téléphone, quatre colonnes ne tiennent pas : le tableau défile
-       sur lui-même plutôt que d'élargir la page entière. */
-    overflow-x: auto;
-    margin-bottom: var(--espace-lg);
+.saison > h2 {
+    text-align: center;
 }
 
-.saison table {
-    width: 100%;
-    border-collapse: collapse;
+/* Une fiche par cours plutôt qu'un tableau. À quatre colonnes dans une
+   colonne de texte étroite, les cellules se cassaient en trois lignes et
+   les hauteurs de rangées partaient dans tous les sens. */
+/* align-items: start — sans quoi la grille étire toutes les cartes d'une
+   rangée à la hauteur de la plus haute, et celle qui porte une remarque
+   creusait un vide au milieu de sa voisine. Chaque carte épouse son
+   contenu ; les rangées sont légèrement inégales, ce qui se voit à peine. */
+.cours-liste {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    align-items: start;
+    gap: var(--espace-md);
+    margin-bottom: var(--espace-xl);
 }
 
-.saison th,
-.saison td {
-    padding: var(--espace-sm) var(--espace-xs);
-    border-bottom: 1px solid rgba(139, 38, 53, 0.15);
-    vertical-align: top;
-    text-align: left;
+.cours-carte {
+    background: var(--ivoire);
+    border: 1px solid rgba(139, 38, 53, 0.12);
+    border-left: 4px solid var(--doré);
+    border-radius: 0 8px 8px 0;
+    padding: var(--espace-md);
 }
 
-.saison thead th {
+.cours-carte__nom {
     font-family: var(--font-corps);
-    font-size: 0.9rem;
+    font-size: 1.05rem;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
     color: var(--bordeaux);
-    border-bottom: 2px solid var(--doré);
-    white-space: nowrap;
+    margin-bottom: var(--espace-xs);
 }
 
-.saison tbody th {
-    font-family: var(--font-corps);
-    font-size: 1rem;
+.cours-carte__creneau {
+    margin-bottom: var(--espace-sm);
+}
+
+.cours-carte__jour {
     font-weight: 600;
     color: var(--noir-theatre);
 }
 
-/* Jour et horaire ne doivent pas se couper : « 17h30 – 18h50 » passait à la
-   ligne au milieu alors que la place ne manquait pas. Sans risque de
-   débordement, le tableau défilant déjà sur lui-même en dessous. */
-.saison td:nth-child(2),
-.saison td:nth-child(3) {
-    white-space: nowrap;
+/* Le point sépare le jour de l'horaire sans ajouter de balise, et disparaît
+   proprement si l'un des deux manque. */
+.cours-carte__jour + .cours-carte__horaire::before {
+    content: " · ";
+    color: var(--doré);
 }
 
-.saison__note {
+/* Variante pour les stages, dont la date est trop longue pour partager une
+   ligne avec l'horaire. */
+.cours-carte__horaire--bloc {
+    display: block;
+}
+
+.cours-carte__jour + .cours-carte__horaire--bloc::before {
+    content: none;
+}
+
+.cours-carte__tarif {
+    margin-bottom: 0;
+    font-size: 1.1rem;
+}
+
+.cours-carte__tarif strong {
+    color: var(--bordeaux);
+}
+
+.cours-carte__precision,
+.cours-carte__note {
     display: block;
     font-size: 0.85rem;
-    font-weight: 400;
     color: var(--gris-chaleureux);
 }
 
-.saison__unite {
-    font-size: 0.85rem;
-    color: var(--gris-chaleureux);
-}
-
-.saison__stages {
-    list-style: none;
-    margin-bottom: var(--espace-lg);
-}
-
-.saison__stages > li {
-    padding: var(--espace-md) 0;
-    border-bottom: 1px solid rgba(139, 38, 53, 0.15);
-}
-
-.saison__dates {
-    font-weight: 600;
-    color: var(--noir-theatre);
-    margin-bottom: var(--espace-xs);
-}
-
-.saison__tarifs {
-    padding-left: var(--espace-md);
+.cours-carte__note {
+    margin-top: var(--espace-sm);
     margin-bottom: 0;
+    font-style: italic;
 }
 
-.saison__pratique,
-.saison__modalites {
+.cours-carte__tarifs {
+    margin-bottom: 0;
     padding-left: var(--espace-md);
-    margin-bottom: var(--espace-lg);
+    font-size: 0.95rem;
 }
 
+/* Intitulé à gauche, valeur à droite. La grille garde les valeurs alignées
+   entre elles quelle que soit la longueur des intitulés. */
 .saison__pratique {
-    list-style: none;
-    padding-left: 0;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--espace-xs) var(--espace-md);
+    margin-bottom: var(--espace-xl);
 }
 
-.saison__pratique li,
-.saison__modalites li {
-    margin-bottom: var(--espace-xs);
+.saison__pratique dt {
+    font-weight: 600;
+    color: var(--bordeaux);
+}
+
+.saison__pratique dd {
+    margin: 0;
 }
 
 .saison__adresse {
     color: var(--gris-chaleureux);
     font-size: 0.95rem;
+}
+
+.saison__modalites {
+    padding-left: var(--espace-md);
+    margin-bottom: var(--espace-xl);
+}
+
+.saison__modalites li {
+    margin-bottom: var(--espace-sm);
 }
 
 /* La réserve sur l'exactitude des informations. Visible sans être alarmante :
@@ -1115,75 +1139,17 @@ footer a:focus-visible {
     margin-bottom: 0;
 }
 
-/* Petits écrans : quatre colonnes ne tiennent pas, et le défilement
-   horizontal coupait la colonne Tarif — l'information la plus recherchée.
-   Chaque ligne devient une fiche, chaque cellule reprenant son intitulé de
-   colonne. Le tableau reste un vrai tableau pour les lecteurs d'écran et
-   pour les moteurs de recherche : seule sa présentation change. */
+/* Sur un téléphone, l'intitulé passe au-dessus de sa valeur : deux colonnes
+   dans 350 px laisseraient trop peu de place aux adresses. */
 @media (max-width: 560px) {
-    .saison__tableau {
-        overflow-x: visible;
+    .saison__pratique {
+        grid-template-columns: 1fr;
+        gap: 0;
     }
 
-    .saison thead {
-        display: none;
+    .saison__pratique dd {
+        margin-bottom: var(--espace-sm);
     }
-
-    .saison table,
-    .saison tbody,
-    .saison tr,
-    .saison tbody th,
-    .saison td {
-        display: block;
-        width: 100%;
-    }
-
-    .saison tbody tr {
-        padding: var(--espace-sm) 0;
-        border-bottom: 1px solid rgba(139, 38, 53, 0.15);
-    }
-
-    .saison tbody th,
-    .saison td {
-        border-bottom: none;
-        padding: 0 0 var(--espace-xs);
-    }
-
-    .saison tbody th {
-        font-size: 1.05rem;
-        color: var(--bordeaux);
-        margin-bottom: var(--espace-xs);
-    }
-
-    .saison td::before {
-        content: attr(data-libelle) " : ";
-        font-weight: 600;
-        color: var(--noir-theatre);
-    }
-
-    .saison td:nth-child(2),
-    .saison td:nth-child(3) {
-        white-space: normal;
-    }
-
-    .saison__unite,
-    .saison__note {
-        display: inline;
-    }
-}
-
-/* Titre de tableau réservé aux lecteurs d'écran : le contexte est déjà
-   donné visuellement par le titre de la page. */
-.visuellement-cache {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
 }
 
 .form-iframe {
