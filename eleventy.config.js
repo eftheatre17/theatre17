@@ -81,6 +81,17 @@ module.exports = async function (eleventyConfig) {
   // Date ISO pour le plan de site
   eleventyConfig.addFilter("isoDate", (d) => new Date(d).toISOString());
 
+  // Libellé court d'une page, tel qu'il figure dans le menu. Sert au fil
+  // d'Ariane : le titre complet des pages est écrit pour le référencement
+  // et serait illisible dans un chemin de navigation.
+  // Renvoie null pour l'accueil et pour toute page absente du menu, ce qui
+  // supprime alors le fil d'Ariane.
+  eleventyConfig.addFilter("libelleNav", (url, nav) => {
+    if (url === "/") return null;
+    const entree = nav.find((lien) => lien.url === url);
+    return entree ? entree.texte : null;
+  });
+
   // Annee courante : plus de "2026" ecrit en dur dans les pieds de page
   eleventyConfig.addGlobalData("annee", () => new Date().getFullYear());
 

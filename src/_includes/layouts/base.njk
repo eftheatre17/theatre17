@@ -6,9 +6,10 @@
     <meta name="description" content="{{ description }}">
     <meta name="author" content="{{ site.professeure }}">
 
-    {% if beta %}
-    {# Version d'essai : interdite d'indexation, pour qu'elle ne fasse
-       jamais doublon avec le site en ligne dans les resultats Google. #}
+    {% if beta or noindex %}
+    {# Deux cas d'exclusion de l'index : la version d'essai, qui ferait
+       doublon avec le site en ligne, et la page d'erreur 404, qui n'a rien
+       a faire dans les resultats de recherche. #}
     <meta name="robots" content="noindex, nofollow">
     {% endif %}
 
@@ -85,6 +86,33 @@
     </script>
     {% if jsonLd %}
     <script type="application/ld+json">{{ jsonLd | safe }}</script>
+    {% endif %}
+
+    {%- set filAriane = page.url | libelleNav(site.nav) %}
+    {% if filAriane %}
+    {# Fil d'Ariane : c'est ce qui permet a Google d'afficher
+       « theatre17.fr › Dompierre » sous le titre du resultat, plutot que
+       l'adresse brute. #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "{{ site.url }}/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "{{ filAriane }}",
+          "item": "{{ site.url }}{{ page.url }}"
+        }
+      ]
+    }
+    </script>
     {% endif %}
 </head>
 <body>

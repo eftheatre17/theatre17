@@ -15,10 +15,10 @@ module.exports = {
   // Menu principal, unique source de verite
   nav: [
     { texte: "Accueil", url: "/" },
-    { texte: "Dompierre", url: "/dompierre.html" },
-    { texte: "La Jarrie", url: "/la-jarrie.html" },
-    { texte: "Cours d'éloquence", url: "/eloquence.html" },
-    { texte: "Contact", url: "/contact.html" },
+    { texte: "Dompierre", url: "/dompierre/" },
+    { texte: "La Jarrie", url: "/la-jarrie/" },
+    { texte: "Cours d'éloquence", url: "/eloquence/" },
+    { texte: "Contact", url: "/contact/" },
   ],
 
   contact: {

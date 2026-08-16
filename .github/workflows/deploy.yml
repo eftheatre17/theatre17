@@ -1,16 +1,12 @@
 name: Construire et publier le site
 
-# ⚠️ DÉSACTIVÉ POUR L'INSTANT — ne se lance que sur demande manuelle.
-#
-# Tant que le site classique est servi depuis la racine du dépôt et que la
-# nouvelle version est en essai dans /beta/, GitHub Pages doit rester réglé
-# sur « Deploy from a branch » (main, dossier racine). Ce workflow servira
-# le jour où la nouvelle version remplacera l'ancienne : il faudra alors
-# décommenter le déclencheur ci-dessous ET basculer le réglage Pages sur
-# « GitHub Actions ». Faire l'un sans l'autre casserait le site.
+# Le site est construit ici et nulle part ailleurs : la racine du dépôt ne
+# contient que les sources. Le réglage Pages du dépôt doit donc être sur
+# « GitHub Actions » et non sur « Deploy from a branch », sinon ce workflow
+# construit dans le vide et le site reste figé sur la dernière publication.
 on:
-  # push:
-  #   branches: [main]
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:

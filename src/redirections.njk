@@ -1,0 +1,54 @@
+---
+pagination:
+  data: redirections
+  size: 1
+  alias: redirection
+permalink: "{{ redirection.ancienne }}"
+eleventyExcludeFromCollections: true
+---
+{#- Page de renvoi vers la nouvelle adresse.
+
+    Trois mécanismes se complètent, du plus rapide au plus robuste :
+
+    1. <link rel="canonical"> dit aux moteurs que la page de référence est
+       la nouvelle adresse. C'est le signal qui transfère le référencement.
+    2. <meta http-equiv="refresh" content="0"> renvoie immédiatement le
+       visiteur. Google traite un délai de 0 comme une redirection permanente.
+    3. Un lien visible reste affiché : il sert de filet si le navigateur
+       bloque le rafraîchissement automatique, et pour les lecteurs d'écran,
+       qui annoncent mal les redirections silencieuses.
+
+    Pas de noindex ici : il empêcherait la consolidation vers la nouvelle
+    adresse au lieu de l'aider. -#}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page déplacée — {{ site.nom }}</title>
+    <link rel="canonical" href="{{ site.url }}{{ redirection.nouvelle }}">
+    <meta http-equiv="refresh" content="0; url={{ redirection.nouvelle }}">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <main id="contenu">
+        <section class="form-page">
+            <div class="container">
+                <div class="form-container">
+                    <div class="form-placeholder">
+                        <h1>Cette page a changé d'adresse</h1>
+                        <p>
+                            Vous allez être redirigé automatiquement. Si rien ne se
+                            passe, suivez ce lien :
+                        </p>
+                        <p>
+                            <a class="btn" href="{{ redirection.nouvelle }}">Continuer vers la page</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

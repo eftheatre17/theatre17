@@ -1,7 +1,16 @@
 ---
 permalink: /sitemap.xml
-eleventyExcludeFromCollections: false
+eleventyExcludeFromCollections: true
 ---
+{#- Plan du site, reconstruit à chaque publication.
+
+    Il n'énumère que les pages réelles : les pages de renvoi vers les
+    anciennes adresses en .html et la page d'erreur 404 s'en excluent
+    elles-mêmes par eleventyExcludeFromCollections. Déclarer une redirection
+    dans un plan de site est une erreur signalée par la Search Console.
+
+    Auparavant ce fichier se listait lui-même, faute de s'être exclu des
+    collections. -#}
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {%- for page in collections.all %}
