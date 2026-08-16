@@ -222,6 +222,11 @@ nav a.active {
     display: flex;
     gap: var(--espace-lg);
     align-items: flex-start;
+    /* La carte s'aligne sur les autres, mais la colonne de texte ne doit pas
+       s'étirer sur toute cette largeur : on plafonne le contenu et on le
+       centre dans la carte. */
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 /* Colonne gauche */
@@ -257,10 +262,12 @@ nav a.active {
   }
 }
 
+/* Cet encart se calait sur 65 % de la largeur de l'écran, alors que toutes
+   les autres sections passent par .container : il était visiblement plus
+   étroit que le reste, et franchement à l'étroit sur un téléphone. Il suit
+   désormais la même largeur que les cartes situées au-dessus. */
 .bio-section {
     text-align: center;
-    max-width: 65%;
-    margin: 0 auto;
 }
 
 /* Carrousel */
@@ -515,11 +522,11 @@ section {
     width: 100%;
 }
 
-/* 820 px et pas davantage : Google Forms plafonne lui-même son contenu à
-   640 px et centre le reste dans son fond blanc. Au-delà, la carte gagne en
-   largeur mais le formulaire non — on n'ajoute qu'une bande vide. */
+/* Google Forms plafonne son contenu à 640 px : la carte plus large ne rend
+   pas le formulaire plus large, elle lui donne de l'air. C'est le but ici —
+   un cadre trop ajusté autour du formulaire donnait une page à l'étroit. */
 .form-container {
-    max-width: 820px;
+    max-width: 920px;
     width: 100%;
     margin: 0 auto;
 }
@@ -760,24 +767,66 @@ footer a:hover {
         font-size: 0.9rem;
     }
 
-    /* Sur un téléphone, trois rembourrages s'additionnaient avant même que
-       Google n'ajoute les siens dans l'iframe : il ne restait qu'environ
-       290 px de formulaire utile sur un écran de 390 px. On resserre le
-       conteneur et la carte... */
+    /* Bord à bord. Google impose déjà une vingtaine de pixels de marge de
+       chaque côté à l'intérieur de son iframe ; chaque marge que nous
+       ajoutons par-dessus se paie en mots par ligne. On rend donc toute la
+       largeur de l'écran au formulaire, et on ré-applique une marge au seul
+       texte, qui en a besoin pour rester lisible. */
     .form-page .container {
-        padding: 0 var(--espace-xs);
+        padding: 0;
     }
 
     .form-placeholder {
-        padding: var(--espace-lg) var(--espace-sm);
+        padding: var(--espace-lg) 0;
+        border-radius: 0;
     }
 
-    /* ...et l'iframe déborde du rembourrage de la carte pour occuper toute
-       sa largeur. Le texte, lui, garde sa marge : seul le formulaire, qui
-       est à l'étroit, va jusqu'au bord. */
-    .form-iframe {
-        width: calc(100% + 2 * var(--espace-sm));
-        margin-left: calc(-1 * var(--espace-sm));
+    .form-placeholder > h1,
+    .form-placeholder > p {
+        padding-left: var(--espace-sm);
+        padding-right: var(--espace-sm);
+    }
+
+    /* Le repli, lui, reste une boîte : il garde ses marges. */
+    .form-repli {
+        margin-left: var(--espace-sm);
+        margin-right: var(--espace-sm);
+    }
+
+    .logo-text {
+        font-size: 1.6rem;
+    }
+}
+
+/* Écrans peu hauts : téléphone en paysage, mais surtout fort grossissement.
+   À 300 % de zoom la hauteur utile tombe sous 400 px, et un en-tête collant
+   y confisque le tiers ou la moitié de l'écran en permanence. Il redevient
+   alors un en-tête ordinaire, qui défile avec la page.
+   Le critère WCAG 1.4.10 exige que le contenu reste consultable jusqu'à
+   400 % de zoom. */
+@media (max-height: 500px) {
+    header {
+        position: static;
+    }
+
+    .header-content {
+        padding: var(--espace-xs) 0;
+    }
+
+    .logo-text {
+        font-size: 1.5rem;
+    }
+
+    .logo-subtitle {
+        display: none;
+    }
+
+    /* Le bandeau est ancré en bas et grandit vers le haut : plus haut que
+       l'écran, son début débordait hors champ et le texte du consentement
+       devenait tout simplement illisible. Il défile maintenant sur lui-même. */
+    .bandeau-cookies {
+        max-height: 100vh;
+        overflow-y: auto;
     }
 }
 
