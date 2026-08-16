@@ -1216,11 +1216,12 @@ footer .lien-bouton:hover {
         flex-direction: row;
     }
 
-    /* Base « auto » et non 0 : à largeurs égales, le libellé long du refus
-       partait sur quatre lignes pendant que « Finalement, j'accepte » tenait
-       sur une. Chaque bouton part de la largeur de son texte. */
+    /* Base 0 : les deux boutons occupent exactement la même largeur, quelle
+       que soit la longueur des libellés. Celui du refus, plus long, passe
+       donc à la ligne — c'est voulu : il ne doit jamais paraître plus grand
+       que « Finalement, j'accepte ». */
     .modale-cookies__actions .btn {
-        flex: 1 1 auto;
+        flex: 1 1 0;
     }
 }
 
