@@ -987,6 +987,42 @@ footer a:focus-visible {
     margin-bottom: var(--espace-lg);
 }
 
+/* Piège au défilement tactile.
+   Le formulaire fait près de 7000 px de haut : dès que le doigt se pose
+   dessus, tout le geste part dans l'iframe et la page ne bouge plus. Avant
+   le passage bord à bord, les marges de la carte servaient de zone de
+   rattrapage ; il n'en restait plus aucune.
+   Rien ne permet de récupérer le geste depuis l'iframe : elle appartient à
+   Google, overscroll-behavior ne franchit pas cette frontière.
+   Ces deux bandes transparentes recouvrent les marges vides que Google
+   ménage lui-même de part et d'autre de son formulaire (18 px mesurés, les
+   premiers champs commencent à 42 px). Elles font partie de notre page :
+   un glissement qui démarre là fait défiler la page — sans rien masquer,
+   sans rien rétrécir. */
+@media (hover: none) {
+    .form-zone:has(.form-iframe) {
+        position: relative;
+    }
+
+    .form-zone:has(.form-iframe)::before,
+    .form-zone:has(.form-iframe)::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: var(--espace-lg);
+        width: 28px;
+        z-index: 2;
+    }
+
+    .form-zone:has(.form-iframe)::before {
+        left: 0;
+    }
+
+    .form-zone:has(.form-iframe)::after {
+        right: 0;
+    }
+}
+
 .form-infos {
     font-size: 0.9rem;
     color: var(--gris-chaleureux);
