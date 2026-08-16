@@ -13,6 +13,112 @@ layout: layouts/base.njk
 
                 {% if intro %}<p class="form-intro">{{ intro }}</p>{% endif %}
 
+                {# Détail de la saison, repris du formulaire.
+                   Ces informations sont ce que les familles cherchent — âges,
+                   horaires, tarifs, lieu — et ce que les moteurs de recherche
+                   ne peuvent pas lire tant qu'elles restent enfermées dans
+                   l'iframe de Google Forms. #}
+                {% if cours or stages %}
+                <section class="saison">
+                    {# L'éloquence fonctionne par stages ponctuels : « La saison »
+                       seule, sans millésime, ne voudrait rien dire. #}
+                    <h2>{% if saison.annee %}La saison {{ saison.annee }}{% else %}Les prochains stages{% endif %}</h2>
+
+                    {% if cours %}
+                    <div class="saison__tableau">
+                        <table>
+                            <caption class="visuellement-cache">
+                                Créneaux et tarifs des cours de théâtre à {{ lieu }}
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Groupe</th>
+                                    <th scope="col">Jour</th>
+                                    <th scope="col">Horaire</th>
+                                    <th scope="col">Tarif</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%- for c in cours %}
+                                <tr>
+                                    <th scope="row">
+                                        {{ c.nom }}
+                                        {% if c.note %}<span class="saison__note">{{ c.note }}</span>{% endif %}
+                                    </th>
+                                    {# data-libelle réaffiche l'en-tête de colonne quand le
+                                       tableau se replie en fiches sur petit écran. #}
+                                    <td data-libelle="Jour">{{ c.jour }}</td>
+                                    <td data-libelle="Horaire">{{ c.horaire }}</td>
+                                    <td data-libelle="Tarif">
+                                        {{ c.an }}<span class="saison__unite"> l'année</span>
+                                        {% if c.trimestre %}<span class="saison__note">ou {{ c.trimestre }} par trimestre</span>{% endif %}
+                                    </td>
+                                </tr>
+                                {%- endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+
+                    {% if stages %}
+                    <ul class="saison__stages">
+                        {%- for s in stages %}
+                        <li>
+                            <h3>{{ s.nom }}</h3>
+                            <p class="saison__dates">{{ s.dates }}</p>
+                            <p>{{ s.horaire }}</p>
+                            <ul class="saison__tarifs">
+                                {%- for t in s.tarifs %}
+                                <li>{{ t }}</li>
+                                {%- endfor %}
+                            </ul>
+                        </li>
+                        {%- endfor %}
+                    </ul>
+                    {% endif %}
+
+                    <ul class="saison__pratique">
+                        {# L'adresse complète est ici pour les familles, mais aussi
+                           pour le référencement local : c'est le signal qui rattache
+                           le cours à une commune précise. #}
+                        {% if saison.salle %}
+                        <li>
+                            <strong>Lieu :</strong> {{ saison.salle }}
+                            {%- if saison.adresse %}<br>
+                            <span class="saison__adresse">{{ saison.adresse }}</span>
+                            {%- endif %}
+                        </li>
+                        {% endif %}
+                        {% if saison.reprise %}<li><strong>Reprise :</strong> {{ saison.reprise }}{% if saison.fin %}, fin des cours {{ saison.fin }}{% endif %}</li>{% endif %}
+                        {% if saison.essai %}<li><strong>Essai :</strong> {{ saison.essai }}</li>{% endif %}
+                        {% if saison.association %}<li><strong>Adhésion :</strong> {{ saison.adhesion }} à l'association {{ saison.association }}, en plus du tarif du cours</li>{% endif %}
+                    </ul>
+
+                    {% if modalites %}
+                    <h3>Bon à savoir</h3>
+                    <ul class="saison__modalites">
+                        {%- for m in modalites %}
+                        <li>{{ m }}</li>
+                        {%- endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {# Garde-fou. Ces informations sont recopiées à la main
+                       depuis le formulaire : elles peuvent avoir pris du
+                       retard sur lui. Le dire franchement vaut mieux que de
+                       laisser une famille se déplacer sur un horaire périmé. #}
+                    <p class="saison__reserve">
+                        <strong>Ces informations sont données à titre indicatif.</strong>
+                        Les horaires et les tarifs peuvent évoluer d'ici la rentrée.
+                        Le formulaire ci-dessous fait foi ; en cas de doute,
+                        écrivez à <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>
+                        ou appelez le <a href="tel:{{ site.contact.telephoneLien }}">{{ site.contact.telephoneAffiche }}</a>.
+                    </p>
+                </section>
+                {% endif %}
+
+                <h2>Se préinscrire</h2>
+
                 <p>Pour vous pré-inscrire, remplissez le formulaire.
                    Les champs marqués d'un * sont obligatoires.</p>
 

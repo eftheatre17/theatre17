@@ -1,34 +1,76 @@
 ---
 layout: layouts/inscription.njk
 permalink: /la-jarrie/
-title: "Cours de théâtre à La Jarrie — Préinscription | Emmanuelle Foltête"
+title: "Cours de théâtre à La Jarrie (17) | Théâtre 17"
 description: "Inscriptions aux cours de théâtre à La Jarrie avec Emmanuelle Foltête. Ateliers pour enfants, adolescents et adultes, tous niveaux."
 ogTitle: "Cours de théâtre à La Jarrie — Inscriptions"
 titre1: "Cours de théâtre<br>La Jarrie (17)"
 lieu: "La Jarrie"
 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLScvHYkUNA4O41ntUlU8HxDPsQ_0CJb5WE-u8Gjla2vjPShoWw/viewform"
+
+# Informations de la saison, recopiées du formulaire de préinscription.
+# Voir la note équivalente dans dompierre.njk.
+saison:
+  annee: "2026-2027"
+  salle: "Salle des fêtes de La Jarrie"
+  adresse: "Rue de la Mairie, 17220 La Jarrie"
+  reprise: "le 7 septembre 2026"
+  association: "ESL"
+  adhesion: "10 € par personne, 20 € pour le cours adulte"
+  essai: "Les deux premières semaines, du 7 au 18 septembre, sont gratuites."
+
+cours:
+  - nom: "Enfants 9-12 ans"
+    jour: "Lundi"
+    horaire: "17h30 – 19h"
+    an: "310 €"
+  - nom: "Enfants 7-9 ans"
+    jour: "Jeudi"
+    horaire: "17h – 18h30"
+    an: "310 €"
+  - nom: "Pré-adolescents 11-13 ans"
+    jour: "Vendredi"
+    horaire: "17h – 18h30"
+    an: "310 €"
+  - nom: "Adolescents 14-17 ans"
+    jour: "Vendredi"
+    horaire: "18h30 – 20h"
+    an: "310 €"
+  - nom: "Adultes"
+    jour: "Vendredi"
+    horaire: "20h15 – 22h"
+    an: "340 €"
+    note: "Un cours à la carte : des scènes sur un thème choisi, avec une représentation en fin d'année."
+
+modalites:
+  - "Deux spectacles : un en décembre 2026, en partenariat avec la mairie de La Jarrie, et un autre en mai ou juin 2027."
+  - "L'inscription se fait pour les trois trimestres. Le règlement peut être étalé en trois fois — octobre, janvier et avril — mais les trois chèques sont remis ensemble avant octobre."
+  - "Après les cours d'essai, le dossier d'inscription et le règlement sont gérés par l'association ESL, et non par Emmanuelle."
+  - "Les créneaux peuvent être ajustés à la rentrée selon les demandes, afin d'équilibrer les groupes."
+
 jsonLd: |
   {
     "@context": "https://schema.org",
     "@type": "Course",
     "name": "Cours de théâtre à La Jarrie",
-    "description": "Cours de théâtre hebdomadaires pour enfants, adolescents et adultes, tous niveaux.",
+    "description": "Cours de théâtre hebdomadaires pour enfants, adolescents et adultes, tous niveaux, à la salle des fêtes de La Jarrie.",
     "url": "https://theatre17.fr/la-jarrie/",
     "inLanguage": "fr",
     "provider": { "@id": "https://theatre17.fr/#organisation" },
+    "offers": {
+      "@type": "Offer",
+      "category": "Cours annuel",
+      "price": "310",
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock",
+      "url": "https://theatre17.fr/la-jarrie/"
+    },
     "hasCourseInstance": {
       "@type": "CourseInstance",
       "courseMode": "onsite",
-      "location": {
-        "@type": "Place",
-        "name": "La Jarrie",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "La Jarrie",
-          "postalCode": "17220",
-          "addressCountry": "FR"
-        }
-      }
+      "courseWorkload": "PT1H30M",
+      "startDate": "2026-09-07",
+      "location": { "@id": "https://theatre17.fr/#salle-des-fetes-la-jarrie" }
     }
   }
 ---

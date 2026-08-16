@@ -782,7 +782,9 @@ footer a:hover {
     }
 
     .form-placeholder > h1,
-    .form-placeholder > p {
+    .form-placeholder > h2,
+    .form-placeholder > p,
+    .form-placeholder > .saison {
         padding-left: var(--espace-sm);
         padding-right: var(--espace-sm);
     }
@@ -973,10 +975,215 @@ footer a:focus-visible {
     margin-right: auto;
 }
 
+/* Les titres intermédiaires de ces pages sont des repères de lecture, pas
+   des titres de section : à la taille globale d'un h2 ils écraseraient le
+   titre de la page. */
+.form-placeholder h2 {
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    margin-bottom: var(--espace-md);
+}
+
+.form-placeholder h3 {
+    font-size: 1.2rem;
+    margin-bottom: var(--espace-sm);
+}
+
 .form-intro {
     font-family: var(--font-accent);
     font-size: 1.15rem;
     font-style: italic;
+}
+
+/* ---- Détail de la saison ---- */
+
+/* Aligné à gauche à l'intérieur d'une page centrée : un tableau et des
+   listes centrés se lisent mal, l'œil perd le début de chaque ligne. */
+.saison {
+    max-width: 720px;
+    margin: 0 auto var(--espace-xl);
+    text-align: left;
+}
+
+.saison__tableau {
+    /* Sur un téléphone, quatre colonnes ne tiennent pas : le tableau défile
+       sur lui-même plutôt que d'élargir la page entière. */
+    overflow-x: auto;
+    margin-bottom: var(--espace-lg);
+}
+
+.saison table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.saison th,
+.saison td {
+    padding: var(--espace-sm) var(--espace-xs);
+    border-bottom: 1px solid rgba(139, 38, 53, 0.15);
+    vertical-align: top;
+    text-align: left;
+}
+
+.saison thead th {
+    font-family: var(--font-corps);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bordeaux);
+    border-bottom: 2px solid var(--doré);
+    white-space: nowrap;
+}
+
+.saison tbody th {
+    font-family: var(--font-corps);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--noir-theatre);
+}
+
+/* Jour et horaire ne doivent pas se couper : « 17h30 – 18h50 » passait à la
+   ligne au milieu alors que la place ne manquait pas. Sans risque de
+   débordement, le tableau défilant déjà sur lui-même en dessous. */
+.saison td:nth-child(2),
+.saison td:nth-child(3) {
+    white-space: nowrap;
+}
+
+.saison__note {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--gris-chaleureux);
+}
+
+.saison__unite {
+    font-size: 0.85rem;
+    color: var(--gris-chaleureux);
+}
+
+.saison__stages {
+    list-style: none;
+    margin-bottom: var(--espace-lg);
+}
+
+.saison__stages > li {
+    padding: var(--espace-md) 0;
+    border-bottom: 1px solid rgba(139, 38, 53, 0.15);
+}
+
+.saison__dates {
+    font-weight: 600;
+    color: var(--noir-theatre);
+    margin-bottom: var(--espace-xs);
+}
+
+.saison__tarifs {
+    padding-left: var(--espace-md);
+    margin-bottom: 0;
+}
+
+.saison__pratique,
+.saison__modalites {
+    padding-left: var(--espace-md);
+    margin-bottom: var(--espace-lg);
+}
+
+.saison__pratique {
+    list-style: none;
+    padding-left: 0;
+}
+
+.saison__pratique li,
+.saison__modalites li {
+    margin-bottom: var(--espace-xs);
+}
+
+.saison__adresse {
+    color: var(--gris-chaleureux);
+    font-size: 0.95rem;
+}
+
+/* La réserve sur l'exactitude des informations. Visible sans être alarmante :
+   c'est une précision utile, pas un avertissement. */
+.saison__reserve {
+    background: var(--ivoire);
+    border-left: 4px solid var(--doré);
+    padding: var(--espace-md);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+/* Petits écrans : quatre colonnes ne tiennent pas, et le défilement
+   horizontal coupait la colonne Tarif — l'information la plus recherchée.
+   Chaque ligne devient une fiche, chaque cellule reprenant son intitulé de
+   colonne. Le tableau reste un vrai tableau pour les lecteurs d'écran et
+   pour les moteurs de recherche : seule sa présentation change. */
+@media (max-width: 560px) {
+    .saison__tableau {
+        overflow-x: visible;
+    }
+
+    .saison thead {
+        display: none;
+    }
+
+    .saison table,
+    .saison tbody,
+    .saison tr,
+    .saison tbody th,
+    .saison td {
+        display: block;
+        width: 100%;
+    }
+
+    .saison tbody tr {
+        padding: var(--espace-sm) 0;
+        border-bottom: 1px solid rgba(139, 38, 53, 0.15);
+    }
+
+    .saison tbody th,
+    .saison td {
+        border-bottom: none;
+        padding: 0 0 var(--espace-xs);
+    }
+
+    .saison tbody th {
+        font-size: 1.05rem;
+        color: var(--bordeaux);
+        margin-bottom: var(--espace-xs);
+    }
+
+    .saison td::before {
+        content: attr(data-libelle) " : ";
+        font-weight: 600;
+        color: var(--noir-theatre);
+    }
+
+    .saison td:nth-child(2),
+    .saison td:nth-child(3) {
+        white-space: normal;
+    }
+
+    .saison__unite,
+    .saison__note {
+        display: inline;
+    }
+}
+
+/* Titre de tableau réservé aux lecteurs d'écran : le contexte est déjà
+   donné visuellement par le titre de la page. */
+.visuellement-cache {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .form-iframe {

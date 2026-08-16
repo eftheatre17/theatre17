@@ -1,35 +1,69 @@
 ---
 layout: layouts/inscription.njk
 permalink: /eloquence/
-title: "Cours d'éloquence à Dompierre-sur-Mer — Préinscription | Emmanuelle Foltête"
+title: "Stages d'éloquence à Dompierre-sur-Mer | Théâtre 17"
 description: "Inscriptions aux cours d'éloquence avec Emmanuelle Foltête. Apprenez la prise de parole en public avec assurance, près de La Rochelle."
 ogTitle: "Cours d'éloquence — Inscriptions"
 titre1: "Cours d'éloquence<br>Dompierre-sur-Mer (17)"
 lieu: "Cours d'éloquence"
 intro: "Maîtrisez l'art de la prise de parole en public : voix, posture, structure du propos, gestion du trac."
 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSekTxzmU3o4qataYryi6I_Kkjj0RHyLbMBeatTYdtPjiJEEjQ/viewform"
+
+# Informations du prochain stage, recopiées du formulaire de préinscription.
+# L'éloquence fonctionne par stages ponctuels et non par cours hebdomadaires,
+# d'où une présentation différente des deux autres pages.
+saison:
+  salle: "Salle du Tilleul, Chagnolet"
+  adresse: "42B Grande Rue, 17139 Dompierre-sur-Mer"
+
+stages:
+  - nom: "Stage week-end"
+    dates: "Samedi 10 et dimanche 11 octobre 2026"
+    horaire: "10h – 18h, pause déjeuner de 13h à 14h"
+    tarifs:
+      - "200 € les deux jours"
+      - "180 € pour les adhérents Du vert à soi"
+      - "350 € pour deux personnes"
+  - nom: "Stage à la journée"
+    dates: "Dates fixées selon les demandes"
+    horaire: "10h – 18h, pause déjeuner de 13h à 14h"
+    tarifs:
+      - "120 € la journée"
+      - "100 € pour les adhérents Du vert à soi"
+      - "200 € pour deux personnes"
+
+modalites:
+  - "Groupe limité à 10 personnes."
+  - "Un questionnaire est envoyé avant le stage pour cibler vos attentes."
+  - "À apporter : une tenue confortable, un casse-croûte, une bouteille d'eau et un carnet de notes."
+  - "Si aucune date ne convient, écrivez : d'autres créneaux peuvent être ouverts."
+  - "Interventions sur site possibles pour les entreprises, collèges, lycées et associations."
+
 jsonLd: |
   {
     "@context": "https://schema.org",
     "@type": "Course",
-    "name": "Cours d'éloquence",
-    "description": "Apprentissage de la prise de parole en public : voix, posture, structure du propos, gestion du trac.",
+    "name": "Stage d'éloquence et de prise de parole en public",
+    "description": "Stage d'éloquence : voix, posture, structure du propos, gestion du trac. Groupe limité à 10 personnes, salle du Tilleul à Chagnolet, Dompierre-sur-Mer.",
     "url": "https://theatre17.fr/eloquence/",
     "inLanguage": "fr",
     "provider": { "@id": "https://theatre17.fr/#organisation" },
+    "offers": {
+      "@type": "Offer",
+      "category": "Stage week-end",
+      "price": "200",
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock",
+      "url": "https://theatre17.fr/eloquence/"
+    },
     "hasCourseInstance": {
       "@type": "CourseInstance",
       "courseMode": "onsite",
-      "location": {
-        "@type": "Place",
-        "name": "Dompierre-sur-Mer",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Dompierre-sur-Mer",
-          "postalCode": "17139",
-          "addressCountry": "FR"
-        }
-      }
+      "courseWorkload": "PT14H",
+      "startDate": "2026-10-10",
+      "endDate": "2026-10-11",
+      "maximumAttendeeCapacity": 10,
+      "location": { "@id": "https://theatre17.fr/#salle-du-tilleul" }
     }
   }
 ---

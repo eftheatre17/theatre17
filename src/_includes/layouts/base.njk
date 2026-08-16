@@ -52,35 +52,67 @@
 
     {# Donnees structurees : c'est ce qui permet a Google de comprendre
        qu'il s'agit d'une activite locale d'enseignement, et non d'un
-       site quelconque. #}
+       site quelconque.
+
+       Les valeurs passent toutes par « | dump | safe » et non par une
+       simple interpolation entre guillemets. Raison : Nunjucks echappe
+       automatiquement pour le HTML et transforme l'apostrophe en &#39; —
+       or les entites HTML ne sont pas decodees a l'interieur d'un <script>.
+       Google lisait donc mot pour mot « rue de l&#39;Atlas ». Le filtre
+       dump produit une chaine JSON correctement echappee, guillemets
+       compris, et safe empeche le second echappement. #}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "@id": "{{ site.url }}/#organisation",
-      "name": "{{ site.nom }}",
-      "description": "Cours de théâtre et d'éloquence pour enfants, adolescents et adultes en Charente-Maritime.",
-      "url": "{{ site.url }}",
-      "telephone": "{{ site.contact.telephoneLien }}",
-      "email": "{{ site.contact.email }}",
-      "image": "{{ site.url }}{{ site.ogImage }}",
+      "@id": {{ (site.url + "/#organisation") | dump | safe }},
+      "name": {{ site.nom | dump | safe }},
+      "description": {{ "Cours de théâtre et d'éloquence pour enfants, adolescents et adultes en Charente-Maritime." | dump | safe }},
+      "url": {{ site.url | dump | safe }},
+      "telephone": {{ site.contact.telephoneLien | dump | safe }},
+      "email": {{ site.contact.email | dump | safe }},
+      "image": {{ (site.url + site.ogImage) | dump | safe }},
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "{{ site.legal.adresse }}",
-        "postalCode": "{{ site.legal.codePostal }}",
-        "addressLocality": "{{ site.legal.ville }}",
-        "addressCountry": "{{ site.legal.pays }}"
+        "streetAddress": {{ site.legal.adresse | dump | safe }},
+        "postalCode": {{ site.legal.codePostal | dump | safe }},
+        "addressLocality": {{ site.legal.ville | dump | safe }},
+        "addressCountry": {{ site.legal.pays | dump | safe }}
       },
       "areaServed": [
         {%- for zone in site.zonesDesservies %}
-        { "@type": "Place", "name": "{{ zone }}" }{% if not loop.last %},{% endif %}
+        { "@type": {{ zone.type | dump | safe }}, "name": {{ zone.nom | dump | safe }} }{% if not loop.last %},{% endif %}
+        {%- endfor %}
+      ],
+      {# Les salles ou les cours ont lieu. L'adresse ci-dessus est l'adresse
+         legale de l'entreprise, celle qui figure aux mentions legales ; ces
+         lieux-ci sont les adresses reelles ou l'on se rend. Les declarer
+         rattache l'activite a la Charente-Maritime.
+         Chacun porte un @id : les pages de cours s'y referent au lieu de
+         redecrire l'adresse, et ce bloc etant present sur toutes les pages,
+         la reference se resout toujours localement. #}
+      "hasPOS": [
+        {%- for salle in site.lieux %}
+        {
+          "@type": "Place",
+          "@id": {{ (site.url + "/#" + salle.id) | dump | safe }},
+          "name": {{ salle.nom | dump | safe }},
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": {{ salle.rue | dump | safe }},
+            "postalCode": {{ salle.codePostal | dump | safe }},
+            "addressLocality": {{ salle.ville | dump | safe }},
+            "addressRegion": "Charente-Maritime",
+            "addressCountry": "FR"
+          }
+        }{% if not loop.last %},{% endif %}
         {%- endfor %}
       ],
       "founder": {
         "@type": "Person",
-        "@id": "{{ site.url }}/#emmanuelle",
-        "name": "{{ site.professeure }}",
-        "jobTitle": "Professeure de théâtre et d'éloquence"
+        "@id": {{ (site.url + "/#emmanuelle") | dump | safe }},
+        "name": {{ site.professeure | dump | safe }},
+        "jobTitle": {{ "Professeure de théâtre et d'éloquence" | dump | safe }}
       }
     }
     </script>
@@ -102,13 +134,13 @@
           "@type": "ListItem",
           "position": 1,
           "name": "Accueil",
-          "item": "{{ site.url }}/"
+          "item": {{ (site.url + "/") | dump | safe }}
         },
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "{{ filAriane }}",
-          "item": "{{ site.url }}{{ page.url }}"
+          "name": {{ filAriane | dump | safe }},
+          "item": {{ (site.url + page.url) | dump | safe }}
         }
       ]
     }

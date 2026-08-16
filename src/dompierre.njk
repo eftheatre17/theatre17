@@ -1,34 +1,85 @@
 ---
 layout: layouts/inscription.njk
 permalink: /dompierre/
-title: "Cours de théâtre à Dompierre-sur-Mer — Préinscription | Emmanuelle Foltête"
+title: "Cours de théâtre à Dompierre-sur-Mer | Théâtre 17"
 description: "Inscriptions aux cours de théâtre à Dompierre-sur-Mer avec Emmanuelle Foltête. Ateliers pour enfants, adolescents et adultes, tous niveaux."
 ogTitle: "Cours de théâtre à Dompierre-sur-Mer — Inscriptions"
 titre1: "Cours de théâtre<br>Dompierre-sur-Mer (17)"
 lieu: "Dompierre-sur-Mer"
 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLScKDcb_SrY0PC1o8ZYGPuqf2GlbtAkU0VJZ6r3TB3fWLIXnVg/viewform"
+
+# Informations de la saison, recopiées du formulaire de préinscription.
+# Elles sont ici pour être lisibles sans ouvrir le formulaire — et pour que
+# les moteurs de recherche les voient, ce qui n'est pas le cas du contenu
+# d'une iframe. À revoir à chaque saison.
+saison:
+  annee: "2026-2027"
+  salle: "Foyer Ferdinand Rieux"
+  adresse: "Rue de la Belle Aurore, 17139 Dompierre-sur-Mer"
+  reprise: "le mardi 8 septembre 2026"
+  fin: "le 13 juin 2027"
+  association: "DVAS"
+  adhesion: "15 € par personne"
+  essai: "Un cours d'essai gratuit est proposé en septembre."
+
+cours:
+  - nom: "Enfants 9-12 ans"
+    jour: "Mardi"
+    horaire: "17h30 – 18h50"
+    an: "330 €"
+    trimestre: "110 €"
+  - nom: "Adultes"
+    jour: "Mardi"
+    horaire: "19h – 21h30"
+    an: "450 €"
+    trimestre: "150 €"
+    note: "Le créneau pour monter une pièce et s'investir sur l'année, avec deux représentations."
+  - nom: "Enfants 7-9 ans"
+    jour: "Mercredi"
+    horaire: "9h30 – 10h50"
+    an: "330 €"
+    trimestre: "110 €"
+  - nom: "Enfants 9-11 ans"
+    jour: "Mercredi"
+    horaire: "11h – 12h20"
+    an: "330 €"
+    trimestre: "110 €"
+  - nom: "Adolescents 12-17 ans"
+    jour: "Mercredi"
+    horaire: "15h – 17h"
+    an: "390 €"
+    trimestre: "130 €"
+
+modalites:
+  - "30 cours dans l'année, et un spectacle de fin d'année."
+  - "L'inscription se fait pour les trois trimestres. Le règlement peut être étalé en trois fois — septembre, décembre et mars — mais les trois chèques sont remis ensemble."
+  - "10 % de réduction dès le deuxième membre d'une même famille inscrit à une activité DVAS, avec une adhésion familiale de 20 €."
+  - "Les anciens élèves sont prioritaires jusqu'à fin septembre 2026."
+
 jsonLd: |
   {
     "@context": "https://schema.org",
     "@type": "Course",
     "name": "Cours de théâtre à Dompierre-sur-Mer",
-    "description": "Cours de théâtre hebdomadaires pour enfants, adolescents et adultes, tous niveaux.",
+    "description": "Cours de théâtre hebdomadaires pour enfants, adolescents et adultes, tous niveaux, au foyer Rieux à Dompierre-sur-Mer.",
     "url": "https://theatre17.fr/dompierre/",
     "inLanguage": "fr",
     "provider": { "@id": "https://theatre17.fr/#organisation" },
+    "offers": {
+      "@type": "Offer",
+      "category": "Cours annuel",
+      "price": "330",
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock",
+      "url": "https://theatre17.fr/dompierre/"
+    },
     "hasCourseInstance": {
       "@type": "CourseInstance",
       "courseMode": "onsite",
-      "location": {
-        "@type": "Place",
-        "name": "Dompierre-sur-Mer",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Dompierre-sur-Mer",
-          "postalCode": "17139",
-          "addressCountry": "FR"
-        }
-      }
+      "courseWorkload": "PT1H20M",
+      "startDate": "2026-09-08",
+      "endDate": "2027-06-13",
+      "location": { "@id": "https://theatre17.fr/#foyer-ferdinand-rieux" }
     }
   }
 ---

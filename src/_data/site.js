@@ -41,13 +41,46 @@ module.exports = {
   },
 
   // Communes ou les cours ont lieu. Sert au referencement local.
-  // A completer avec les adresses exactes des salles quand elles
-  // seront connues (voir SPEC-V2.md, partie 4).
+  // Le type distingue une commune d'un departement : les deux sont des
+  // zones desservies, mais Google ne les interprete pas de la meme facon.
   zonesDesservies: [
-    "Dompierre-sur-Mer",
-    "La Jarrie",
-    "La Rochelle",
-    "Charente-Maritime",
+    { nom: "Dompierre-sur-Mer", type: "City" },
+    { nom: "La Jarrie", type: "City" },
+    { nom: "La Rochelle", type: "City" },
+    { nom: "Charente-Maritime", type: "AdministrativeArea" },
+  ],
+
+  // Salles ou les cours ont effectivement lieu.
+  //
+  // Elles sont decrites ici une seule fois et publiees dans le bloc
+  // LocalBusiness, present sur toutes les pages. Les pages de cours s'y
+  // referent ensuite par leur identifiant plutot que de les redecrire :
+  // une adresse decrite a deux endroits finit toujours par diverger.
+  //
+  // C'est aussi ce qui rattache l'activite a des adresses reelles en
+  // Charente-Maritime, la ou l'adresse legale de l'entreprise est a Paris.
+  lieux: [
+    {
+      id: "foyer-ferdinand-rieux",
+      nom: "Foyer Ferdinand Rieux",
+      rue: "Rue de la Belle Aurore",
+      codePostal: "17139",
+      ville: "Dompierre-sur-Mer",
+    },
+    {
+      id: "salle-des-fetes-la-jarrie",
+      nom: "Salle des fêtes de La Jarrie",
+      rue: "Rue de la Mairie",
+      codePostal: "17220",
+      ville: "La Jarrie",
+    },
+    {
+      id: "salle-du-tilleul",
+      nom: "Salle du Tilleul, Chagnolet",
+      rue: "42B Grande Rue",
+      codePostal: "17139",
+      ville: "Dompierre-sur-Mer",
+    },
   ],
 
   // Image affichee lors d'un partage sur les reseaux sociaux
