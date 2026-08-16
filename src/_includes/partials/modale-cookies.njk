@@ -1,0 +1,50 @@
+{# Modale d'information affichée après un refus.
+   Elle ne s'ouvre QUE en réponse directe au clic sur « Refuser », jamais au
+   chargement d'une page : réafficher une demande de consentement à chaque
+   visite après un refus constituerait du harcèlement au consentement, et
+   invaliderait le recueil.
+   Les deux boutons de sortie ont volontairement le même poids visuel — le
+   refus reste un choix pleinement praticable.
+   L'élément <dialog> natif fournit le piège à focus et la fermeture par
+   Échap sans code supplémentaire. #}
+{# tabindex="-1" permet de poser le focus sur la modale elle-même à
+   l'ouverture. Sans cela, le navigateur vise le premier élément focusable
+   — un bouton en bas — et fait défiler le contenu, masquant le titre. #}
+<dialog class="modale-cookies" id="modale-cookies" tabindex="-1"
+        aria-labelledby="modale-cookies-titre">
+    <h2 id="modale-cookies-titre">Votre choix est bien enregistré</h2>
+
+    <p>
+        Vous avez refusé les cookies tiers, et nous le respectons : aucune donnée
+        vous concernant ne sera transmise à Google.
+    </p>
+
+    <p class="modale-cookies__consequence">
+        <strong>Une conséquence à connaître :</strong> les formulaires de
+        préinscription ne pourront pas s'afficher sur le site. Ce sont eux qui
+        contiennent le détail des cours, des horaires et des tarifs.
+    </p>
+
+    <p>
+        <strong>Ces cookies ne sont pas les nôtres.</strong> Théâtre 17 ne dépose
+        aucun traceur et ne diffuse aucune publicité. Il s'agit uniquement des
+        cookies techniques que Google installe pour faire fonctionner
+        <em>Google Forms</em>, l'outil avec lequel Emmanuelle recueille les
+        inscriptions.
+    </p>
+
+    <p class="modale-cookies__rassurance">
+        Vous pouvez vous inscrire sans les accepter : écrivez à Emmanuelle à
+        <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>.
+        Elle vous répondra avec les mêmes informations.
+    </p>
+
+    <div class="modale-cookies__actions">
+        <button type="button" class="btn js-modale-continuer">
+            Continuer sans les formulaires
+        </button>
+        <button type="button" class="btn js-modale-accepter">
+            Finalement, accepter
+        </button>
+    </div>
+</dialog>

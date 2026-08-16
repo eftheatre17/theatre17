@@ -158,6 +158,9 @@ function initCookies() {
             ecrireChoix('refuse');
             appliquer('refuse');
             fermerBandeau();
+            // Information ponctuelle sur la conséquence du refus. Déclenchée
+            // par le clic, donc jamais réaffichée d'elle-même par la suite.
+            ouvrirModale();
         });
 
         // Échap vaut refus tacite : on referme sans rien enregistrer,
@@ -173,6 +176,49 @@ function initCookies() {
             ouvrirBandeau(bouton);
         });
     });
+
+    // ---- Modale d'information affichée après un refus ----
+
+    const modale = document.getElementById('modale-cookies');
+
+    function ouvrirModale() {
+        if (!modale) return;
+        // showModal() apporte le piège à focus, la fermeture par Échap et
+        // l'inertie de l'arrière-plan. Repli sur un affichage simple si le
+        // navigateur ne le gère pas.
+        if (typeof modale.showModal === 'function') {
+            modale.showModal();
+        } else {
+            modale.setAttribute('open', '');
+        }
+        // On se place au début du contenu : sur un petit écran, le
+        // navigateur ferait sinon défiler jusqu'au premier bouton et
+        // masquerait le titre.
+        modale.focus();
+        modale.scrollTop = 0;
+    }
+
+    function fermerModale() {
+        if (!modale) return;
+        if (typeof modale.close === 'function') {
+            modale.close();
+        } else {
+            modale.removeAttribute('open');
+        }
+    }
+
+    if (modale) {
+        const continuer = modale.querySelector('.js-modale-continuer');
+        const accepterFinalement = modale.querySelector('.js-modale-accepter');
+
+        if (continuer) continuer.addEventListener('click', fermerModale);
+
+        if (accepterFinalement) accepterFinalement.addEventListener('click', function () {
+            ecrireChoix('accepte');
+            appliquer('accepte');
+            fermerModale();
+        });
+    }
 }
 
 // ========================================
