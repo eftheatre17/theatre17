@@ -202,10 +202,10 @@ nav a.active {
 
 /* Bio */
 
+/* La biographie s'affiche en entier : pas de zone de défilement interne.
+   Un texte de présentation qu'il faut faire défiler dans une petite fenêtre
+   se lit mal, et Google n'en indexerait qu'une partie visible. */
 .bio-card__text {
-    max-height: 50%;     
-    overflow-y: auto;      
-    padding-right: 0.5rem; 
     flex: 1;
     text-align: left;
 }
@@ -819,6 +819,7 @@ footer a:focus-visible {
     display: flex;
     flex-wrap: wrap;
     gap: var(--espace-sm);
+    justify-content: center;
     margin-bottom: 0;
     /* Repousse la rangée de boutons tout en bas de la carte. La grille donne
        déjà la même hauteur à toutes les cartes ; sans cela, chaque bouton se
