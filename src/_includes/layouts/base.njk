@@ -120,6 +120,25 @@
     <script type="application/ld+json">{{ jsonLd | safe }}</script>
     {% endif %}
 
+    {% if page.url == "/" %}
+    {# Nom du site affiche au-dessus du resultat Google. Sans ce bloc, Google
+       le devine — et il choisissait « Emmanuelle Foltete », le seul nom propre
+       que portait l'ancien titre. Google ne lit ce noeud que sur la page
+       d'accueil, d'ou la condition. #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": {{ (site.url + "/#site") | dump | safe }},
+      "name": {{ site.nom | dump | safe }},
+      "alternateName": {{ "Théâtre 17 — Emmanuelle Foltête" | dump | safe }},
+      "url": {{ (site.url + "/") | dump | safe }},
+      "inLanguage": "fr",
+      "publisher": { "@id": {{ (site.url + "/#organisation") | dump | safe }} }
+    }
+    </script>
+    {% endif %}
+
     {%- set filAriane = page.url | libelleNav(site.nav) %}
     {% if filAriane %}
     {# Fil d'Ariane : c'est ce qui permet a Google d'afficher
