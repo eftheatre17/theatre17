@@ -9,29 +9,31 @@ noindex: true
 {#- GitHub Pages sert automatiquement /404.html pour toute adresse inconnue.
     Sans ce fichier, le visiteur tombait sur la page d'erreur générique de
     GitHub, sans menu ni moyen de revenir sur le site. -#}
-<section class="form-page">
+<section class="bandeau-page">
     <div class="container">
-        <div class="form-container">
-            <div class="form-placeholder">
-                <h1>Cette page n'existe pas</h1>
+        <p class="etiquette etiquette--ambre">Erreur 404</p>
+        <h1>Cette page n'existe pas</h1>
+        <p>
+            L'adresse demandée est peut-être erronée, ou la page a été
+            déplacée depuis que vous l'avez enregistrée.
+        </p>
+    </div>
+</section>
 
-                <p>
-                    L'adresse demandée est peut-être erronée, ou la page a été
-                    déplacée depuis que vous l'avez enregistrée.
-                </p>
-
-                <p class="card-actions">
-                    <a href="/" class="btn">Retour à l'accueil</a>
-                    <a href="/contact/" class="btn btn-secondary">Nous écrire</a>
-                </p>
-
-                <p class="form-infos">
-                    <strong>Les pages du site :</strong><br>
-                    {%- for lien in site.nav %}
-                    <a href="{{ lien.url }}">{{ lien.texte }}</a>{% if not loop.last %} · {% endif %}
-                    {%- endfor %}
-                </p>
+<section class="section">
+    <div class="container">
+        <div class="form-cadre form-cadre--centre">
+            <div class="plateau-actions">
+                <a href="/" class="btn">Retour à l'accueil</a>
+                <a href="/contact/" class="btn btn--contour">Nous écrire</a>
             </div>
+
+            <p class="form-infos">
+                <strong>Les pages du site :</strong><br>
+                {%- for lien in site.nav %}
+                <a href="{{ lien.url }}">{{ lien.texte }}</a>{% if not loop.last %} · {% endif %}
+                {%- endfor %}
+            </p>
         </div>
     </div>
 </section>

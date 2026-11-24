@@ -28,24 +28,25 @@ eleventyExcludeFromCollections: true
     <title>Page déplacée — {{ site.nom }}</title>
     <link rel="canonical" href="{{ site.url }}{{ redirection.nouvelle }}">
     <meta http-equiv="refresh" content="0; url={{ redirection.nouvelle }}">
-    <link rel="stylesheet" href="/css/fonts.css">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="{{ '/css/fonts.css' | empreinte }}">
+    <link rel="stylesheet" href="{{ '/css/style.css' | empreinte }}">
 </head>
 <body>
     <main id="contenu">
-        <section class="form-page">
+        <section class="section">
             <div class="container">
-                <div class="form-container">
-                    <div class="form-placeholder">
-                        <h1>Cette page a changé d'adresse</h1>
-                        <p>
-                            Vous allez être redirigé automatiquement. Si rien ne se
-                            passe, suivez ce lien :
-                        </p>
-                        <p>
-                            <a class="btn" href="{{ redirection.nouvelle }}">Continuer vers la page</a>
-                        </p>
-                    </div>
+                <div class="form-cadre form-cadre--centre">
+                    <p class="etiquette" style="margin-bottom:0.4rem;">Redirection</p>
+                    <h1 style="font-family:var(--font-display);font-size:clamp(1.8rem,3.5vw,2.6rem);text-transform:uppercase;margin-bottom:0.65rem;">
+                        Cette page a changé d'adresse
+                    </h1>
+                    <p style="color:var(--encre-douce);margin-bottom:1.25rem;">
+                        Vous allez être redirigé automatiquement. Si rien ne se
+                        passe, suivez ce lien :
+                    </p>
+                    <p>
+                        <a class="btn" href="{{ redirection.nouvelle }}">Continuer vers la page</a>
+                    </p>
                 </div>
             </div>
         </section>

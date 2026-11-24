@@ -2,523 +2,429 @@
 // THEATRE 17 - JavaScript Principal
 // ========================================
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialisation du carrousel
-    initCarousel();
+(() => {
+    'use strict';
+
+    const CLE_COOKIES = 'theatre17-cookies';
+    const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const DUREE_SLIDE = 6500;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initHeaderScroll();
+        initMenuMobile();
+        initAncresAccessibles();
+        initPlateauStage();
+        initFiltreCours();
+        initCopie();
+        initCookies();
+    });
+
+    // Ombre douce de l'en-tête au défilement
+    function initHeaderScroll() {
+        const header = document.querySelector('.site-header');
+        if (!header) return;
+        const maj = () => header.classList.toggle('header--solide', window.scrollY > 16);
+        maj();
+        window.addEventListener('scroll', maj, { passive: true });
+    }
 
     // Menu mobile
-    initMobileMenu();
+    function initMenuMobile() {
+        const toggle = document.querySelector('.menu-toggle');
+        const menu = document.getElementById('menu-principal');
+        if (!toggle || !menu) return;
 
-    // Animations au scroll
-    initScrollAnimations();
+        const mqDesktop = window.matchMedia('(min-width: 861px)');
 
-    // Smooth scroll pour les ancres
-    initSmoothScroll();
+        function setOuvert(ouvert) {
+            menu.classList.toggle('is-open', ouvert);
+            document.body.classList.toggle('menu-open', ouvert);
+            toggle.setAttribute('aria-expanded', String(ouvert));
+            toggle.setAttribute('aria-label', ouvert ? 'Fermer le menu' : 'Ouvrir le menu');
+            toggle.textContent = ouvert ? 'Fermer ✕' : 'Menu';
+        }
 
-    // Bandeau de consentement + affichage conditionnel des formulaires
-    initCookies();
-});
+        toggle.addEventListener('click', () => setOuvert(!menu.classList.contains('is-open')));
+        menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOuvert(false)));
 
-// ========================================
-// CONSENTEMENT AUX COOKIES TIERS
-// ========================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+                setOuvert(false);
+                toggle.focus();
+            }
+        });
 
-// Le site ne dépose aucun cookie de son fait. Seuls les formulaires
-// Google Forms en déposent, et uniquement s'ils sont affichés. Le bandeau
-// recueille donc un consentement unique, valable pour tout le site.
-//
-// Le choix est conservé dans localStorage plutôt que dans un cookie : c'est
-// un stockage strictement nécessaire au respect du choix de l'utilisateur,
-// donc lui-même exempt de consentement.
-function initCookies() {
-    const CLE = 'theatre17-cookies';
-    const bandeau = document.getElementById('bandeau-cookies');
-    const zones = document.querySelectorAll('.form-zone');
-    let declencheur = null;
+        document.addEventListener('click', (e) => {
+            if (
+                menu.classList.contains('is-open') &&
+                !menu.contains(e.target) &&
+                !toggle.contains(e.target)
+            ) {
+                setOuvert(false);
+            }
+        });
 
-    // localStorage lève une exception en navigation privée sur certains
-    // navigateurs : on dégrade sans casser le reste de la page.
-    function lireChoix() {
-        try { return localStorage.getItem(CLE); } catch (e) { return null; }
+        mqDesktop.addEventListener('change', (e) => {
+            if (e.matches && menu.classList.contains('is-open')) setOuvert(false);
+        });
     }
 
-    function ecrireChoix(valeur) {
-        try { localStorage.setItem(CLE, valeur); } catch (e) { /* sans effet */ }
+    // Lien d'évitement et ancres internes : transfert effectif du focus
+    function initAncresAccessibles() {
+        document.querySelectorAll('a[href^="#"]').forEach((lien) => {
+            const id = lien.getAttribute('href').slice(1);
+            if (!id) return;
+            const cible = document.getElementById(id);
+            if (!cible) return;
+
+            lien.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (!cible.hasAttribute('tabindex')) cible.setAttribute('tabindex', '-1');
+                cible.scrollIntoView({
+                    behavior: REDUCED_MOTION.matches ? 'auto' : 'smooth',
+                    block: 'start',
+                });
+                cible.focus({ preventScroll: true });
+            });
+        });
     }
 
-    function afficherFormulaires() {
-        zones.forEach(zone => {
-            if (zone.querySelector('.form-iframe')) return;
+    // Scène cross-fade + barre de progression + swipe tactile + clavier
+    function initPlateauStage() {
+        const stage = document.querySelector('[data-plateau]');
+        if (!stage) return;
 
-            const url = zone.dataset.formUrl;
-            if (!url) return;
+        const ecran = stage.querySelector('.scene-stage__ecran');
+        const frames = Array.from(stage.querySelectorAll('.scene-stage__frame'));
+        const pistes = Array.from(stage.querySelectorAll('.piste-btn'));
+        const titreEl = stage.querySelector('[data-stage-titre]');
+        const texteEl = stage.querySelector('[data-stage-texte]');
+        const prevBtn = stage.querySelector('[data-stage-prev]');
+        const nextBtn = stage.querySelector('[data-stage-next]');
+        const pauseBtn = stage.querySelector('[data-stage-pause]');
 
-            const repli = zone.querySelector('.form-repli');
-            if (repli) repli.hidden = true;
+        let index = 0;
+        let timer = null;
+        let enPause = REDUCED_MOTION.matches;
+        let departX = null;
 
-            const statut = document.createElement('p');
-            statut.className = 'form-zone__statut';
-            statut.setAttribute('role', 'status');
-            statut.textContent = 'Chargement du formulaire\u2026';
-            zone.appendChild(statut);
+        function afficher(i) {
+            index = (i + frames.length) % frames.length;
 
-            const iframe = document.createElement('iframe');
-            iframe.src = url + (url.includes('?') ? '&' : '?') + 'embedded=true';
-            iframe.title = zone.dataset.formTitre || 'Formulaire de préinscription';
-            iframe.className = 'form-iframe';
-
-            const texteRepli = repli ? repli.querySelector('.form-repli__texte') : null;
-            const texteOrigine = texteRepli ? texteRepli.innerHTML : null;
-
-            let abouti = false;
-            iframe.addEventListener('load', function () {
-                abouti = true;
-                statut.remove();
-                // Le formulaire a fini par arriver, même tardivement : on
-                // remasque le repli pour ne pas afficher deux messages
-                // contradictoires l'un au-dessus de l'autre.
-                if (repli) {
-                    repli.hidden = true;
-                    if (texteRepli && texteOrigine) texteRepli.innerHTML = texteOrigine;
-                }
+            frames.forEach((frame, idx) => {
+                frame.classList.toggle('is-active', idx === index);
+                frame.setAttribute('aria-hidden', String(idx !== index));
             });
 
-            // Une iframe bloquée par le navigateur ne déclenche aucune erreur :
-            // elle reste simplement vide. On propose donc une porte de sortie
-            // au bout d'un délai, en reformulant le repli — son texte d'origine
-            // parle d'un refus de cookies, ce qui n'est pas le cas ici.
-            setTimeout(function () {
-                if (abouti) return;
-                statut.remove();
-                if (repli) {
-                    if (texteRepli) {
-                        texteRepli.textContent = "Le formulaire tarde à s'afficher, ou votre "
-                            + 'navigateur le bloque. Vous pouvez vous inscrire autrement :';
-                    }
-                    repli.hidden = false;
+            // Relance proprement l'animation de la barre de progression active
+            pistes.forEach((btn, idx) => {
+                btn.classList.remove('is-active');
+                btn.setAttribute('aria-selected', String(idx === index));
+            });
+            void stage.offsetWidth;
+            if (pistes[index]) pistes[index].classList.add('is-active');
+
+            const active = frames[index];
+            if (titreEl) titreEl.textContent = active.dataset.titre || '';
+            if (texteEl) texteEl.textContent = active.dataset.texte || '';
+        }
+
+        function majPauseUI() {
+            stage.classList.toggle('is-paused', enPause);
+            if (!pauseBtn) return;
+            pauseBtn.textContent = enPause ? '▶' : '❚❚';
+            pauseBtn.setAttribute(
+                'aria-label',
+                enPause ? 'Relancer le défilement des scènes' : 'Mettre en pause le défilement'
+            );
+        }
+
+        function arreter() {
+            if (timer !== null) {
+                window.clearTimeout(timer);
+                timer = null;
+            }
+        }
+
+        function planifier() {
+            arreter();
+            if (enPause || document.hidden) return;
+            timer = window.setTimeout(() => {
+                afficher(index + 1);
+                planifier();
+            }, DUREE_SLIDE);
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', () => { afficher(index - 1); planifier(); });
+        if (nextBtn) nextBtn.addEventListener('click', () => { afficher(index + 1); planifier(); });
+
+        pistes.forEach((btn, idx) => {
+            btn.addEventListener('click', () => {
+                afficher(idx);
+                planifier();
+            });
+        });
+
+        if (pauseBtn) {
+            pauseBtn.addEventListener('click', () => {
+                enPause = !enPause;
+                majPauseUI();
+                if (enPause) arreter(); else { afficher(index); planifier(); }
+            });
+        }
+
+        stage.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') { e.preventDefault(); afficher(index - 1); planifier(); }
+            if (e.key === 'ArrowRight') { e.preventDefault(); afficher(index + 1); planifier(); }
+            if (e.key === 'Home') { e.preventDefault(); afficher(0); planifier(); }
+            if (e.key === 'End') { e.preventDefault(); afficher(frames.length - 1); planifier(); }
+        });
+
+        if (ecran) {
+            ecran.addEventListener('pointerdown', (e) => { departX = e.clientX; arreter(); });
+            ecran.addEventListener('pointerup', (e) => {
+                if (departX === null) return;
+                const delta = e.clientX - departX;
+                departX = null;
+                if (Math.abs(delta) > 40) afficher(delta < 0 ? index + 1 : index - 1);
+                planifier();
+            });
+            ecran.addEventListener('pointercancel', () => { departX = null; planifier(); });
+        }
+
+        stage.addEventListener('mouseenter', arreter);
+        stage.addEventListener('mouseleave', planifier);
+        stage.addEventListener('focusin', arreter);
+        stage.addEventListener('focusout', planifier);
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) arreter(); else planifier();
+        });
+
+        majPauseUI();
+        afficher(0);
+        planifier();
+    }
+
+    // Filtre rapide par tranche d'âge (pages Dompierre et La Jarrie)
+    function initFiltreCours() {
+        const groupe = document.querySelector('[data-filtre-groupe]');
+        if (!groupe) return;
+
+        const boutons = Array.from(groupe.querySelectorAll('[data-filtre]'));
+        const lignes = Array.from(groupe.querySelectorAll('.horaire-ligne[data-public]'));
+        const statut = groupe.querySelector('[data-filtre-statut]');
+
+        function appliquer(cat) {
+            let n = 0;
+            lignes.forEach((l) => {
+                const ok = cat === 'tous' || l.dataset.public === cat;
+                l.hidden = !ok;
+                if (ok) n += 1;
+            });
+            boutons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filtre === cat)));
+            if (statut) statut.textContent = `${n} créneau${n > 1 ? 'x' : ''} affiché${n > 1 ? 's' : ''}`;
+        }
+
+        boutons.forEach((b) => b.addEventListener('click', () => appliquer(b.dataset.filtre)));
+    }
+
+    // Copie en un clic des coordonnées (page Contact)
+    function initCopie() {
+        document.querySelectorAll('[data-copier]').forEach((btn) => {
+            btn.addEventListener('click', async () => {
+                const val = btn.dataset.copier;
+                const msg = btn.parentElement ? btn.parentElement.querySelector('.copie-msg') : null;
+                try {
+                    await navigator.clipboard.writeText(val);
+                } catch {
+                    const t = document.createElement('textarea');
+                    t.value = val;
+                    t.style.position = 'fixed';
+                    t.style.opacity = '0';
+                    document.body.appendChild(t);
+                    t.select();
+                    document.execCommand('copy');
+                    t.remove();
                 }
-            }, 8000);
-
-            zone.appendChild(iframe);
+                if (msg) {
+                    msg.textContent = 'Copié';
+                    window.setTimeout(() => { msg.textContent = ''; }, 2200);
+                }
+            });
         });
     }
 
-    function retirerFormulaires() {
-        zones.forEach(zone => {
-            zone.querySelectorAll('.form-iframe, .form-zone__statut').forEach(e => e.remove());
-            const repli = zone.querySelector('.form-repli');
+    // Consentement aux cookies tiers & affichage conditionnel Google Forms
+    function initCookies() {
+        const bandeau = document.getElementById('bandeau-cookies');
+        const modale = document.getElementById('modale-cookies');
+        const zones = Array.from(document.querySelectorAll('.form-zone'));
+        const timers = new WeakMap();
+        let declencheur = null;
+
+        zones.forEach((z) => {
+            const t = z.querySelector('.form-repli__texte');
+            if (t && !t.dataset.origine) t.dataset.origine = t.innerHTML;
+        });
+
+        function lireChoix() {
+            try { return localStorage.getItem(CLE_COOKIES); } catch { return null; }
+        }
+
+        function ecrireChoix(v) {
+            try { localStorage.setItem(CLE_COOKIES, v); } catch { /* navigation privée */ }
+        }
+
+        function annulerTimer(z) {
+            const id = timers.get(z);
+            if (id) {
+                window.clearTimeout(id);
+                timers.delete(z);
+            }
+        }
+
+        function restaurerRepli(z) {
+            const repli = z.querySelector('.form-repli');
+            const t = repli ? repli.querySelector('.form-repli__texte') : null;
+            if (t && t.dataset.origine) t.innerHTML = t.dataset.origine;
             if (repli) repli.hidden = false;
-        });
-    }
-
-    function ouvrirBandeau(origine) {
-        if (!bandeau) return;
-        declencheur = origine || null;
-        bandeau.hidden = false;
-        const premier = bandeau.querySelector('button');
-        if (premier && origine) premier.focus();
-    }
-
-    function fermerBandeau() {
-        if (!bandeau) return;
-        bandeau.hidden = true;
-        if (declencheur) {
-            declencheur.focus();
-            declencheur = null;
         }
-    }
 
-    function appliquer(choix) {
-        if (choix === 'accepte') {
-            afficherFormulaires();
-        } else {
-            retirerFormulaires();
+        function afficherFormulaires() {
+            zones.forEach((zone) => {
+                if (zone.querySelector('.form-iframe')) return;
+                const url = zone.dataset.formUrl;
+                if (!url) return;
+
+                const repli = zone.querySelector('.form-repli');
+                const t = repli ? repli.querySelector('.form-repli__texte') : null;
+                if (repli) repli.hidden = true;
+
+                const statut = document.createElement('p');
+                statut.className = 'form-zone__statut';
+                statut.setAttribute('role', 'status');
+                statut.textContent = 'Chargement du formulaire\u2026';
+                zone.appendChild(statut);
+
+                const iframe = document.createElement('iframe');
+                iframe.className = 'form-iframe';
+                iframe.title = zone.dataset.formTitre || 'Formulaire de préinscription';
+                iframe.src = `${url}${url.includes('?') ? '&' : '?'}embedded=true`;
+
+                let charge = false;
+                iframe.addEventListener('load', () => {
+                    charge = true;
+                    annulerTimer(zone);
+                    statut.remove();
+                    if (repli) {
+                        repli.hidden = true;
+                        if (t && t.dataset.origine) t.innerHTML = t.dataset.origine;
+                    }
+                });
+
+                const id = window.setTimeout(() => {
+                    if (charge) return;
+                    statut.remove();
+                    if (t) {
+                        t.textContent =
+                            "Le formulaire tarde à s'afficher, ou votre navigateur le bloque. Vous pouvez vous inscrire autrement :";
+                    }
+                    if (repli) repli.hidden = false;
+                }, 8000);
+                timers.set(zone, id);
+
+                zone.appendChild(iframe);
+            });
         }
-    }
 
-    // État initial
-    const choixInitial = lireChoix();
-    if (choixInitial) {
-        appliquer(choixInitial);
-    } else {
-        ouvrirBandeau(null);
-    }
-
-    if (bandeau) {
-        const accepter = bandeau.querySelector('.js-cookies-accepter');
-        const refuser = bandeau.querySelector('.js-cookies-refuser');
-
-        if (accepter) accepter.addEventListener('click', function () {
-            ecrireChoix('accepte');
-            appliquer('accepte');
-            fermerBandeau();
-        });
-
-        if (refuser) refuser.addEventListener('click', function () {
-            ecrireChoix('refuse');
-            appliquer('refuse');
-            fermerBandeau();
-            // Information ponctuelle sur la conséquence du refus. Déclenchée
-            // par le clic, donc jamais réaffichée d'elle-même par la suite.
-            ouvrirModale();
-        });
-
-        // Échap vaut refus tacite : on referme sans rien enregistrer,
-        // le bandeau réapparaîtra à la prochaine visite.
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape' && !bandeau.hidden) fermerBandeau();
-        });
-    }
-
-    // « Gérer les cookies » — pied de page et pages d'inscription
-    document.querySelectorAll('.js-cookies-rouvrir').forEach(bouton => {
-        bouton.addEventListener('click', function () {
-            ouvrirBandeau(bouton);
-        });
-    });
-
-    // ---- Modale d'information affichée après un refus ----
-
-    const modale = document.getElementById('modale-cookies');
-
-    function ouvrirModale() {
-        if (!modale) return;
-        // showModal() apporte le piège à focus, la fermeture par Échap et
-        // l'inertie de l'arrière-plan. Repli sur un affichage simple si le
-        // navigateur ne le gère pas.
-        if (typeof modale.showModal === 'function') {
-            modale.showModal();
-        } else {
-            modale.setAttribute('open', '');
+        function retirerFormulaires() {
+            zones.forEach((zone) => {
+                annulerTimer(zone);
+                zone.querySelectorAll('.form-iframe, .form-zone__statut').forEach((e) => e.remove());
+                restaurerRepli(zone);
+            });
         }
-        // On se place au début du contenu : sur un petit écran, le
-        // navigateur ferait sinon défiler jusqu'au premier bouton et
-        // masquerait le titre.
-        modale.focus();
-        modale.scrollTop = 0;
-    }
 
-    function fermerModale() {
-        if (!modale) return;
-        if (typeof modale.close === 'function') {
-            modale.close();
-        } else {
-            modale.removeAttribute('open');
-        }
-    }
-
-    if (modale) {
-        const continuer = modale.querySelector('.js-modale-continuer');
-        const accepterFinalement = modale.querySelector('.js-modale-accepter');
-
-        if (continuer) continuer.addEventListener('click', fermerModale);
-
-        if (accepterFinalement) accepterFinalement.addEventListener('click', function () {
-            ecrireChoix('accepte');
-            appliquer('accepte');
-            fermerModale();
-        });
-    }
-}
-
-// ========================================
-// CARROUSEL
-// ========================================
-
-function initCarousel() {
-    const carousel = document.querySelector('.carousel');
-    if (!carousel) return;
-    
-    const carouselInner = carousel.querySelector('.carousel-inner');
-    const items = carousel.querySelectorAll('.carousel-item');
-    const indicators = carousel.querySelectorAll('.indicator');
-    const prevBtn = carousel.querySelector('.prev');
-    const nextBtn = carousel.querySelector('.next');
-    const pauseBtn = carousel.querySelector('.carousel-pause');
-
-    let currentIndex = 0;
-    const totalItems = items.length;
-    let autoplayInterval = null;
-
-    // Un visiteur qui a demandé à réduire les animations ne doit pas subir
-    // de défilement automatique.
-    const animationsReduites = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let enPause = animationsReduites;
-
-    // Fonction pour mettre à jour le carrousel
-    function updateCarousel() {
-        carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-        // Mettre à jour les indicateurs
-        indicators.forEach((indicator, index) => {
-            const actif = index === currentIndex;
-            indicator.classList.toggle('active', actif);
-            indicator.setAttribute('aria-selected', actif ? 'true' : 'false');
-        });
-    }
-    
-    // Fonction pour aller à une slide spécifique
-    function goToSlide(index) {
-        currentIndex = index;
-        updateCarousel();
-        resetAutoplay();
-    }
-    
-    // Fonction pour la slide suivante
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % totalItems;
-        updateCarousel();
-    }
-    
-    // Fonction pour la slide précédente
-    function prevSlide() {
-        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-        updateCarousel();
-    }
-    
-    // Fonction pour démarrer l'autoplay
-    function startAutoplay() {
-        if (enPause) return;
-        stopAutoplay();
-        autoplayInterval = setInterval(nextSlide, 5000);
-    }
-
-    // Fonction pour arrêter l'autoplay
-    function stopAutoplay() {
-        clearInterval(autoplayInterval);
-        autoplayInterval = null;
-    }
-
-    // Fonction pour réinitialiser l'autoplay
-    function resetAutoplay() {
-        stopAutoplay();
-        startAutoplay();
-    }
-
-    // Bouton pause : exigence d'accessibilité pour tout contenu
-    // qui s'anime automatiquement plus de cinq secondes.
-    if (pauseBtn) {
-        pauseBtn.addEventListener('click', function() {
-            enPause = !enPause;
-            if (enPause) {
-                stopAutoplay();
-                pauseBtn.textContent = '▶';
-                pauseBtn.setAttribute('aria-label', 'Relancer le défilement du carrousel');
-            } else {
-                startAutoplay();
-                pauseBtn.textContent = '❚❚';
-                pauseBtn.setAttribute('aria-label', 'Mettre le carrousel en pause');
+        function ouvrirBandeau(origine) {
+            if (!bandeau) return;
+            declencheur = origine || null;
+            bandeau.hidden = false;
+            if (origine) {
+                const premier = bandeau.querySelector('button');
+                if (premier) premier.focus();
             }
-        });
-
-        if (animationsReduites) {
-            pauseBtn.textContent = '▶';
-            pauseBtn.setAttribute('aria-label', 'Relancer le défilement du carrousel');
         }
-    }
-    
-    // Événements sur les boutons
-    if (prevBtn) prevBtn.addEventListener('click', () => {
-        prevSlide();
-        resetAutoplay();
-    });
-    
-    if (nextBtn) nextBtn.addEventListener('click', () => {
-        nextSlide();
-        resetAutoplay();
-    });
-    
-    // Événements sur les indicateurs
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
-            goToSlide(index);
-        });
-    });
-    
-    // Pause au survol et à la navigation clavier
-    carousel.addEventListener('mouseenter', stopAutoplay);
-    carousel.addEventListener('mouseleave', startAutoplay);
-    carousel.addEventListener('focusin', stopAutoplay);
-    carousel.addEventListener('focusout', startAutoplay);
-    
-    // Démarrer l'autoplay
-    startAutoplay();
-}
 
-// ========================================
-// MENU MOBILE
-// ========================================
-
-function initMobileMenu() {
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navMenu = document.querySelector('nav ul');
-    
-    if (!menuToggle || !navMenu) return;
-    
-    // Synchronise l'état visuel et l'état annoncé aux lecteurs d'écran
-    function setMenu(ouvert) {
-        navMenu.classList.toggle('active', ouvert);
-        menuToggle.textContent = ouvert ? '✕' : '☰';
-        menuToggle.setAttribute('aria-expanded', ouvert ? 'true' : 'false');
-        menuToggle.setAttribute('aria-label', ouvert ? 'Fermer le menu' : 'Ouvrir le menu');
-    }
-
-    menuToggle.addEventListener('click', function() {
-        setMenu(!navMenu.classList.contains('active'));
-    });
-
-    // Fermeture au clavier
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && navMenu.classList.contains('active')) {
-            setMenu(false);
-            menuToggle.focus();
-        }
-    });
-    
-    // Fermer le menu en cliquant sur un lien
-    const navLinks = navMenu.querySelectorAll('a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            setMenu(false);
-        });
-    });
-    
-    // Fermer le menu en cliquant à l'extérieur
-    document.addEventListener('click', function(event) {
-        const isClickInsideNav = navMenu.contains(event.target);
-        const isClickOnToggle = menuToggle.contains(event.target);
-        
-        if (!isClickInsideNav && !isClickOnToggle && navMenu.classList.contains('active')) {
-            setMenu(false);
-        }
-    });
-}
-
-// ========================================
-// ANIMATIONS AU SCROLL
-// ========================================
-
-function initScrollAnimations() {
-    const animatedElements = document.querySelectorAll('.animate-on-scroll');
-    
-    if (animatedElements.length === 0) return;
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animated');
+        function fermerBandeau() {
+            if (!bandeau) return;
+            bandeau.hidden = true;
+            if (declencheur) {
+                declencheur.focus();
+                declencheur = null;
             }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-    
-    animatedElements.forEach(element => {
-        observer.observe(element);
-    });
-}
+        }
 
-// ========================================
-// SMOOTH SCROLL
-// ========================================
+        function ouvrirModale() {
+            if (!modale) return;
+            if (typeof modale.showModal === 'function') modale.showModal();
+            else modale.setAttribute('open', '');
+            modale.focus();
+            modale.scrollTop = 0;
+        }
 
-function initSmoothScroll() {
-    const links = document.querySelectorAll('a[href^="#"]');
-    
-    links.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
-            
-            if (targetElement) {
-                const headerOffset = 80;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
+        function fermerModale() {
+            if (!modale) return;
+            if (typeof modale.close === 'function') modale.close();
+            else modale.removeAttribute('open');
+        }
+
+        function appliquer(choix) {
+            if (choix === 'accepte') afficherFormulaires();
+            else retirerFormulaires();
+        }
+
+        const initial = lireChoix();
+        if (initial) appliquer(initial);
+        else ouvrirBandeau(null);
+
+        if (bandeau) {
+            const accepter = bandeau.querySelector('.js-cookies-accepter');
+            const refuser = bandeau.querySelector('.js-cookies-refuser');
+            if (accepter) {
+                accepter.addEventListener('click', () => {
+                    ecrireChoix('accepte');
+                    appliquer('accepte');
+                    fermerBandeau();
                 });
             }
-        });
-    });
-}
-
-// ========================================
-// UTILITAIRES
-// ========================================
-
-// Fonction pour afficher un message de confirmation
-function showNotification(message, type = 'success') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
-    
-    // Styles CSS pour la notification
-    Object.assign(notification.style, {
-        position: 'fixed',
-        top: '20px',
-        right: '20px',
-        padding: '15px 25px',
-        borderRadius: '6px',
-        color: 'white',
-        fontWeight: '600',
-        zIndex: '10000',
-        transform: 'translateX(100%)',
-        transition: 'transform 0.3s ease'
-    });
-    
-    if (type === 'success') {
-        notification.style.backgroundColor = '#28a745';
-    } else if (type === 'error') {
-        notification.style.backgroundColor = '#dc3545';
-    } else {
-        notification.style.backgroundColor = '#17a2b8';
-    }
-    
-    document.body.appendChild(notification);
-    
-    // Animation d'entrée
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Suppression après 3 secondes
-    setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    }, 3000);
-}
-
-// Protection contre le spam sur les formulaires
-function initFormProtection() {
-    const forms = document.querySelectorAll('form');
-    
-    forms.forEach(form => {
-        // Ajouter un champ honeypot invisible
-        const honeypot = document.createElement('input');
-        honeypot.type = 'text';
-        honeypot.name = 'website';
-        honeypot.style.display = 'none';
-        honeypot.setAttribute('aria-hidden', 'true');
-        
-        form.appendChild(honeypot);
-        
-        // Vérifier la soumission
-        form.addEventListener('submit', function(e) {
-            if (honeypot.value !== '') {
-                e.preventDefault();
-                console.log('Spam détecté');
-                return false;
+            if (refuser) {
+                refuser.addEventListener('click', () => {
+                    ecrireChoix('refuse');
+                    appliquer('refuse');
+                    fermerBandeau();
+                    ouvrirModale();
+                });
             }
-        });
-    });
-}
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !bandeau.hidden) fermerBandeau();
+            });
+        }
 
-// Initialiser la protection des formulaires
-document.addEventListener('DOMContentLoaded', initFormProtection);
+        if (modale) {
+            const continuer = modale.querySelector('.js-modale-continuer');
+            const accepter = modale.querySelector('.js-modale-accepter');
+            if (continuer) continuer.addEventListener('click', fermerModale);
+            if (accepter) {
+                accepter.addEventListener('click', () => {
+                    ecrireChoix('accepte');
+                    appliquer('accepte');
+                    fermerModale();
+                });
+            }
+        }
+
+        document.querySelectorAll('.js-cookies-rouvrir').forEach((b) => {
+            b.addEventListener('click', () => ouvrirBandeau(b));
+        });
+    }
+})();

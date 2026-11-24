@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Comparateur de styles — Théâtre 17 (Expérimentation)</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../src/favicon/favicon-32x32.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Instrument Sans', system-ui, sans-serif;
+            background: #f3f1ec;
+            color: #161614;
+            line-height: 1.55;
+            padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1rem, 3vw, 2.5rem);
+        }
+        .wrap { max-width: 1240px; margin: 0 auto; }
+        header {
+            border-bottom: 1px solid #161614;
+            padding-bottom: 1.75rem;
+            margin-bottom: 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1.5rem;
+            align-items: end;
+        }
+        @media (max-width: 760px) { header { grid-template-columns: 1fr; } }
+        .kicker {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #5c5952;
+            margin-bottom: 0.6rem;
+        }
+        h1 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: clamp(2rem, 4.5vw, 3.3rem);
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+        }
+        .lead {
+            max-width: 62ch;
+            margin-top: 0.9rem;
+            color: #3f3d38;
+            font-size: 1.02rem;
+        }
+        .note-box {
+            background: #ebe7de;
+            border: 1px solid rgba(22, 22, 20, 0.18);
+            padding: 0.9rem 1.1rem;
+            font-size: 0.88rem;
+            max-width: 340px;
+            color: #35332f;
+        }
+        .note-box strong { color: #161614; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+
+        .card {
+            background: #fff;
+            border: 1px solid #161614;
+            display: flex;
+            flex-direction: column;
+        }
+        .specimen {
+            padding: 1.6rem 1.5rem 1.4rem;
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-bottom: 1px solid #161614;
+        }
+        .specimen__num {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            opacity: 0.75;
+        }
+        .specimen__title {
+            margin: 0.65rem 0 0.75rem;
+            line-height: 1.02;
+        }
+        .swatches {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .swatch {
+            width: 22px;
+            height: 22px;
+            border: 1px solid rgba(0, 0, 0, 0.25);
+        }
+
+        /* Spécimen V1 */
+        .spec-v1 { background: #F5F2EB; color: #141413; }
+        .spec-v1 .specimen__title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-weight: 800;
+            font-size: 2rem;
+            letter-spacing: -0.03em;
+        }
+        .spec-v1 .specimen__title em { font-style: normal; color: #D9381E; }
+
+        /* Spécimen V2 */
+        .spec-v2 { background: #FAF8F3; color: #1F1D1A; }
+        .spec-v2 .specimen__title {
+            font-family: 'Fraunces', serif;
+            font-weight: 500;
+            font-size: 2rem;
+            letter-spacing: -0.02em;
+        }
+        .spec-v2 .specimen__title em { font-style: italic; color: #B8522E; }
+
+        /* Spécimen V3 */
+        .spec-v3 { background: #141518; color: #F4F1EA; }
+        .spec-v3 .specimen__title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 2.35rem;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+        }
+        .spec-v3 .specimen__title em { font-style: normal; color: #E0A458; }
+        .spec-v3 .swatch { border-color: rgba(255, 255, 255, 0.3); }
+
+        .card-body {
+            padding: 1.4rem 1.5rem 1.6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 1;
+        }
+        .card-body p { font-size: 0.95rem; color: #36342f; }
+        .meta {
+            list-style: none;
+            border-top: 1px solid #e2dfd7;
+            padding-top: 0.9rem;
+            display: grid;
+            gap: 0.45rem;
+            font-size: 0.88rem;
+        }
+        .meta li strong {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.76rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #625e56;
+            display: inline-block;
+            min-width: 72px;
+        }
+        .links {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #e2dfd7;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .btn-main {
+            display: block;
+            text-align: center;
+            padding: 0.75rem 1rem;
+            background: #161614;
+            color: #faf8f3;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background 150ms ease;
+        }
+        .btn-main:hover { background: #d9381e; }
+        .sublinks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem 0.75rem;
+            font-size: 0.84rem;
+        }
+        .sublinks a {
+            color: #36342f;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 3px;
+        }
+        .sublinks a:hover { color: #d9381e; }
+
+        .diff-section {
+            border-top: 1px solid #161614;
+            padding-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        @media (max-width: 760px) { .diff-section { grid-template-columns: 1fr; } }
+        .diff-section h2 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+        }
+        .diff-section ul {
+            padding-left: 1.1rem;
+            display: grid;
+            gap: 0.45rem;
+            font-size: 0.94rem;
+            color: #35332f;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <div>
+            <p class="kicker">Théâtre 17 · Expérimentation visuelle &amp; JS</p>
+            <h1>Trois pistes pour sortir du style «&nbsp;template IA&nbsp;»</h1>
+            <p class="lead">
+                Chaque proposition réinterprète l'ensemble des 5 pages du site à partir des vraies photos de scène et du portrait d'Emmanuelle Foltête, avec ses propres typographies, sa mise en page et un JavaScript réécrit. Une barre discrète en haut de chaque maquette permet de basculer d'un style à l'autre sur la même page.
+            </p>
+        </div>
+        <div class="note-box">
+            <strong>Note RGPD &amp; polices :</strong> pour faciliter l'essai rapide, les nouvelles polices sont chargées via Google Fonts dans ces maquettes. Une fois la piste retenue, les fichiers <code>.woff2</code> seront téléchargés et auto-hébergés dans <code>src/fonts/</code> afin de préserver le zéro-traceur.
+        </div>
+    </header>
+
+    <main class="grid">
+        <!-- V1 -->
+        <article class="card">
+            <div class="specimen spec-v1">
+                <span class="specimen__num">Piste 01 · Culturel &amp; graphique</span>
+                <div class="specimen__title">Affiche de <em>Saison</em></div>
+                <div class="swatches" aria-label="Palette Affiche de Saison">
+                    <span class="swatch" style="background:#F5F2EB" title="Papier #F5F2EB"></span>
+                    <span class="swatch" style="background:#141413" title="Encre #141413"></span>
+                    <span class="swatch" style="background:#D9381E" title="Coquelicot #D9381E"></span>
+                    <span class="swatch" style="background:#1E3A5F" title="Atlantique #1E3A5F"></span>
+                </div>
+            </div>
+            <div class="card-body">
+                <p>
+                    Inspirée des scènes nationales et des programmes culturels contemporains : grilles à filets francs, zéro ombre molle, touche coquelicot reprise du portrait d'Emmanuelle et bleu atlantique charentais.
+                </p>
+                <ul class="meta">
+                    <li><strong>Typos</strong> Bricolage Grotesque (FR) + Instrument Sans + IBM Plex Mono</li>
+                    <li><strong>Layout</strong> Hero asymétrique, programme numéroté, filtres par âge</li>
+                    <li><strong>JS</strong> Galerie chapitrée swipe/clavier + filtre Enfants/Ados/Adultes</li>
+                </ul>
+                <div class="links">
+                    <a class="btn-main" href="v1-affiche/index.html">Ouvrir la piste 01 — Accueil</a>
+                    <div class="sublinks">
+                        <a href="v1-affiche/dompierre.html">Dompierre</a>
+                        <a href="v1-affiche/la-jarrie.html">La Jarrie</a>
+                        <a href="v1-affiche/eloquence.html">Éloquence</a>
+                        <a href="v1-affiche/contact.html">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- V2 -->
+        <article class="card">
+            <div class="specimen spec-v2">
+                <span class="specimen__num">Piste 02 · Éditorial &amp; humaniste</span>
+                <div class="specimen__title">Cahier de <em>Texte</em></div>
+                <div class="swatches" aria-label="Palette Cahier de Texte">
+                    <span class="swatch" style="background:#FAF8F3" title="Vergé #FAF8F3"></span>
+                    <span class="swatch" style="background:#1F1D1A" title="Sépia #1F1D1A"></span>
+                    <span class="swatch" style="background:#26463B" title="Forêt #26463B"></span>
+                    <span class="swatch" style="background:#B8522E" title="Terre cuite #B8522E"></span>
+                </div>
+            </div>
+            <div class="card-body">
+                <p>
+                    Esprit édition théâtrale française (Actes Sud-Papiers, carnet de répétition) : respiration généreuse, mise en page asymétrique qui met les photos en valeur, pages d'inscription en 2 colonnes lisibles d'emblée.
+                </p>
+                <ul class="meta">
+                    <li><strong>Typos</strong> Fraunces (serif expressif) + Libre Franklin</li>
+                    <li><strong>Layout</strong> Rangées éditoriales alternées, bio portrait + lettrine, mentions en accordéon</li>
+                    <li><strong>JS</strong> Visionneuse à pellicule cliquable (sans autoplay imposé), déplier/replier mentions</li>
+                </ul>
+                <div class="links">
+                    <a class="btn-main" href="v2-cahier/index.html">Ouvrir la piste 02 — Accueil</a>
+                    <div class="sublinks">
+                        <a href="v2-cahier/dompierre.html">Dompierre</a>
+                        <a href="v2-cahier/la-jarrie.html">La Jarrie</a>
+                        <a href="v2-cahier/eloquence.html">Éloquence</a>
+                        <a href="v2-cahier/contact.html">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- V3 -->
+        <article class="card">
+            <div class="specimen spec-v3">
+                <span class="specimen__num">Piste 03 · Scénique &amp; contrasté</span>
+                <div class="specimen__title">Plateau &amp; <em>Coulisses</em></div>
+                <div class="swatches" aria-label="Palette Plateau & Coulisses">
+                    <span class="swatch" style="background:#141518" title="Pendrillon #141518"></span>
+                    <span class="swatch" style="background:#F6F4EF" title="Jour #F6F4EF"></span>
+                    <span class="swatch" style="background:#E0A458" title="Projecteur #E0A458"></span>
+                    <span class="swatch" style="background:#C43E2B" title="Rideau #C43E2B"></span>
+                </div>
+            </div>
+            <div class="card-body">
+                <p>
+                    Part de l'esthétique réelle des photos du site : un plateau anthracite où les pendrillons noirs des scènes se fondent naturellement, puis bascule sur un fond clair pour le confort de lecture des horaires et formulaires.
+                </p>
+                <ul class="meta">
+                    <li><strong>Typos</strong> Barlow Condensed (display scénique) + Hanken Grotesk</li>
+                    <li><strong>Layout</strong> Scène d'ouverture plein cadre, grille magazine, tableau d'horaires scannable</li>
+                    <li><strong>JS</strong> Fondu enchaîné scénique + barre de progression pausable + header adaptatif + filtres</li>
+                </ul>
+                <div class="links">
+                    <a class="btn-main" href="v3-plateau/index.html">Ouvrir la piste 03 — Accueil</a>
+                    <div class="sublinks">
+                        <a href="v3-plateau/dompierre.html">Dompierre</a>
+                        <a href="v3-plateau/la-jarrie.html">La Jarrie</a>
+                        <a href="v3-plateau/eloquence.html">Éloquence</a>
+                        <a href="v3-plateau/contact.html">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <section class="diff-section">
+        <div>
+            <h2>Ce qui a été corrigé sur le plan visuel</h2>
+            <ul>
+                <li>Abandon du trio <em>Playfair Display + Source Sans + Crimson Text</em> et de la palette bordeaux/crème/doré générique.</li>
+                <li>Suppression des cartes blanches arrondies flottantes avec ombres diffuses et rebond au survol.</li>
+                <li>Mise en page qui met les <strong>horaires et tarifs en évidence</strong> au lieu de les reléguer sous 7 000 px d'iframe.</li>
+                <li>Respect des visages et du cadre sur les photos de scène (plus de boutons ronds ni de dégradés noirs posés sur les élèves).</li>
+            </ul>
+        </div>
+        <div>
+            <h2>Ce qui a été revu dans le JavaScript</h2>
+            <ul>
+                <li>Suppression du code mort (<code>showNotification</code>, honeypot <code>initFormProtection</code> sans <code>&lt;form&gt;</code>) et des <code>.animate-on-scroll</code> gadgets.</li>
+                <li>Galeries accessibles : <strong>swipe tactile</strong> (Pointer Events), flèches clavier, pause sur onglet caché et respect de <code>prefers-reduced-motion</code>.</li>
+                <li>Correction du <code>.skip-link</code> (transfert effectif du focus sur <code>#contenu</code>) et du timer Google Forms (annulation propre et restauration du texte de repli).</li>
+                <li>Interactions concrètes : filtre instantané par tranche d'âge, copie en un clic des coordonnées, modale cookies cohérente avec les infos visibles en HTML.</li>
+            </ul>
+        </div>
+    </section>
+</div>
+</body>
+</html>

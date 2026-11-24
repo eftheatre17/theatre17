@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Cours de théâtre et d'éloquence — La Rochelle | Théâtre 17 (Piste 03)</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../src/favicon/favicon-32x32.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a href="#contenu" class="skip-link">Aller au contenu</a>
+
+    <header class="site-header">
+        <div class="container header-bar">
+            <a href="index.html" class="brand">
+                <span class="brand__nom">Théâtre <span>17</span></span>
+                <span class="brand__prof">Emmanuelle Foltête</span>
+            </a>
+
+            <nav class="site-nav" aria-label="Navigation principale">
+                <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="menu-principal" aria-label="Ouvrir le menu">Menu</button>
+                <ul id="menu-principal">
+                    <li><a href="index.html" class="is-active" aria-current="page">Accueil</a></li>
+                    <li><a href="dompierre.html">Dompierre</a></li>
+                    <li><a href="la-jarrie.html">La Jarrie</a></li>
+                    <li><a href="eloquence.html">Éloquence</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="contenu">
+        <!-- Ouverture plateau sombre -->
+        <section class="plateau-hero">
+            <div class="container plateau-grid">
+                <div>
+                    <p class="etiquette etiquette--ambre">Charente-Maritime · Saison 2026–2027</p>
+                    <h1>Cours de <span>théâtre</span> &amp; éloquence</h1>
+                    <p class="plateau-chapo">
+                        Avec <strong>Emmanuelle Foltête</strong> — venez découvrir votre potentiel scénique. Cours hebdomadaires pour enfants dès 7 ans, adolescents et adultes à Dompierre-sur-Mer et La Jarrie, et stages d'éloquence près de La Rochelle.
+                    </p>
+                    <div class="plateau-actions">
+                        <a href="dompierre.html" class="btn btn--ambre">Dompierre-sur-Mer</a>
+                        <a href="la-jarrie.html" class="btn btn--fantome">La Jarrie</a>
+                        <a href="eloquence.html" class="btn btn--fantome">Éloquence</a>
+                    </div>
+                </div>
+
+                <!-- Scène cross-fade avec barre de progression -->
+                <div class="scene-stage" data-plateau role="region" aria-roledescription="carrousel" aria-label="Scènes de cours et spectacles">
+                    <div class="scene-stage__ecran">
+                        <div class="scene-stage__frame is-active" aria-hidden="false"
+                             data-titre="Un espace d'expression libre"
+                             data-texte="Développez votre potentiel sur scène au sein d'une ambiance chaleureuse.">
+                            <img src="../../src/img/theatre1.png" alt="Élèves en costume jouant une scène autour d'une table sous les projecteurs">
+                        </div>
+                        <div class="scene-stage__frame" aria-hidden="true"
+                             data-titre="Apprentissage collectif"
+                             data-texte="Cours adaptés à tous âges et tous niveaux, enfants comme adultes.">
+                            <img src="../../src/img/theatre2.png" alt="Emmanuelle Foltête présentant un groupe d'adolescents sur scène">
+                        </div>
+                        <div class="scene-stage__frame" aria-hidden="true"
+                             data-titre="Du jeu au spectacle"
+                             data-texte="Diction, écoute, jeu scénique et représentations partagées sur scène.">
+                            <img src="../../src/img/theatre3.png" alt="Groupe d'enfants costumés levant les bras en scène lors d'un spectacle">
+                        </div>
+                    </div>
+
+                    <div class="scene-stage__pied">
+                        <div class="scene-stage__legende" aria-live="polite">
+                            <strong data-stage-titre>Un espace d'expression libre</strong>
+                            <span data-stage-texte>Développez votre potentiel sur scène au sein d'une ambiance chaleureuse.</span>
+                        </div>
+                        <div class="scene-stage__outils">
+                            <button type="button" class="stage-btn" data-stage-prev aria-label="Scène précédente">‹</button>
+                            <button type="button" class="stage-btn" data-stage-next aria-label="Scène suivante">›</button>
+                            <button type="button" class="stage-btn" data-stage-pause aria-label="Mettre en pause le défilement">❚❚</button>
+                        </div>
+                    </div>
+
+                    <div class="scene-stage__pistes" role="tablist" aria-label="Choisir une scène">
+                        <button type="button" class="piste-btn is-active" role="tab" aria-selected="true">
+                            <span class="piste-btn__barre"><span class="piste-btn__remplissage"></span></span>
+                            <span class="piste-btn__nom">01 · Scène</span>
+                        </button>
+                        <button type="button" class="piste-btn" role="tab" aria-selected="false">
+                            <span class="piste-btn__barre"><span class="piste-btn__remplissage"></span></span>
+                            <span class="piste-btn__nom">02 · Groupe</span>
+                        </button>
+                        <button type="button" class="piste-btn" role="tab" aria-selected="false">
+                            <span class="piste-btn__barre"><span class="piste-btn__remplissage"></span></span>
+                            <span class="piste-btn__nom">03 · Spectacle</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bandeau repères -->
+        <div class="reperes">
+            <div class="container">
+                <ul class="reperes-liste">
+                    <li><strong>Dès 7 ans</strong><span>Enfants, ados et adultes, tous niveaux</span></li>
+                    <li><strong>3 salles</strong><span>Dompierre-sur-Mer, Chagnolet &amp; La Jarrie</span></li>
+                    <li><strong>Depuis 2017</strong><span>Cours &amp; stages autour de La Rochelle</span></li>
+                    <li><strong>Spectacles</strong><span>Représentations sur scène chaque saison</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Offres (espace jour, grille magazine) -->
+        <section class="section">
+            <div class="container">
+                <div class="section-titre">
+                    <div>
+                        <p class="etiquette">Les cours &amp; stages</p>
+                        <h2>Théâtre 17 en Charente-Maritime</h2>
+                    </div>
+                    <p>
+                        Venez explorer l'art dramatique à travers des cours adaptés à tous les niveaux, des débutants aux confirmés, près de La Rochelle.
+                    </p>
+                </div>
+
+                <div class="magazine-grid">
+                    <article class="bloc-offre bloc-offre--vedette">
+                        <div class="bloc-offre__media">
+                            <img src="../../src/img/theatre2.png" alt="Cours de théâtre en groupe avec Emmanuelle Foltête sur scène">
+                        </div>
+                        <div class="bloc-offre__corps">
+                            <p class="etiquette">Hebdomadaire · Septembre à juin</p>
+                            <h3>Cours de théâtre enfants, ados et adultes</h3>
+                            <p>
+                                Développez votre expressivité, votre présence scénique et votre créativité à travers des exercices pratiques et des mises en scène collectives. Les groupes se retrouvent une fois par semaine par tranche d'âge et montent ensemble un spectacle de fin d'année. Débutants bienvenus, dès 7 ans.
+                            </p>
+                            <p class="bloc-offre__meta">Lieux : Dompierre-sur-Mer (Foyer Ferdinand Rieux) · La Jarrie (Salle des fêtes)</p>
+                            <div class="bloc-offre__actions">
+                                <a href="dompierre.html" class="btn">Cours à Dompierre</a>
+                                <a href="la-jarrie.html" class="btn btn--contour">Cours à La Jarrie</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="bloc-offre">
+                        <div class="bloc-offre__media">
+                            <img src="../../src/img/eloquence.png" alt="Élève en plein exercice d'expression lors d'un atelier">
+                        </div>
+                        <div class="bloc-offre__corps">
+                            <p class="etiquette">Stages week-end &amp; journée</p>
+                            <h3>Cours d'éloquence</h3>
+                            <p>
+                                Maîtrisez l'art de la prise de parole en public : voix, posture, structure du propos et gestion du trac, en petit groupe limité à 10 personnes.
+                            </p>
+                            <p class="bloc-offre__meta">Lieu : Salle du Tilleul, Chagnolet (Dompierre-sur-Mer)</p>
+                            <div class="bloc-offre__actions">
+                                <a href="eloquence.html" class="btn btn--contour">Voir les stages</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="bloc-offre">
+                        <div class="bloc-offre__media">
+                            <img src="../../src/img/theatre1.png" alt="Scène costumée autour d'une table sur plateau">
+                        </div>
+                        <div class="bloc-offre__corps">
+                            <p class="etiquette">Projets sur mesure</p>
+                            <h3>Ateliers thématiques</h3>
+                            <p>
+                                Contactez-moi pour créer un atelier sur mesure : improvisation, travail du corps, voix, texte classique ou contemporain. Entreprises, écoles, collèges, lycées et associations.
+                            </p>
+                            <p class="bloc-offre__meta">Public : Enfants, adolescents, adultes, débutants et confirmés</p>
+                            <div class="bloc-offre__actions">
+                                <a href="contact.html" class="btn btn--contour">Contactez-moi</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Biographie (retour en coulisses sombres) -->
+        <section class="section section--sombre">
+            <div class="container bio-coulisses">
+                <div class="bio-portrait">
+                    <img src="../../src/img/moi.png" alt="Portrait d'Emmanuelle Foltête avec un pétale de coquelicot sur le nez">
+                    <ul class="bio-jalons">
+                        <li><strong>Nice</strong><span>Premiers pas sur scène dès 6 ans, Conservatoire &amp; Université de théâtre</span></li>
+                        <li><strong>Paris</strong><span>Compagnie, écriture, jeu et projets événementiels</span></li>
+                        <li><strong>2014</strong><span>Installation à La Rochelle</span></li>
+                        <li><strong>2017</strong><span>Création des cours en Charente-Maritime</span></li>
+                    </ul>
+                </div>
+
+                <div class="bio-recit">
+                    <p class="etiquette etiquette--ambre">Me connaître</p>
+                    <h2>Emmanuelle Foltête</h2>
+                    <p class="bio-recit__sous">Professeure de théâtre et d'éloquence</p>
+                    <p>
+                        Une vie de théâtre, de Nice à La Rochelle en passant par Paris. Dès 6 ans, j'ai découvert le théâtre à Nice, et très vite, monter sur scène est devenu une évidence : un moyen de m'épanouir, de m'exprimer et d'aller à la rencontre des mots, des histoires et de leurs personnages.
+                    </p>
+                    <p>
+                        Après le Cousin Bibi Club, le Conservatoire, l'Espace Magnan et l'Université de théâtre, j'ai intégré une compagnie, joué, écrit, et complété mon parcours par un diplôme complet de maquilleuse professionnelle, de multiflexologue du visage et d'un bachelor chargée de projets événementiels.
+                    </p>
+                    <p>
+                        Installée à La Rochelle depuis 2014, je suis professeure de théâtre et d'éloquence à Dompierre-sur-Mer, La Jarrie et La Rochelle depuis 2017. Je transmets ma passion à des enfants, des adolescents et des adultes, dans différentes structures privées (France Travail, Ville de La Rochelle, CIPECMA, Comédie La Rochelle, ISFAC) et publiques (lycées, collèges, écoles, associations).
+                    </p>
+                    <p>
+                        Transmettre, c'est apprendre une deuxième fois — et c'est une source infinie de plaisir, de rencontres, de surprises, d'émotions partagées et d'adrénaline dont je ne pourrais plus me passer.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Valeurs (espace jour) -->
+        <section class="section">
+            <div class="container">
+                <div class="section-titre">
+                    <div>
+                        <p class="etiquette">L'expérience collective</p>
+                        <h2>Nous rejoindre vous intéresse ?</h2>
+                    </div>
+                    <p>
+                        Rejoindre un club de théâtre, c'est retrouver le même groupe chaque semaine, toute l'année, avec l'humain au cœur de chaque séance : le développement personnel et le lien social y sont la première richesse.
+                    </p>
+                </div>
+
+                <div class="valeurs-bande">
+                    <article class="valeur-carte">
+                        <h3>Confiance en soi</h3>
+                        <p>Apprenez à vous exprimer avec assurance, développez votre présence et votre impact personnel. Le théâtre aide à surmonter la timidité et à oser se montrer.</p>
+                    </article>
+                    <article class="valeur-carte">
+                        <h3>Créativité</h3>
+                        <p>Développez votre imagination et votre capacité à créer des personnages, des situations, des émotions. Explorez de nouvelles facettes de votre personnalité.</p>
+                    </article>
+                    <article class="valeur-carte">
+                        <h3>Travail d'équipe</h3>
+                        <p>Apprenez à écouter, à vous adapter, à collaborer. Le théâtre est une pratique collective qui forge des liens durables et développe l'empathie.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-row">
+            <div>
+                <p class="footer-nom">Théâtre <span>17</span> · Emmanuelle Foltête</p>
+                <p class="footer-sub">Cours de théâtre et d'éloquence en Charente-Maritime (17) · © 2026 Théâtre 17</p>
+            </div>
+            <div class="footer-links">
+                <a href="dompierre.html">Dompierre</a>
+                <a href="la-jarrie.html">La Jarrie</a>
+                <a href="eloquence.html">Éloquence</a>
+                <a href="contact.html">Contact &amp; Mentions légales</a>
+                <button type="button" class="lien-bouton js-cookies-rouvrir">Gérer les cookies</button>
+            </div>
+        </div>
+    </footer>
+
+    <div class="bandeau-cookies" id="bandeau-cookies" role="region" aria-labelledby="bandeau-cookies-titre" hidden>
+        <div class="bandeau-cookies__contenu">
+            <div>
+                <h2 id="bandeau-cookies-titre">Formulaires d'inscription et cookies</h2>
+                <p>
+                    Aucun traceur maison, aucune publicité. Seuls les formulaires de préinscription sont hébergés sur <strong>Google Forms</strong>. Tous les horaires et tarifs restent visibles sur le site même si vous refusez. <a href="contact.html#cookies">En savoir plus</a>.
+                </p>
+            </div>
+            <div class="bandeau-cookies__actions">
+                <button type="button" class="btn js-cookies-accepter">Accepter</button>
+                <button type="button" class="btn js-cookies-refuser">Refuser</button>
+            </div>
+        </div>
+    </div>
+
+    <dialog class="modale-cookies" id="modale-cookies" tabindex="-1" aria-labelledby="modale-cookies-titre">
+        <h2 id="modale-cookies-titre">Choix enregistré</h2>
+        <p>Vous avez refusé les cookies tiers : aucune donnée ne sera envoyée à Google pendant votre visite.</p>
+        <p class="modale-cookies__encadre">
+            <strong>Ce qui reste visible :</strong> tous les horaires, tarifs, adresses et modalités de cours restent consultables sur chaque page. Seul le formulaire intégré Google Forms est masqué.
+        </p>
+        <p>Pour vous préinscrire malgré tout, ouvrez le formulaire directement sur Google dans un nouvel onglet ou écrivez à <a href="mailto:eftheatre17@gmail.com">eftheatre17@gmail.com</a>.</p>
+        <div class="modale-cookies__actions">
+            <button type="button" class="btn btn--contour js-modale-continuer">Continuer sans cookies</button>
+            <button type="button" class="btn js-modale-accepter">Accepter Google Forms</button>
+        </div>
+    </dialog>
+
+    <script src="app.js" defer></script>
+    <script src="../proto-bar.js" data-version="v3-plateau" data-page="index.html" defer></script>
+</body>
+</html>

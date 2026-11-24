@@ -6,3 +6,8 @@ _site/
 # publié depuis _site/ par GitHub Actions : cette copie n'a rien à faire
 # dans le dépôt.
 beta/
+
+# Fichiers de suivi locaux (notes d'architecture, inventaire éditorial,
+# audit technique et journal) : ignorés par Git et hors des sources du site.
+.suivi/
+

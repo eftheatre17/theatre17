@@ -1,12 +1,41 @@
-/* ========================================
-   THEATRE 17 - Design Moderne & Chaleureux
-   ======================================== */
+/* ==========================================================================
+   THÉÂTRE 17 — PLATEAU & COULISSES
+   Ouverture sur pendrillon anthracite (en harmonie directe avec les photos de
+   scène) et projecteur ambre, puis passage lumineux pour les cours, horaires
+   et formulaires.
+   ========================================================================== */
 
-/* Reset et base */
-* {
+:root {
+    --plateau: #141518;
+    --plateau-eleve: #1D1F24;
+    --jour: #F6F4EF;
+    --jour-doux: #ECE8DF;
+    --blanc: #FFFFFF;
+    --encre: #17181B;
+    --encre-douce: #51535B;
+    --ivoire: #F4F1EA;
+    --ivoire-doux: rgba(244, 241, 234, 0.78);
+    --ambre: #E0A458;
+    --ambre-vif: #EEBA74;
+    /* Assombri pour garantir un contraste WCAG AA > 5:1 sur #F6F4EF et #FFFFFF */
+    --rideau: #B93724;
+    --rideau-fonce: #932A1B;
+    --trait-clair: rgba(23, 24, 27, 0.14);
+    --trait-sombre: rgba(244, 241, 234, 0.16);
+
+    /* Polices auto-hébergées — voir css/fonts.css */
+    --font-display: 'Barlow Condensed', Impact, sans-serif;
+    --font-corps: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+
+    --max-w: 1220px;
+    --gutter: clamp(1rem, 3vw, 2.25rem);
+    --duree: 200ms;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 /* Le navigateur masque [hidden] avec `display: none`, mais cette règle
@@ -16,1349 +45,143 @@
     display: none !important;
 }
 
-:root {
-    /* Palette de couleurs chaleureuse */
-    --bordeaux: #8B2635;
-    --bordeaux-clair: #A64452;
-    --bordeaux-fonce: #6B1E2A;
-    --doré: #D4A574;
-    --doré-clair: #E6C299;
-    --ivoire: #F8F6F0;
-    --blanc-casse: #FEFCF7;
-    --noir-theatre: #1A1A1A;
-    --gris-chaleureux: #4A4A4A;
-    --ombre-chaude: rgba(139, 38, 53, 0.15);
-    
-    /* Typographie — polices auto-hébergées, voir css/fonts.css */
-    --font-titre: 'Playfair Display', Georgia, serif;
-    --font-corps: 'Source Sans 3', system-ui, -apple-system, sans-serif;
-    --font-accent: 'Crimson Text', Georgia, serif;
-    
-    /* Espacements */
-    --espace-xs: 0.5rem;
-    --espace-sm: 1rem;
-    --espace-md: 1.5rem;
-    --espace-lg: 2rem;
-    --espace-xl: 3rem;
-    --espace-xxl: 4rem;
-    
-    /* Transitions */
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 body {
     font-family: var(--font-corps);
-    line-height: 1.7;
-    color: var(--gris-chaleureux);
-    background-color: var(--ivoire);
-    font-size: 1.1rem;
+    font-size: 1.03rem;
+    line-height: 1.64;
+    color: var(--encre);
+    background: var(--jour);
+    -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 {
-    font-family: var(--font-titre);
-    color: var(--bordeaux);
-    font-weight: 600;
-    line-height: 1.3;
+body.menu-open {
+    overflow: hidden;
 }
 
-h1 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    margin-bottom: var(--espace-lg);
-}
-
-h2 {
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-    margin-bottom: var(--espace-md);
-}
-
-h3 {
-    font-size: clamp(1.4rem, 2.5vw, 2rem);
-    margin-bottom: var(--espace-sm);
-}
-
-p {
-    margin-bottom: var(--espace-md);
-}
-
-/* Container */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--espace-md);
-}
-
-/* ========================================
-   HEADER & NAVIGATION
-   ======================================== */
-
-header {
-    background: linear-gradient(135deg, var(--blanc-casse) 0%, var(--ivoire) 100%);
-    box-shadow: 0 2px 20px var(--ombre-chaude);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    border-bottom: 1px solid rgba(139, 38, 53, 0.1);
-}
-
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--espace-sm) 0;
-}
-
-.logo {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    /* Le soulignement d'un lien se propage à ses enfants et ne peut pas
-       être annulé par eux : il doit être retiré ici, sur le lien lui-même. */
-    text-decoration: none;
-}
-
-.logo-text {
-    font-family: var(--font-titre);
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--bordeaux);
-    text-decoration: none;
-    letter-spacing: -0.5px;
-}
-
-.logo-subtitle {
-    font-family: var(--font-accent);
-    font-size: 0.95rem;
-    color: var(--gris-chaleureux);
-    font-style: italic;
-    margin-top: -5px;
-}
-
-/* Navigation */
-nav ul {
-    display: flex;
-    list-style: none;
-    gap: var(--espace-lg);
-}
-
-nav a {
-    font-family: var(--font-corps);
-    font-size: 1.05rem;
-    color: var(--gris-chaleureux);
-    text-decoration: none;
-    font-weight: 400;
-    padding: var(--espace-xs) var(--espace-sm);
-    border-radius: 4px;
-    transition: var(--transition);
-    position: relative;
-}
-
-nav a:hover {
-    color: var(--bordeaux);
-    background-color: rgba(139, 38, 53, 0.05);
-}
-
-nav a.active {
-    color: var(--bordeaux);
-    font-weight: 600;
-    background-color: rgba(139, 38, 53, 0.08);
-}
-
-/* Bouton mobile */
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--bordeaux);
-    cursor: pointer;
-}
-
-/* ========================================
-   HERO & CARROUSEL
-   ======================================== */
-
-/* Moins de retombée sous le carrousel : elle s'ajoutait à celle de la
-   section suivante, ce qui creusait un vide de 8 rem au milieu de la page. */
-.hero {
-    background: var(--blanc-casse);
-    padding: var(--espace-xxl) 0 var(--espace-lg);
-    text-align: center;
-}
-
-.hero-content {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.hero h1 {
-    margin-bottom: var(--espace-md);
-}
-
-.hero .subtitle {
-    font-family: var(--font-accent);
-    font-size: 1.3rem;
-    color: var(--gris-chaleureux);
-    font-style: italic;
-    margin-bottom: var(--espace-xl);
-}
-
-/* Bio */
-
-/* La biographie s'affiche en entier : pas de zone de défilement interne.
-   Un texte de présentation qu'il faut faire défiler dans une petite fenêtre
-   se lit mal, et Google n'en indexerait qu'une partie visible. */
-.bio-card__text {
-    flex: 1;
-    text-align: left;
-}
-
-
-.bio-card__paragraph {
-    margin-bottom: var(--espace-sm);
-}
-
-    /* 2 colonnes: titre à gauche / texte à droite */
-.bio-card .card-content{
-    display: flex;
-    gap: var(--espace-lg);
-    align-items: flex-start;
-    /* La carte s'aligne sur les autres, mais la colonne de texte ne doit pas
-       s'étirer sur toute cette largeur : on plafonne le contenu et on le
-       centre dans la carte. */
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-/* Colonne gauche */
-.bio-card__title{
-    flex: 0 0 25%;   /* largeur fixe (ajuste) */
-}
-
-/* Image à gauche.
-   L'image optimisée est enveloppée dans un <picture>, qui est inline par
-   defaut : l'image se calait donc à gauche de la colonne pendant que le nom
-   et le sous-titre, eux, étaient centrés. On rend le <picture> bloc, et on
-   centre l'image dedans. */
-.bio-card__title picture{
+img {
     display: block;
-}
-
-.bio-card__image{
-    width: 100%;
-    max-width: 220px;  /* ajuste */
+    max-width: 100%;
     height: auto;
-    display: block;
-    border-radius: 50%;
-    margin: 0 auto var(--espace-sm);
 }
 
-/* Responsive: en mobile, on repasse en colonne */
-@media (max-width: 768px){
-  .bio-card .card-content{
-    flex-direction: column;
-  }
-  .bio-card__title{
-    flex-basis: auto;
-  }
+a {
+    color: inherit;
 }
 
-/* Cet encart se calait sur 65 % de la largeur de l'écran, alors que toutes
-   les autres sections passent par .container : il était visiblement plus
-   étroit que le reste, et franchement à l'étroit sur un téléphone. Il suit
-   désormais la même largeur que les cartes situées au-dessus. */
-.bio-section {
-    text-align: center;
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex="-1"]:focus {
+    outline: 2.5px solid var(--ambre);
+    outline-offset: 3px;
 }
 
-/* Carrousel */
-.carousel {
-    position: relative;
-    max-width: 900px;
-    margin: 0 auto;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 40px var(--ombre-chaude);
-}
-
-.carousel-inner {
-    display: flex;
-    transition: transform 0.5s ease;
-}
-
-.carousel-item {
-    min-width: 100%;
-    height: 400px;
-    position: relative;
-}
-
-.carousel-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* La réserve du bas laisse la place aux pastilles de navigation, qui sont
-   posées par-dessus la légende et chevauchaient sa dernière ligne. */
-.carousel-caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(26, 26, 26, 0.85));
-    color: var(--blanc-casse);
-    padding: var(--espace-xl) var(--espace-lg);
-    padding-bottom: var(--espace-xl);
-    text-align: left;
-}
-
-.carousel-caption h2,
-.carousel-caption h3 {
-    color: var(--doré-clair);
-    font-size: 1.5rem;
-    margin-bottom: var(--espace-xs);
-}
-
-.carousel-caption p {
-    font-size: 1rem;
-    margin-bottom: 0;
-    opacity: 0.9;
-}
-
-.carousel-controls {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 var(--espace-md);
-}
-
-.carousel-control {
-    background: var(--bordeaux);
-    color: white;
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.2rem;
-    transition: var(--transition);
-    opacity: 0.8;
-}
-
-.carousel-control:hover {
-    background: var(--bordeaux-fonce);
-    opacity: 1;
-}
-
-.carousel-indicators {
-    position: absolute;
-    bottom: var(--espace-md);
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: var(--espace-xs);
-}
-
-/* Boutons (et non plus de simples <span>) : accessibles au clavier */
-.indicator {
-    width: 12px;
-    height: 12px;
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.indicator.active {
-    background: var(--doré);
-    transform: scale(1.2);
-}
-
-/* ========================================
-   SECTIONS
-   ======================================== */
-
-section {
-    padding: var(--espace-xxl) 0;
-}
-
-/* Fond alterné explicite. L'ancienne règle reposait sur la position de la
-   section dans le document : insérer une section ailleurs inversait tous
-   les fonds situés en dessous. */
-.section--alt {
-    background: var(--blanc-casse);
-}
-
-.section-header {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto var(--espace-xxl);
-}
-
-.section-header h2 {
-    margin-bottom: var(--espace-md);
-}
-
-.section-header p {
-    font-size: 1.2rem;
-    color: var(--gris-chaleureux);
-}
-
-/* Cards */
-.cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--espace-xl);
-}
-
-.card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 25px rgba(139, 38, 53, 0.1);
-    transition: var(--transition);
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 35px rgba(139, 38, 53, 0.15);
-}
-
-.card-image {
-    height: 200px;
-    overflow: hidden;
-}
-
-.card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: var(--transition);
-}
-
-.card:hover .card-image img {
-    transform: scale(1.05);
-}
-
-.card-content {
-    padding: var(--espace-lg);
-}
-
-.card h3 {
-    margin-bottom: var(--espace-sm);
-}
-
-.card p {
-    margin-bottom: var(--espace-md);
-}
-
-/* Chaîne nécessaire au « margin-top: auto » des boutons plus bas : la hauteur
-   de la carte doit se transmettre jusqu'au bloc de contenu pour qu'il reste
-   de l'espace à repousser. Volontairement limité aux cartes en grille, pour
-   ne pas défaire la mise en deux colonnes de la carte biographie. */
-.cards-grid .card {
-    display: flex;
-    flex-direction: column;
-}
-
-.cards-grid .card-content {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
-
-/* Boutons */
-.btn {
-    display: inline-block;
-    padding: var(--espace-sm) var(--espace-lg);
-    background: var(--bordeaux);
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: 600;
-    transition: var(--transition);
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-.btn:hover {
-    background: var(--bordeaux-fonce);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px var(--ombre-chaude);
-}
-
-.btn-secondary {
-    background: transparent;
-    color: var(--bordeaux);
-    border: 2px solid var(--bordeaux);
-}
-
-.btn-secondary:hover {
-    background: var(--bordeaux);
-    color: white;
-}
-
-/* ========================================
-   PAGES FORMULAIRES
-   ======================================== */
-
-.form-page {
-    min-height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-/* .form-page centre son contenu en flex : sans largeur explicite, .container
-   s'ajuste à son contenu au lieu d'occuper la place disponible, et la carte
-   se réglait alors sur le plus large des textes qu'elle contient. */
-.form-page .container {
-    width: 100%;
-}
-
-/* Google Forms plafonne son contenu à 640 px : la carte plus large ne rend
-   pas le formulaire plus large, elle lui donne de l'air. C'est le but ici —
-   un cadre trop ajusté autour du formulaire donnait une page à l'étroit. */
-.form-container {
-    max-width: 920px;
-    width: 100%;
-    margin: 0 auto;
-}
-
-/* Le liseré doré en pointillés faisait lire la page comme un brouillon
-   inachevé. Un filet plein en tête donne la même touche de couleur sans
-   cet effet de zone à remplir. */
-/* Rembourrage latéral plus mesuré que vertical : c'est lui qui rognait la
-   largeur utile du formulaire, alors que Google Forms ajoute déjà ses
-   propres marges à l'intérieur de l'iframe. */
-.form-placeholder {
-    background: white;
-    border-radius: 12px;
-    padding: var(--espace-xl) var(--espace-lg);
-    box-shadow: 0 10px 40px var(--ombre-chaude);
-    border-top: 4px solid var(--doré);
-}
-
-.form-placeholder h2 {
-    color: var(--bordeaux);
-    margin-bottom: var(--espace-md);
-}
-
-.form-placeholder p {
-    color: var(--gris-chaleureux);
-    margin-bottom: var(--espace-lg);
-}
-
-.form-iframe {
-    width: 100%;
-    min-height: 600px;
-    border: none;
-    border-radius: 8px;
-}
-
-/* ========================================
-   CONTACT & MENTIONS LEGALES
-   ======================================== */
-
-.contact-section {
-    background: white;
-    border-radius: 12px;
-    padding: var(--espace-xxl);
-    box-shadow: 0 5px 25px var(--ombre-chaude);
-    margin-bottom: var(--espace-xl);
-}
-
-/* Deux colonnes fixes plutôt qu'un auto-fit : il y a quatre entrées, et
-   l'auto-fit en logeait trois par ligne sur grand écran, laissant « Lieux
-   des cours » seul sur une deuxième ligne avec un grand vide à sa droite.
-   En 2 × 2, la grille reste équilibrée à toutes les largeurs. */
-.contact-info {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--espace-xl);
-    margin-bottom: var(--espace-xl);
-}
-
-.contact-item {
-    text-align: center;
-}
-
-/* Le téléphone et l'email sont l'objet même de cette page : ils doivent se
-   voir comme des liens. La couleur seule ne suffit pas à les signaler à qui
-   distingue mal les teintes, d'où le soulignement. */
-.contact-item a {
-    color: var(--bordeaux);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-color: var(--doré);
-    transition: var(--transition);
-}
-
-.contact-item a:hover {
-    color: var(--bordeaux-fonce);
-    text-decoration-color: var(--bordeaux);
-}
-
-.mentions-section {
-    background: white;
-    border-radius: 12px;
-    padding: var(--espace-xxl);
-    box-shadow: 0 5px 25px var(--ombre-chaude);
-}
-
-.mentions-section h2 {
-    color: var(--bordeaux);
-    margin-bottom: var(--espace-lg);
-    padding-bottom: var(--espace-sm);
-    border-bottom: 2px solid var(--doré);
-}
-
-.mentions-section h3 {
-    color: var(--bordeaux-clair);
-    margin-top: var(--espace-xl);
-    margin-bottom: var(--espace-md);
-}
-
-.mentions-section p, .mentions-section ul {
-    margin-bottom: var(--espace-md);
-}
-
-.mentions-section ul {
-    padding-left: var(--espace-lg);
-}
-
-.mentions-section li {
-    margin-bottom: var(--espace-xs);
-}
-
-/* ========================================
-   FOOTER
-   ======================================== */
-
-footer {
-    background: var(--noir-theatre);
-    color: var(--ivoire);
-    padding: var(--espace-xl) 0;
-    text-align: center;
-}
-
-.footer-content {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-footer p {
-    margin-bottom: var(--espace-sm);
-}
-
-footer a {
-    color: var(--doré);
-    text-decoration: none;
-    transition: var(--transition);
-}
-
-footer a:hover {
-    color: var(--doré-clair);
-}
-
-/* ========================================
-   RESPONSIVE
-   ======================================== */
-
-@media (max-width: 768px) {
-    .menu-toggle {
-        display: block;
-    }
-    
-    nav ul {
-        position: fixed;
-        top: 80px;
-        left: -100%;
-        width: 100%;
-        height: calc(100vh - 80px);
-        background: var(--blanc-casse);
-        flex-direction: column;
-        align-items: center;
-        padding-top: var(--espace-xxl);
-        transition: var(--transition);
-        box-shadow: 0 10px 20px var(--ombre-chaude);
-    }
-    
-    nav ul.active {
-        left: 0;
-    }
-    
-    nav a {
-        font-size: 1.2rem;
-        padding: var(--espace-md);
-    }
-    
-    /* Sur un téléphone, la légende occupait plus de la moitié de la
-       diapositive et les flèches se retrouvaient posées sur son titre. On
-       donne un peu de hauteur, on resserre le titre sur une ligne et on
-       remonte les flèches au-dessus de la zone de texte. */
-    .carousel-item {
-        height: 340px;
-    }
-
-    .carousel-caption {
-        padding: var(--espace-lg) var(--espace-md);
-        padding-bottom: var(--espace-xl);
-    }
-
-    .carousel-caption h2,
-    .carousel-caption h3 {
-        font-size: 1.25rem;
-    }
-
-    .carousel-controls {
-        top: 38%;
-    }
-
-    .carousel-control {
-        width: 40px;
-        height: 40px;
-    }
-
-    .cards-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .contact-info {
-        grid-template-columns: 1fr;
-    }
-
-    .form-placeholder {
-        padding: var(--espace-lg) var(--espace-md);
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 0 var(--espace-sm);
-    }
-    
-    section {
-        padding: var(--espace-xl) 0;
-    }
-    
-    .hero {
-        padding: var(--espace-xl) 0;
-    }
-    
-    /* À 250 px, la légende mangeait les deux tiers de la diapositive et il ne
-       restait presque plus d'image. On rend un peu de hauteur et on resserre
-       la légende plutôt que de la laisser tout recouvrir. */
-    .carousel-item {
-        height: 300px;
-    }
-
-    .carousel-caption {
-        padding-top: var(--espace-md);
-    }
-
-    .carousel-caption p {
-        font-size: 0.9rem;
-    }
-
-    /* Bord à bord. Google impose déjà une vingtaine de pixels de marge de
-       chaque côté à l'intérieur de son iframe ; chaque marge que nous
-       ajoutons par-dessus se paie en mots par ligne. On rend donc toute la
-       largeur de l'écran au formulaire, et on ré-applique une marge au seul
-       texte, qui en a besoin pour rester lisible. */
-    .form-page .container {
-        padding: 0;
-    }
-
-    .form-placeholder {
-        padding: var(--espace-lg) 0;
-        border-radius: 0;
-    }
-
-    .form-placeholder > h1,
-    .form-placeholder > h2,
-    .form-placeholder > p,
-    .form-placeholder > .saison {
-        padding-left: var(--espace-sm);
-        padding-right: var(--espace-sm);
-    }
-
-    /* Le repli, lui, reste une boîte : il garde ses marges. */
-    .form-repli {
-        margin-left: var(--espace-sm);
-        margin-right: var(--espace-sm);
-    }
-
-    .logo-text {
-        font-size: 1.6rem;
-    }
-}
-
-/* Écrans peu hauts : téléphone en paysage, mais surtout fort grossissement.
-   À 300 % de zoom la hauteur utile tombe sous 400 px, et un en-tête collant
-   y confisque le tiers ou la moitié de l'écran en permanence. Il redevient
-   alors un en-tête ordinaire, qui défile avec la page.
-   Le critère WCAG 1.4.10 exige que le contenu reste consultable jusqu'à
-   400 % de zoom. */
-@media (max-height: 500px) {
-    header {
-        position: static;
-    }
-
-    .header-content {
-        padding: var(--espace-xs) 0;
-    }
-
-    .logo-text {
-        font-size: 1.5rem;
-    }
-
-    .logo-subtitle {
-        display: none;
-    }
-
-    /* Le bandeau est ancré en bas et grandit vers le haut : plus haut que
-       l'écran, son début débordait hors champ et le texte du consentement
-       devenait tout simplement illisible. Il défile maintenant sur lui-même. */
-    .bandeau-cookies {
-        max-height: 100vh;
-        overflow-y: auto;
-    }
-}
-
-/* ========================================
-   ANIMATIONS
-   ======================================== */
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.fade-in-up {
-    animation: fadeInUp 0.6s ease-out;
-}
-
-/* Scroll animations */
-@media (prefers-reduced-motion: no-preference) {
-    .animate-on-scroll {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    
-    .animate-on-scroll.animated {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-/* ========================================
-   AJOUTS V1.5
-   ======================================== */
-
-/* Lien d'évitement : premier élément focusable de la page, il permet
-   d'atteindre le contenu sans parcourir tout le menu au clavier. */
+/* Lien d'évitement : premier élément focusable de la page */
 .skip-link {
     position: absolute;
     left: -9999px;
     top: 0;
-    z-index: 1100;
-    padding: var(--espace-sm) var(--espace-md);
-    background: var(--bordeaux);
-    color: white;
+    z-index: 2000;
+    background: var(--ambre);
+    color: var(--plateau);
+    padding: 0.75rem 1.2rem;
+    font-weight: 600;
     text-decoration: none;
-    border-radius: 0 0 6px 0;
 }
 
 .skip-link:focus {
     left: 0;
 }
 
-/* Indicateur de focus visible sur tous les éléments interactifs */
-a:focus-visible,
-button:focus-visible {
-    outline: 3px solid var(--bordeaux);
-    outline-offset: 3px;
-    border-radius: 2px;
-}
-
-.carousel-caption a:focus-visible,
-footer a:focus-visible {
-    outline-color: var(--doré);
-}
-
-/* Les images optimisées sont enveloppées dans <picture> : le conteneur
-   doit se comporter comme un bloc pour que les hauteurs soient respectées. */
-.carousel-item picture,
-.card-image picture {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
-
-.card-image img,
-.carousel-item img {
-    display: block;
-}
-
-/* Bouton pause du carrousel */
-.carousel-pause {
-    position: absolute;
-    top: var(--espace-md);
-    right: var(--espace-md);
-    width: 40px;
-    height: 40px;
-    border: none;
-    border-radius: 50%;
-    background: rgba(26, 26, 26, 0.6);
-    color: white;
-    font-size: 0.8rem;
-    line-height: 1;
-    cursor: pointer;
-    opacity: 0.85;
-    transition: var(--transition);
-}
-
-.carousel-pause:hover {
-    background: var(--bordeaux);
-    opacity: 1;
-}
-
-/* Accroche de la page d'accueil */
-.hero-auteur {
-    font-size: 1.2rem;
-    margin-bottom: var(--espace-md);
-}
-
-/* Boutons d'une carte : alignés et espacés sans <br> */
-.card-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--espace-sm);
-    justify-content: center;
-    margin-bottom: 0;
-    /* Repousse la rangée de boutons tout en bas de la carte. La grille donne
-       déjà la même hauteur à toutes les cartes ; sans cela, chaque bouton se
-       calait sous son texte et se retrouvait à une hauteur différente selon
-       la longueur du paragraphe. */
-    margin-top: auto;
-}
-
-/* ---- Pages d'inscription ---- */
-
-/* Ces pages ont désormais un vrai titre principal (elles n'en avaient
-   aucun). On lui redonne la taille d'un titre de section : la taille
-   d'un h1 d'accueil serait démesurée ici. */
-.form-placeholder h1 {
-    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
-    margin-bottom: var(--espace-md);
-}
-
-/* La carte s'élargit pour le formulaire, mais pas le texte : au-delà d'une
-   soixantaine de caractères, l'œil peine à retrouver le début de la ligne
-   suivante — d'autant plus sur des paragraphes centrés. */
-.form-placeholder > p {
-    max-width: 58ch;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Les titres intermédiaires de ces pages sont des repères de lecture, pas
-   des titres de section : à la taille globale d'un h2 ils écraseraient le
-   titre de la page. */
-.form-placeholder h2 {
-    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
-    margin-bottom: var(--espace-md);
-}
-
-.form-placeholder h3 {
-    font-size: 1.2rem;
-    margin-bottom: var(--espace-sm);
-}
-
-.form-intro {
-    font-family: var(--font-accent);
-    font-size: 1.15rem;
-    font-style: italic;
-}
-
-/* ---- Détail de la saison ---- */
-
-/* Aligné à gauche à l'intérieur d'une page centrée : des listes et des
-   fiches centrées se lisent mal, l'œil perd le début de chaque ligne. */
-.saison {
-    max-width: 760px;
-    margin: var(--espace-xxl) auto 0;
-    padding-top: var(--espace-xl);
-    border-top: 1px solid rgba(139, 38, 53, 0.15);
-    text-align: left;
-}
-
-.saison > h2 {
-    text-align: center;
-}
-
-/* Une fiche par cours plutôt qu'un tableau. À quatre colonnes dans une
-   colonne de texte étroite, les cellules se cassaient en trois lignes et
-   les hauteurs de rangées partaient dans tous les sens. */
-/* align-items: start — sans quoi la grille étire toutes les cartes d'une
-   rangée à la hauteur de la plus haute, et celle qui porte une remarque
-   creusait un vide au milieu de sa voisine. Chaque carte épouse son
-   contenu ; les rangées sont légèrement inégales, ce qui se voit à peine. */
-.cours-liste {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    align-items: start;
-    gap: var(--espace-md);
-    margin-bottom: var(--espace-xl);
-}
-
-.cours-carte {
-    background: var(--ivoire);
-    border: 1px solid rgba(139, 38, 53, 0.12);
-    border-left: 4px solid var(--doré);
-    border-radius: 0 8px 8px 0;
-    padding: var(--espace-md);
-}
-
-/* Les règles suivantes sont préfixées par .saison, et c'est volontaire : le
-   bloc est imbriqué dans .form-placeholder, dont les règles « p » et « h3 »
-   imposent leurs marges à tout descendant. Elles conviennent au texte qui
-   accompagne le formulaire, pas à des fiches, et une simple classe ne suffit
-   pas à reprendre la main. */
-.saison .cours-carte__nom {
-    font-family: var(--font-corps);
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--bordeaux);
-    margin-bottom: var(--espace-xs);
-}
-
-.saison .cours-carte__creneau {
-    margin-bottom: var(--espace-sm);
-}
-
-.cours-carte__jour {
-    font-weight: 600;
-    color: var(--noir-theatre);
-}
-
-/* Le point sépare le jour de l'horaire sans ajouter de balise, et disparaît
-   proprement si l'un des deux manque. */
-.cours-carte__jour + .cours-carte__horaire::before {
-    content: " · ";
-    color: var(--doré);
-}
-
-/* Variante pour les stages, dont la date est trop longue pour partager une
-   ligne avec l'horaire. */
-.cours-carte__horaire--bloc {
-    display: block;
-}
-
-.cours-carte__jour + .cours-carte__horaire--bloc::before {
-    content: none;
-}
-
-.saison .cours-carte__tarif {
-    margin-bottom: 0;
-    font-size: 1.1rem;
-}
-
-.cours-carte__tarif strong {
-    color: var(--bordeaux);
-}
-
-.cours-carte__precision,
-.cours-carte__note {
-    display: block;
-    font-size: 0.85rem;
-    color: var(--gris-chaleureux);
-}
-
-.saison .cours-carte__note {
-    margin-top: var(--espace-sm);
-    margin-bottom: 0;
-    font-style: italic;
-}
-
-.cours-carte__tarifs {
-    margin-bottom: 0;
-    padding-left: var(--espace-md);
-    font-size: 0.95rem;
-}
-
-/* Intitulé à gauche, valeur à droite. La grille garde les valeurs alignées
-   entre elles quelle que soit la longueur des intitulés. */
-.saison__pratique {
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    gap: var(--espace-xs) var(--espace-md);
-    margin-bottom: var(--espace-xl);
-}
-
-.saison__pratique dt {
-    font-weight: 600;
-    color: var(--bordeaux);
-}
-
-.saison__pratique dd {
-    margin: 0;
-}
-
-.saison__adresse {
-    color: var(--gris-chaleureux);
-    font-size: 0.95rem;
-}
-
-.saison__modalites {
-    padding-left: var(--espace-md);
-    margin-bottom: var(--espace-xl);
-}
-
-.saison__modalites li {
-    margin-bottom: var(--espace-sm);
-}
-
-/* La réserve sur l'exactitude des informations. Visible sans être alarmante :
-   c'est une précision utile, pas un avertissement. */
-.saison .saison__reserve {
-    background: var(--ivoire);
-    border-left: 4px solid var(--doré);
-    padding: var(--espace-md);
-    border-radius: 0 8px 8px 0;
-    font-size: 0.95rem;
-    margin-bottom: 0;
-}
-
-/* Sur un téléphone, l'intitulé passe au-dessus de sa valeur : deux colonnes
-   dans 350 px laisseraient trop peu de place aux adresses. */
-@media (max-width: 560px) {
-    .saison__pratique {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-
-    .saison__pratique dd {
-        margin-bottom: var(--espace-sm);
-    }
-}
-
-.form-iframe {
-    width: 100%;
-    min-height: 600px;
-    border: none;
-    border-radius: 8px;
-    margin-bottom: var(--espace-lg);
-}
-
-/* Piège au défilement tactile.
-   Le formulaire fait près de 7000 px de haut : dès que le doigt se pose
-   dessus, tout le geste part dans l'iframe et la page ne bouge plus. Avant
-   le passage bord à bord, les marges de la carte servaient de zone de
-   rattrapage ; il n'en restait plus aucune.
-   Rien ne permet de récupérer le geste depuis l'iframe : elle appartient à
-   Google, overscroll-behavior ne franchit pas cette frontière.
-   Ces deux bandes transparentes recouvrent les marges vides que Google
-   ménage lui-même de part et d'autre de son formulaire (18 px mesurés, les
-   premiers champs commencent à 42 px). Elles font partie de notre page :
-   un glissement qui démarre là fait défiler la page — sans rien masquer,
-   sans rien rétrécir. */
-@media (hover: none) {
-    .form-zone:has(.form-iframe) {
-        position: relative;
-    }
-
-    .form-zone:has(.form-iframe)::before,
-    .form-zone:has(.form-iframe)::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: var(--espace-lg);
-        width: 28px;
-        z-index: 2;
-    }
-
-    .form-zone:has(.form-iframe)::before {
-        left: 0;
-    }
-
-    .form-zone:has(.form-iframe)::after {
-        right: 0;
-    }
-}
-
-.form-infos {
-    font-size: 0.9rem;
-    color: var(--gris-chaleureux);
-    margin-bottom: 0;
-}
-
-.form-infos a {
-    color: var(--bordeaux);
-}
-
-/* ---- Page contact ---- */
-
-.contact-page {
-    padding: var(--espace-xxl) 0;
-}
-
-/* « Téléphone », « Email », « Lieux des cours » sont des intitulés, pas des
-   titres de section : à 2rem ils rivalisaient avec le titre de la page et
-   écrasaient l'information qu'ils annoncent. */
-.contact-item h2 {
-    font-size: 1.3rem;
-    color: var(--bordeaux);
-    margin-bottom: var(--espace-xs);
-}
-
-.contact-horaires {
-    text-align: center;
-    margin-top: var(--espace-xl);
-    padding-top: var(--espace-lg);
-    border-top: 1px solid rgba(139, 38, 53, 0.2);
-}
-
-.contact-horaires h2 {
-    font-size: clamp(1.4rem, 2.5vw, 2rem);
-    margin-bottom: var(--espace-sm);
-}
-
-.contact-horaires .btn {
-    margin-top: var(--espace-md);
-}
-
-.mentions-maj {
-    margin-top: var(--espace-xl);
-    padding-top: var(--espace-lg);
-    border-top: 1px solid rgba(139, 38, 53, 0.2);
-    font-size: 0.9rem;
-    text-align: center;
-}
-
-.mentions-section a {
-    color: var(--bordeaux);
-}
-
-/* ---- Pied de page ---- */
-
-.footer-legal {
-    margin-top: var(--espace-sm);
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
-
 /* Bandeau de la version d'essai (n'apparaît que sur /beta/) */
 .bandeau-beta {
     margin: 0;
-    padding: var(--espace-xs) var(--espace-sm);
-    background: var(--noir-theatre);
-    color: var(--doré-clair);
+    padding: 0.45rem var(--gutter);
+    background: var(--plateau);
+    color: var(--ambre-vif);
+    border-bottom: 1px solid var(--trait-sombre);
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
 }
 
 .bandeau-beta a {
-    color: var(--doré);
+    color: var(--ambre);
+    text-underline-offset: 3px;
 }
 
-/* ========================================
-   BANDEAU DE CONSENTEMENT
-   ======================================== */
-
-.bandeau-cookies {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1200;
-    background: var(--noir-theatre);
-    color: var(--ivoire);
-    padding: var(--espace-md);
-    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.35);
-}
-
-.bandeau-cookies__contenu {
-    max-width: 1100px;
+.container {
+    max-width: var(--max-w);
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: var(--espace-md);
+    padding-inline: var(--gutter);
 }
 
-.bandeau-cookies h2 {
-    color: var(--doré-clair);
-    font-size: 1.25rem;
-    margin-bottom: var(--espace-xs);
+.etiquette {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rideau);
 }
 
-.bandeau-cookies p {
-    font-size: 0.95rem;
-    margin-bottom: var(--espace-xs);
+.etiquette--ambre {
+    color: var(--ambre);
 }
 
-.bandeau-cookies__precision {
-    opacity: 0.85;
-    font-size: 0.9rem;
-    margin-bottom: 0;
+/* Boutons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.8rem 1.45rem;
+    font-family: var(--font-corps);
+    font-size: 0.94rem;
+    font-weight: 600;
+    text-decoration: none;
+    background: var(--rideau);
+    color: #fff;
+    border: 1.5px solid var(--rideau);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background var(--duree) ease, border-color var(--duree) ease, color var(--duree) ease;
 }
 
-.bandeau-cookies a {
-    color: var(--doré);
+.btn:hover {
+    background: var(--rideau-fonce);
+    border-color: var(--rideau-fonce);
 }
 
-/* Les deux boutons ont strictement le même poids visuel : refuser doit
-   être aussi immédiat qu'accepter, faute de quoi le consentement recueilli
-   n'est pas valable. */
-.bandeau-cookies__actions {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espace-sm);
+.btn--ambre {
+    background: var(--ambre);
+    border-color: var(--ambre);
+    color: var(--plateau);
 }
 
-.bandeau-cookies__actions .btn {
-    flex: 1;
-    text-align: center;
-    background: var(--ivoire);
-    color: var(--noir-theatre);
-    border: 2px solid var(--ivoire);
+.btn--ambre:hover {
+    background: var(--ambre-vif);
+    border-color: var(--ambre-vif);
 }
 
-.bandeau-cookies__actions .btn:hover {
-    background: var(--doré-clair);
-    border-color: var(--doré-clair);
-    color: var(--noir-theatre);
+.btn--fantome {
+    background: transparent;
+    color: var(--ivoire);
+    border-color: rgba(244, 241, 234, 0.42);
 }
 
-@media (min-width: 768px) {
-    .bandeau-cookies__contenu {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-    }
+.btn--fantome:hover {
+    background: rgba(244, 241, 234, 0.12);
+    border-color: var(--ivoire);
+}
 
-    .bandeau-cookies__actions {
-        flex-direction: row;
-        flex-shrink: 0;
-    }
+.btn--contour {
+    background: transparent;
+    color: var(--encre);
+    border-color: var(--encre);
+}
 
-    .bandeau-cookies__actions .btn {
-        min-width: 150px;
-    }
+.btn--contour:hover {
+    background: var(--encre);
+    color: var(--jour);
 }
 
 /* Bouton présenté comme un lien — pour « Gérer les cookies » */
@@ -1369,182 +192,1287 @@ footer a:focus-visible {
     font: inherit;
     color: inherit;
     text-decoration: underline;
+    text-underline-offset: 3px;
     cursor: pointer;
 }
 
-footer .lien-bouton {
-    color: var(--doré);
+/* ==========================================================================
+   EN-TÊTE SOMBRE & ADAPTATIF
+   ========================================================================== */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    background: var(--plateau);
+    color: var(--ivoire);
+    border-bottom: 1px solid var(--trait-sombre);
+    transition: background var(--duree) ease, box-shadow var(--duree) ease;
 }
 
-footer .lien-bouton:hover {
-    color: var(--doré-clair);
+.site-header.header--solide {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
 }
 
-/* ========================================
-   ZONE DU FORMULAIRE
-   ======================================== */
+.header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 68px;
+}
 
-.form-zone {
-    margin-bottom: var(--espace-lg);
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
+.brand__nom {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.brand__nom span {
+    color: var(--ambre);
+}
+
+.brand__prof {
+    font-size: 0.82rem;
+    color: var(--ivoire-doux);
+    padding-left: 0.75rem;
+    border-left: 1px solid var(--trait-sombre);
+}
+
+.site-nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.site-nav a {
+    display: inline-block;
+    padding: 0.45rem 0.7rem;
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ivoire-doux);
+    border-radius: 3px;
+    white-space: nowrap;
+    transition: color var(--duree) ease, background var(--duree) ease;
+}
+
+.site-nav a:hover {
+    color: var(--ivoire);
+    background: rgba(244, 241, 234, 0.08);
+}
+
+.site-nav a.is-active {
+    color: var(--ambre);
+    background: rgba(224, 164, 88, 0.12);
+}
+
+.menu-toggle {
+    display: none;
+    background: transparent;
+    color: var(--ivoire);
+    border: 1px solid var(--trait-sombre);
+    border-radius: 3px;
+    padding: 0.4rem 0.8rem;
+    font: 600 0.84rem/1 var(--font-corps);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   HERO PLATEAU SOMBRE — CROSS-FADE SCÉNIQUE
+   ========================================================================== */
+
+.plateau-hero {
+    background: var(--plateau);
+    color: var(--ivoire);
+    padding: clamp(2rem, 4.5vw, 3.5rem) 0 clamp(2.5rem, 5vw, 4rem);
+}
+
+.plateau-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.28fr);
+    gap: clamp(1.75rem, 4vw, 3.25rem);
+    align-items: center;
+}
+
+.plateau-hero h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(3rem, 6.2vw, 5.2rem);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    margin: 0.75rem 0 1rem;
+}
+
+.plateau-hero h1 span {
+    color: var(--ambre);
+}
+
+.plateau-chapo {
+    color: var(--ivoire-doux);
+    font-size: 1.08rem;
+    max-width: 42ch;
+    margin-bottom: 1.5rem;
+}
+
+.plateau-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+/* Scène cross-fade */
+.scene-stage {
+    position: relative;
+}
+
+.scene-stage__ecran {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: #0d0e10;
+    border: 1px solid var(--trait-sombre);
+    touch-action: pan-y;
+}
+
+.scene-stage__frame {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 550ms ease;
+    pointer-events: none;
+}
+
+.scene-stage__frame.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Les images optimisées par Eleventy sont enveloppées dans <picture> :
+   le conteneur doit être en bloc à 100 % pour remplir la scène et les cartes. */
+.scene-stage__frame picture,
+.bloc-offre__media picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.scene-stage__frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+    user-select: none;
+}
+
+.scene-stage__pied {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.95rem 0 0;
+}
+
+.scene-stage__legende strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--ambre);
+}
+
+.scene-stage__legende span {
+    display: block;
+    font-size: 0.92rem;
+    color: var(--ivoire-doux);
+}
+
+.scene-stage__outils {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.stage-btn {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--trait-sombre);
+    border-radius: 3px;
+    background: var(--plateau-eleve);
+    color: var(--ivoire);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: border-color var(--duree) ease, color var(--duree) ease;
+}
+
+.stage-btn:hover {
+    border-color: var(--ambre);
+    color: var(--ambre);
+}
+
+.scene-stage__pistes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.65rem;
+    margin-top: 0.85rem;
+}
+
+.piste-btn {
+    appearance: none;
+    border: none;
+    background: transparent;
+    text-align: left;
+    color: var(--ivoire-doux);
+    cursor: pointer;
+    padding: 0.4rem 0;
+}
+
+.piste-btn__barre {
+    display: block;
+    height: 3px;
+    background: rgba(244, 241, 234, 0.18);
+    margin-bottom: 0.45rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.piste-btn__remplissage {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--ambre);
+}
+
+.piste-btn.is-active .piste-btn__remplissage {
+    width: 100%;
+    transition: width 6500ms linear;
+}
+
+.scene-stage.is-paused .piste-btn.is-active .piste-btn__remplissage {
+    transition: none;
+    width: 100%;
+}
+
+.piste-btn__nom {
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.piste-btn.is-active .piste-btn__nom {
+    color: var(--ivoire);
+    font-weight: 600;
+}
+
+/* Bandeau repères */
+.reperes {
+    background: var(--plateau-eleve);
+    color: var(--ivoire);
+    border-top: 1px solid var(--trait-sombre);
+}
+
+.reperes-liste {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.reperes-liste li {
+    padding: 1.15rem 1.25rem;
+    border-right: 1px solid var(--trait-sombre);
+}
+
+.reperes-liste li:first-child { padding-left: 0; }
+.reperes-liste li:last-child { border-right: none; }
+
+.reperes-liste strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    letter-spacing: 0.03em;
+    color: var(--ambre);
+    line-height: 1.1;
+}
+
+.reperes-liste span {
+    font-size: 0.86rem;
+    color: var(--ivoire-doux);
+}
+
+/* ==========================================================================
+   SECTIONS JOUR — GRILLE MAGAZINE
+   ========================================================================== */
+
+.section {
+    padding-block: clamp(3rem, 6vw, 5rem);
+}
+
+.section--sombre {
+    background: var(--plateau);
+    color: var(--ivoire);
+}
+
+.section-titre {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem 2rem;
+    margin-bottom: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+.section-titre h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.1rem, 4vw, 3.3rem);
+    line-height: 0.96;
+    text-transform: uppercase;
+    letter-spacing: 0.015em;
+    margin-top: 0.4rem;
+}
+
+.section-titre p {
+    max-width: 48ch;
+    color: var(--encre-douce);
+}
+
+.section--sombre .section-titre p {
+    color: var(--ivoire-doux);
+}
+
+/* Grille magazine : 1 grand bloc vedette + 2 blocs secondaires */
+.magazine-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.bloc-offre {
+    background: var(--blanc);
+    border: 1px solid var(--trait-clair);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.bloc-offre--vedette {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+}
+
+.bloc-offre__media {
+    aspect-ratio: 16 / 10;
+    background: var(--plateau);
+    overflow: hidden;
+}
+
+.bloc-offre--vedette .bloc-offre__media {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 290px;
+}
+
+.bloc-offre__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+}
+
+.bloc-offre__corps {
+    padding: clamp(1.4rem, 2.8vw, 2.1rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    flex: 1;
+}
+
+.bloc-offre h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.55rem, 2.4vw, 2.05rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.05;
+}
+
+.bloc-offre p {
+    color: var(--encre-douce);
+}
+
+.bloc-offre__meta {
+    font-size: 0.88rem;
+    color: var(--encre);
+    font-weight: 500;
+}
+
+.bloc-offre__actions {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+/* ==========================================================================
+   BIOGRAPHIE EN COULISSES (SECTION SOMBRE)
+   ========================================================================== */
+
+.bio-coulisses {
+    display: grid;
+    grid-template-columns: minmax(220px, 290px) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+}
+
+.bio-portrait {
+    position: relative;
+}
+
+.bio-portrait picture {
+    display: block;
+    width: 100%;
+}
+
+.bio-portrait img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 2px solid var(--ambre);
+}
+
+.bio-jalons {
+    list-style: none;
+    margin-top: 1.15rem;
+    display: grid;
+    gap: 0.55rem;
+    border-top: 1px solid var(--trait-sombre);
+    padding-top: 1rem;
+    font-size: 0.88rem;
+}
+
+.bio-jalons li {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 0.5rem;
+    color: var(--ivoire-doux);
+}
+
+.bio-jalons strong {
+    color: var(--ambre);
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+}
+
+.bio-recit h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.8vw, 3rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    margin: 0.45rem 0 0.4rem;
+}
+
+.bio-recit__sous {
+    color: var(--ambre);
+    font-size: 1.05rem;
+    margin-bottom: 1.4rem;
+}
+
+.bio-recit p {
+    color: var(--ivoire-doux);
+    margin-bottom: 0.95rem;
+    max-width: 62ch;
+}
+
+.bio-recit p:last-child {
+    color: var(--ivoire);
+    border-left: 3px solid var(--ambre);
+    padding-left: 1rem;
+    margin-top: 1.25rem;
+}
+
+/* Valeurs */
+.valeurs-bande {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.valeur-carte {
+    background: var(--blanc);
+    border: 1px solid var(--trait-clair);
+    border-top: 3px solid var(--rideau);
+    border-radius: 3px;
+    padding: 1.5rem;
+}
+
+.valeur-carte h3 {
+    font-family: var(--font-display);
+    font-size: 1.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.55rem;
+}
+
+.valeur-carte p {
+    color: var(--encre-douce);
+    font-size: 0.96rem;
+}
+
+/* ==========================================================================
+   PAGES D'INSCRIPTION (EN-TÊTE SOMBRE + CORPS LUMINEUX)
+   ========================================================================== */
+
+.bandeau-page {
+    background: var(--plateau);
+    color: var(--ivoire);
+    padding: clamp(2rem, 4.5vw, 3.5rem) 0;
+}
+
+.bandeau-page__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 1.75rem 3rem;
+    align-items: end;
+}
+
+.bandeau-page h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 0.96;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin: 0.55rem 0 0.75rem;
+}
+
+.bandeau-page p {
+    color: var(--ivoire-doux);
+    max-width: 56ch;
+}
+
+.bandeau-page__infos {
+    background: var(--plateau-eleve);
+    border: 1px solid var(--trait-sombre);
+    border-left: 3px solid var(--ambre);
+    padding: 1.15rem 1.25rem;
+    display: grid;
+    gap: 0.55rem;
+    font-size: 0.92rem;
+}
+
+.bandeau-page__infos div {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 0.65rem;
+}
+
+.bandeau-page__infos dt {
+    color: var(--ambre);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    padding-top: 0.15rem;
+}
+
+/* Tableau des cours scannable + filtres */
+.filtres-barre {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.filtres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+
+.filtre-btn {
+    padding: 0.45rem 0.95rem;
+    font: 600 0.84rem/1.2 var(--font-corps);
+    background: var(--blanc);
+    color: var(--encre);
+    border: 1px solid var(--trait-clair);
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.filtre-btn[aria-pressed="true"] {
+    background: var(--plateau);
+    color: var(--ambre);
+    border-color: var(--plateau);
+}
+
+.filtre-statut {
+    font-size: 0.86rem;
+    color: var(--encre-douce);
+}
+
+.grille-horaires {
+    background: var(--blanc);
+    border: 1px solid var(--trait-clair);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.horaire-ligne {
+    display: grid;
+    grid-template-columns: minmax(170px, 1.1fr) 120px minmax(140px, 0.9fr) minmax(130px, 0.8fr);
+    gap: 0.5rem 1.25rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--trait-clair);
+    align-items: baseline;
+}
+
+.horaire-ligne:last-child {
+    border-bottom: none;
+}
+
+.horaire-ligne--entete {
+    background: var(--jour-doux);
+    font-size: 0.76rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--encre-douce);
+}
+
+.horaire-ligne__nom {
+    font-weight: 600;
+    color: var(--encre);
+}
+
+.horaire-ligne__jour {
+    font-weight: 600;
+    color: var(--rideau);
+}
+
+.horaire-ligne__tarif {
+    text-align: right;
+    font-weight: 600;
+}
+
+.horaire-ligne__sub {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: var(--encre-douce);
+}
+
+.horaire-ligne__note {
+    grid-column: 1 / -1;
+    font-size: 0.9rem;
+    color: var(--encre-douce);
+    padding-top: 0.25rem;
+}
+
+.stages-cartes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.stage-carte {
+    background: var(--blanc);
+    border: 1px solid var(--trait-clair);
+    border-top: 3px solid var(--ambre);
+    border-radius: 4px;
+    padding: 1.5rem;
+}
+
+.stage-carte h3 {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    text-transform: uppercase;
+    margin-bottom: 0.45rem;
+}
+
+.stage-carte__date {
+    font-weight: 600;
+    color: var(--rideau);
+}
+
+.stage-carte__heure {
+    font-size: 0.92rem;
+    color: var(--encre-douce);
+    margin-bottom: 0.85rem;
+}
+
+.stage-carte ul {
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.3rem;
+}
+
+.pratique-bloc {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.8fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.pratique-bloc h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    margin-bottom: 0.65rem;
+}
+
+.pratique-bloc ul {
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.5rem;
+    color: var(--encre-douce);
+}
+
+.reserve-encart {
+    background: var(--jour-doux);
+    border-left: 3px solid var(--rideau);
+    padding: 1.15rem 1.25rem;
+    font-size: 0.9rem;
+    color: var(--encre-douce);
+    align-self: start;
+}
+
+.reserve-encart strong {
+    color: var(--encre);
+}
+
+/* Zone formulaire */
+.form-cadre {
+    background: var(--blanc);
+    border: 1px solid var(--trait-clair);
+    border-radius: 4px;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    max-width: 900px;
+}
+
+.form-cadre--centre {
+    margin-inline: auto;
 }
 
 .form-zone__statut {
     font-style: italic;
-    font-size: 0.95rem;
-    color: var(--gris-chaleureux);
+    color: var(--encre-douce);
+    padding: 1rem 0;
 }
 
-/* Affiché tant que les cookies tiers ne sont pas acceptés */
+.form-iframe {
+    display: block;
+    width: 100%;
+    min-height: 680px;
+    border: none;
+}
+
+/* Piège au défilement tactile : recouvre les marges vides de l'iframe Google
+   Forms sur mobile pour laisser défiler la page sans entrer dans l'iframe. */
+@media (hover: none) {
+    .form-zone:has(.form-iframe) { position: relative; }
+    .form-zone:has(.form-iframe)::before,
+    .form-zone:has(.form-iframe)::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 26px;
+        z-index: 2;
+    }
+    .form-zone:has(.form-iframe)::before { left: 0; }
+    .form-zone:has(.form-iframe)::after { right: 0; }
+}
+
 .form-repli {
-    background: var(--ivoire);
-    border: 1px solid rgba(139, 38, 53, 0.2);
-    border-radius: 8px;
-    padding: var(--espace-lg);
-    text-align: center;
+    background: var(--jour);
+    border: 1px solid var(--trait-clair);
+    border-radius: 4px;
+    padding: 1.4rem;
 }
 
 .form-repli__texte {
-    font-size: 0.95rem;
-    color: var(--gris-chaleureux);
+    margin-bottom: 1.1rem;
+    color: var(--encre-douce);
 }
 
 .form-repli__actions {
     display: flex;
-    flex-direction: column;
-    gap: var(--espace-sm);
-    align-items: stretch;
-}
-
-.form-repli__actions .btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    line-height: 1.3;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
 }
 
 .form-repli__indice {
     font-weight: 400;
     font-size: 0.8rem;
-    opacity: 0.75;
+    opacity: 0.78;
 }
 
 .form-repli__choix {
-    margin-top: var(--espace-md);
+    font-size: 0.88rem;
+    color: var(--encre-douce);
+}
+
+.form-infos {
+    margin-top: 1.5rem;
+    padding-top: 1.15rem;
+    border-top: 1px solid var(--trait-clair);
+    font-size: 0.92rem;
+    color: var(--encre-douce);
+}
+
+.reserve-encart a,
+.mentions-bloc a,
+.form-infos a,
+.modale-cookies a {
+    color: var(--rideau);
+    text-underline-offset: 3px;
+}
+
+.reserve-encart a:hover,
+.mentions-bloc a:hover,
+.form-infos a:hover,
+.modale-cookies a:hover {
+    color: var(--rideau-fonce);
+}
+
+/* ==========================================================================
+   CONTACT & MENTIONS
+   ========================================================================== */
+
+.contact-cartes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.contact-carte {
+    background: var(--blanc);
+    border: 1px solid var(--trait-clair);
+    border-top: 3px solid var(--ambre);
+    border-radius: 3px;
+    padding: 1.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.contact-carte h2 {
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--encre-douce);
+}
+
+.contact-carte__val {
+    font-weight: 600;
+    font-size: 1.05rem;
+    word-break: break-word;
+}
+
+.contact-carte__val a {
+    color: var(--rideau);
+    text-underline-offset: 3px;
+}
+
+.copie-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.4rem;
+}
+
+.copie-btn {
+    background: var(--jour);
+    border: 1px solid var(--trait-clair);
+    border-radius: 3px;
+    padding: 0.25rem 0.6rem;
+    font: 500 0.76rem/1.2 var(--font-corps);
+    cursor: pointer;
+}
+
+.copie-btn:hover {
+    background: var(--plateau);
+    color: var(--ambre);
+}
+
+.copie-msg {
+    font-size: 0.76rem;
+    color: var(--rideau);
+}
+
+.contact-horaires {
+    margin-top: 1.75rem;
+    background: var(--blanc);
+    border: 1px solid var(--trait-clair);
+    border-radius: 4px;
+    padding: clamp(1.35rem, 2.5vw, 2rem);
+}
+
+.contact-horaires h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.contact-horaires p {
+    color: var(--encre-douce);
+    max-width: 66ch;
+    margin-bottom: 1.25rem;
+}
+
+.mentions-bloc {
+    background: var(--blanc);
+    border: 1px solid var(--trait-clair);
+    border-radius: 4px;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    max-width: 860px;
+}
+
+.mentions-bloc h3 {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--encre);
+}
+
+.mentions-bloc h3:first-child {
+    margin-top: 0;
+}
+
+.mentions-bloc p {
+    color: var(--encre-douce);
+    margin-bottom: 0.8rem;
+}
+
+.mentions-bloc ul {
+    padding-left: 1.2rem;
+    margin-bottom: 0.9rem;
+    color: var(--encre-douce);
+}
+
+.mentions-bloc strong {
+    color: var(--encre);
+}
+
+.mentions-maj {
+    margin-top: 1.75rem;
+    padding-top: 1.15rem;
+    border-top: 1px solid var(--trait-clair);
+    font-size: 0.88rem;
+    color: var(--encre-douce);
+    text-align: center;
     margin-bottom: 0;
+}
+
+/* ==========================================================================
+   PIED DE PAGE
+   ========================================================================== */
+
+.site-footer {
+    background: var(--plateau);
+    color: var(--ivoire);
+    border-top: 1px solid var(--trait-sombre);
+    padding-block: 2.5rem;
+}
+
+.footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.25rem 2rem;
+}
+
+.footer-nom {
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.footer-nom span {
+    color: var(--ambre);
+}
+
+.footer-sub {
+    font-size: 0.88rem;
+    color: var(--ivoire-doux);
+    margin-top: 0.2rem;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem 1.5rem;
     font-size: 0.9rem;
 }
 
-.form-repli__choix .lien-bouton {
-    color: var(--bordeaux);
+.footer-links a,
+.footer-links .lien-bouton {
+    color: var(--ambre);
+    text-decoration-color: rgba(224, 164, 88, 0.45);
+    text-underline-offset: 3px;
 }
 
-@media (min-width: 768px) {
-    .form-repli__actions {
-        flex-direction: row;
-        justify-content: center;
-    }
+/* ==========================================================================
+   BANDEAU & MODALE COOKIES
+   ========================================================================== */
+
+.bandeau-cookies {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1500;
+    background: var(--plateau-eleve);
+    color: var(--ivoire);
+    border-top: 2px solid var(--ambre);
+    padding: 1.15rem var(--gutter);
+    box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.35);
 }
 
-/* ========================================
-   MODALE D'INFORMATION APRÈS REFUS
-   ======================================== */
+.bandeau-cookies__contenu {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.bandeau-cookies h2 {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--ambre);
+    margin-bottom: 0.2rem;
+}
+
+.bandeau-cookies p {
+    font-size: 0.9rem;
+    color: var(--ivoire-doux);
+}
+
+.bandeau-cookies__precision {
+    opacity: 0.85;
+    font-size: 0.88rem;
+    margin-top: 0.3rem;
+}
+
+.bandeau-cookies a {
+    color: var(--ambre);
+}
+
+/* Deux boutons de même poids visuel : exigence RGPD */
+.bandeau-cookies__actions {
+    display: flex;
+    gap: 0.65rem;
+    flex-shrink: 0;
+}
+
+.bandeau-cookies__actions .btn {
+    background: var(--ivoire);
+    color: var(--plateau);
+    border-color: var(--ivoire);
+    min-width: 136px;
+}
+
+.bandeau-cookies__actions .btn:hover {
+    background: var(--ambre);
+    border-color: var(--ambre);
+}
 
 .modale-cookies {
-    /* <dialog> se centre grâce à `margin: auto`, que le reset global
-       `* { margin: 0 }` en tête de feuille écrase. Il faut le rétablir. */
     margin: auto;
-    max-width: 560px;
-    width: calc(100% - 2 * var(--espace-md));
-    max-height: calc(100vh - 2 * var(--espace-lg));
+    max-width: 540px;
+    width: calc(100% - 2rem);
+    max-height: calc(100vh - 2rem);
     overflow-y: auto;
-    padding: var(--espace-xl);
-    border: none;
-    border-radius: 12px;
-    background: white;
-    color: var(--gris-chaleureux);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--trait-clair);
+    border-top: 4px solid var(--ambre);
+    border-radius: 4px;
+    background: var(--blanc);
+    color: var(--encre);
+    padding: 1.75rem;
 }
 
 .modale-cookies::backdrop {
-    background: rgba(26, 26, 26, 0.6);
+    background: rgba(10, 11, 13, 0.72);
 }
 
 .modale-cookies h2 {
-    font-size: clamp(1.5rem, 3vw, 1.9rem);
-    margin-bottom: var(--espace-md);
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    margin-bottom: 0.85rem;
 }
 
 .modale-cookies p {
-    font-size: 1rem;
-    margin-bottom: var(--espace-md);
+    font-size: 0.95rem;
+    color: var(--encre-douce);
+    margin-bottom: 0.85rem;
 }
 
-/* Encadré sobre : on informe d'une conséquence, on n'alarme pas des familles */
+.modale-cookies strong {
+    color: var(--encre);
+}
+
 .modale-cookies__consequence {
-    background: var(--ivoire);
-    border-left: 3px solid var(--doré);
-    padding: var(--espace-sm) var(--espace-md);
-    border-radius: 0 6px 6px 0;
+    background: var(--jour);
+    border-left: 3px solid var(--ambre);
+    padding: 0.85rem 1rem;
 }
 
 .modale-cookies__rassurance {
-    font-size: 0.95rem;
+    font-size: 0.94rem;
 }
 
-.modale-cookies a {
-    color: var(--bordeaux);
-}
-
-/* Collées en bas de la modale : sur un téléphone, le texte dépasse la
-   hauteur d'écran et les boutons seraient sinon hors de vue. */
 .modale-cookies__actions {
     position: sticky;
-    bottom: calc(-1 * var(--espace-xl));
+    bottom: calc(-1 * 1.75rem);
     display: flex;
-    flex-direction: column;
-    gap: var(--espace-sm);
-    margin-top: var(--espace-lg);
-    padding: var(--espace-md) 0;
-    background: white;
-    box-shadow: 0 -12px 16px -8px rgba(255, 255, 255, 0.9);
+    gap: 0.75rem;
+    margin-top: 1.2rem;
+    padding: 0.95rem 0 0.25rem;
+    background: var(--blanc);
+    box-shadow: 0 -10px 16px -8px rgba(255, 255, 255, 0.95);
 }
 
-/* « Finalement, j'accepte » garde le bouton plein, le maintien du refus
-   prend le contour (.btn-secondary). Les libellés étant de longueurs très
-   inégales, le texte doit pouvoir passer à la ligne sans déborder. */
 .modale-cookies__actions .btn {
+    flex: 1 1 0;
     text-align: center;
     line-height: 1.35;
 }
 
-@media (min-width: 560px) {
-    .modale-cookies__actions {
-        flex-direction: row;
+/* ==========================================================================
+   RESPONSIVE & ACCESSIBILITÉ ZOOM
+   ========================================================================== */
+
+@media (max-width: 980px) {
+    .plateau-grid,
+    .bloc-offre--vedette,
+    .bio-coulisses,
+    .bandeau-page__grid,
+    .pratique-bloc {
+        grid-template-columns: 1fr;
     }
 
-    /* Base 0 : les deux boutons occupent exactement la même largeur, quelle
-       que soit la longueur des libellés. Celui du refus, plus long, passe
-       donc à la ligne — c'est voulu : il ne doit jamais paraître plus grand
-       que « Finalement, j'accepte ». */
-    .modale-cookies__actions .btn {
-        flex: 1 1 0;
+    .reperes-liste {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .reperes-liste li {
+        padding: 1rem 0.75rem;
+        border-bottom: 1px solid var(--trait-sombre);
+    }
+
+    .reperes-liste li:nth-child(2n) { border-right: none; }
+    .reperes-liste li:nth-child(odd) { padding-left: 0; }
+
+    .magazine-grid,
+    .valeurs-bande,
+    .stages-cartes {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-cartes {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* Petits écrans : on resserre pour que le titre et les boutons tiennent
-   dans le moins de défilement possible. */
-@media (max-width: 560px) {
+@media (max-width: 860px) {
+    .brand__prof { display: none; }
+    .menu-toggle { display: inline-block; }
+
+    .site-nav ul {
+        display: none;
+        position: fixed;
+        inset: 0;
+        top: 69px;
+        background: var(--plateau);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 2rem var(--gutter);
+        gap: 0.65rem;
+        border-top: 1px solid var(--trait-sombre);
+        overflow-y: auto;
+    }
+
+    .site-nav ul.is-open { display: flex; }
+
+    .site-nav a {
+        font-family: var(--font-display);
+        font-size: 1.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        white-space: normal;
+    }
+
+    .bandeau-cookies__contenu {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .bandeau-cookies__actions .btn {
+        flex: 1;
+    }
+}
+
+@media (max-width: 680px) {
+    .horaire-ligne--entete { display: none; }
+    .horaire-ligne {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+    }
+    .horaire-ligne__tarif { text-align: left; }
+    .contact-cartes { grid-template-columns: 1fr; }
     .modale-cookies {
-        padding: var(--espace-lg) var(--espace-md);
+        padding: 1.25rem 1rem;
     }
-
-    .modale-cookies p {
-        font-size: 0.95rem;
-        margin-bottom: var(--espace-sm);
-    }
-
     .modale-cookies__actions {
-        margin-top: var(--espace-md);
-        bottom: calc(-1 * var(--espace-lg));
+        flex-direction: column;
+        bottom: calc(-1 * 1.25rem);
+    }
+}
+
+@media (max-height: 500px) {
+    .site-header { position: static; }
+    .bandeau-cookies { max-height: 100vh; overflow-y: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }

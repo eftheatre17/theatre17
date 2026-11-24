@@ -1,0 +1,1150 @@
+/* ==========================================================================
+   THÉÂTRE 17 — PISTE 02 : CAHIER DE TEXTE
+   Esprit : édition théâtrale française (Actes Sud-Papiers, carnet de scène).
+   Papier vergé, encre sépia, vert forêt et terre cuite.
+   ========================================================================== */
+
+:root {
+    --verge: #FAF8F3;
+    --verge-teinte: #F1EDE2;
+    --blanc: #FFFFFF;
+    --sepia: #1F1D1A;
+    --sepia-doux: #57524A;
+    --foret: #26463B;
+    --foret-fonce: #1B332A;
+    --terracotta: #B8522E;
+    --terracotta-fonce: #943E20;
+    --trait: rgba(31, 29, 26, 0.16);
+    --trait-fort: rgba(31, 29, 26, 0.34);
+
+    --font-serif: 'Fraunces', Georgia, serif;
+    --font-corps: 'Libre Franklin', system-ui, -apple-system, sans-serif;
+
+    --max-w: 1160px;
+    --gutter: clamp(1.1rem, 3.5vw, 2.5rem);
+    --radius: 4px;
+    --duree: 220ms;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+body {
+    font-family: var(--font-corps);
+    font-size: 1.02rem;
+    line-height: 1.72;
+    color: var(--sepia);
+    background: var(--verge);
+    -webkit-font-smoothing: antialiased;
+}
+
+body.menu-open {
+    overflow: hidden;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    color: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex="-1"]:focus {
+    outline: 2.5px solid var(--terracotta);
+    outline-offset: 3px;
+}
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 2000;
+    background: var(--foret);
+    color: var(--verge);
+    padding: 0.7rem 1.2rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.skip-link:focus {
+    left: 0;
+}
+
+.container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+}
+
+.surtitre {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+}
+
+/* Boutons éditoriaux */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.78rem 1.45rem;
+    font-family: var(--font-corps);
+    font-size: 0.94rem;
+    font-weight: 500;
+    text-decoration: none;
+    background: var(--foret);
+    color: var(--verge);
+    border: 1px solid var(--foret);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background var(--duree) ease, border-color var(--duree) ease, color var(--duree) ease;
+}
+
+.btn:hover {
+    background: var(--foret-fonce);
+    border-color: var(--foret-fonce);
+}
+
+.btn--secondaire {
+    background: transparent;
+    color: var(--foret);
+    border-color: var(--foret);
+}
+
+.btn--secondaire:hover {
+    background: var(--foret);
+    color: var(--verge);
+}
+
+.lien-texte {
+    color: var(--foret);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: rgba(38, 70, 59, 0.4);
+    text-underline-offset: 4px;
+    transition: color var(--duree) ease, text-decoration-color var(--duree) ease;
+}
+
+.lien-texte:hover {
+    color: var(--terracotta);
+    text-decoration-color: var(--terracotta);
+}
+
+.lien-bouton {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   EN-TÊTE
+   ========================================================================== */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    background: rgba(250, 248, 243, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--duree) ease;
+}
+
+.site-header.est-defile {
+    border-bottom-color: var(--trait);
+}
+
+.header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 76px;
+}
+
+.brand {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.brand__nom {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.55rem;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--sepia);
+}
+
+.brand__prof {
+    font-size: 0.8rem;
+    color: var(--sepia-doux);
+    font-style: italic;
+    font-family: var(--font-serif);
+}
+
+.site-nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.site-nav a {
+    text-decoration: none;
+    font-size: 0.94rem;
+    color: var(--sepia-doux);
+    padding-block: 0.3rem;
+    border-bottom: 1.5px solid transparent;
+    transition: color var(--duree) ease, border-color var(--duree) ease;
+}
+
+.site-nav a:hover {
+    color: var(--sepia);
+}
+
+.site-nav a.is-active {
+    color: var(--sepia);
+    font-weight: 500;
+    border-bottom-color: var(--terracotta);
+}
+
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--trait-fort);
+    border-radius: var(--radius);
+    padding: 0.42rem 0.8rem;
+    font: 500 0.86rem/1 var(--font-corps);
+    color: var(--sepia);
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   HERO ÉDITORIAL & VISIONNEUSE À PELLICULE
+   ========================================================================== */
+
+.hero {
+    padding: clamp(2.5rem, 5.5vw, 4.75rem) 0 clamp(2.75rem, 5vw, 4rem);
+}
+
+.hero-entete {
+    max-width: 780px;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.hero h1 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-variation-settings: "SOFT" 60, "WONK" 1;
+    font-size: clamp(2.4rem, 5.2vw, 4.15rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    margin: 0.7rem 0 1rem;
+}
+
+.hero h1 em {
+    font-style: italic;
+    color: var(--terracotta);
+}
+
+.hero-chapo {
+    font-size: 1.12rem;
+    color: var(--sepia-doux);
+    max-width: 56ch;
+}
+
+/* Visionneuse à pellicule (pas d'autoplay imposé) */
+.scene-livre {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(240px, 0.75fr);
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.scene-cadre {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #1a1917;
+    aspect-ratio: 16 / 10;
+    touch-action: pan-y;
+}
+
+.scene-cadre img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+    transition: opacity 280ms ease;
+}
+
+.scene-panneau {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 1.4rem 1.5rem;
+    background: var(--verge-teinte);
+    border-radius: var(--radius);
+    border: 1px solid var(--trait);
+}
+
+.scene-panneau__num {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--terracotta);
+    font-size: 0.95rem;
+    margin-bottom: 0.45rem;
+    display: block;
+}
+
+.scene-panneau h2 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.45rem;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+
+.scene-panneau p {
+    font-size: 0.94rem;
+    color: var(--sepia-doux);
+}
+
+.pellicule {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.55rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--trait);
+}
+
+.vignette {
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #1a1917;
+    aspect-ratio: 4 / 3;
+    opacity: 0.62;
+    transition: opacity var(--duree) ease, border-color var(--duree) ease;
+}
+
+.vignette:hover {
+    opacity: 0.9;
+}
+
+.vignette.is-active {
+    opacity: 1;
+    border-color: var(--terracotta);
+}
+
+.vignette img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ==========================================================================
+   SECTIONS & RANGÉES ÉDITORIALES
+   ========================================================================== */
+
+.section {
+    padding-block: clamp(3rem, 6vw, 5.25rem);
+    border-top: 1px solid var(--trait);
+}
+
+.section--teintee {
+    background: var(--verge-teinte);
+}
+
+.section-intro {
+    max-width: 680px;
+    margin-bottom: clamp(2.25rem, 4.5vw, 3.5rem);
+}
+
+.section-intro h2 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    margin: 0.5rem 0 0.85rem;
+}
+
+.section-intro p {
+    color: var(--sepia-doux);
+}
+
+.disciplines {
+    display: grid;
+    gap: clamp(2.25rem, 4.5vw, 3.5rem);
+}
+
+.discipline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: center;
+}
+
+.discipline--inverse .discipline__media {
+    order: 2;
+}
+
+.discipline__media {
+    border-radius: var(--radius);
+    overflow: hidden;
+    aspect-ratio: 16 / 11;
+    background: #1a1917;
+}
+
+.discipline__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+}
+
+.discipline__corps h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    line-height: 1.18;
+    margin: 0.4rem 0 0.85rem;
+}
+
+.discipline__corps p {
+    color: var(--sepia-doux);
+    margin-bottom: 0.9rem;
+}
+
+.discipline__lieu {
+    font-size: 0.9rem;
+    color: var(--sepia);
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--trait);
+    margin-bottom: 1.2rem;
+}
+
+.actions-ligne {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+/* ==========================================================================
+   BIOGRAPHIE (PORTRAIT D'AUTEURE + LETTRINE)
+   ========================================================================== */
+
+.bio-layout {
+    display: grid;
+    grid-template-columns: minmax(210px, 270px) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+}
+
+.bio-marge figure img {
+    width: 100%;
+    border-radius: 6px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin-bottom: 0.85rem;
+}
+
+.bio-marge figcaption strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 500;
+}
+
+.bio-marge figcaption span {
+    display: block;
+    font-size: 0.88rem;
+    color: var(--sepia-doux);
+    margin-top: 0.15rem;
+}
+
+.bio-repere {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--trait);
+    font-size: 0.86rem;
+    color: var(--sepia-doux);
+    display: grid;
+    gap: 0.35rem;
+}
+
+.bio-corps h2 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(1.45rem, 2.5vw, 1.95rem);
+    line-height: 1.3;
+    color: var(--foret);
+    margin-bottom: 1.5rem;
+    max-width: 34ch;
+}
+
+.bio-corps p {
+    max-width: 60ch;
+    margin-bottom: 1rem;
+}
+
+.bio-corps p:first-of-type::first-letter {
+    font-family: var(--font-serif);
+    font-size: 3.1rem;
+    line-height: 0.82;
+    float: left;
+    padding: 0.12rem 0.55rem 0 0;
+    color: var(--terracotta);
+}
+
+/* ==========================================================================
+   VALEURS (CHAPITRES ROMAINS)
+   ========================================================================== */
+
+.valeurs-liste {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.25rem;
+    list-style: none;
+}
+
+.valeurs-liste li {
+    border-top: 1.5px solid var(--foret);
+    padding-top: 1.2rem;
+}
+
+.valeurs-liste__roman {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--terracotta);
+    display: block;
+    margin-bottom: 0.35rem;
+}
+
+.valeurs-liste h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.35rem;
+    margin-bottom: 0.55rem;
+}
+
+.valeurs-liste p {
+    font-size: 0.95rem;
+    color: var(--sepia-doux);
+}
+
+/* ==========================================================================
+   PAGES D'INSCRIPTION — MISE EN PAGE 2 COLONNES (PROGRAMME + FORMULAIRE)
+   ========================================================================== */
+
+.entete-page {
+    padding: clamp(2.25rem, 4.5vw, 3.75rem) 0 clamp(1.75rem, 3.5vw, 2.5rem);
+    border-bottom: 1px solid var(--trait);
+}
+
+.entete-page h1 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(2.1rem, 4.2vw, 3.3rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0.5rem 0 0.75rem;
+}
+
+.entete-page p {
+    color: var(--sepia-doux);
+    max-width: 60ch;
+}
+
+.saut-mobile {
+    display: none;
+    gap: 0.65rem;
+    margin-top: 1.25rem;
+}
+
+.inscription-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
+    padding-block: clamp(2rem, 4.5vw, 3.5rem);
+    align-items: start;
+}
+
+.col-programme h2,
+.col-formulaire h2 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.55rem;
+    margin-bottom: 1.15rem;
+}
+
+.cours-fiches {
+    list-style: none;
+    display: grid;
+    gap: 0.85rem;
+    margin-bottom: 1.75rem;
+}
+
+.cours-fiche {
+    background: var(--blanc);
+    border: 1px solid var(--trait);
+    border-left: 3px solid var(--foret);
+    border-radius: var(--radius);
+    padding: 1rem 1.15rem;
+}
+
+.cours-fiche__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
+}
+
+.cours-fiche h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+}
+
+.cours-fiche__prix {
+    font-weight: 600;
+    color: var(--terracotta);
+    white-space: nowrap;
+}
+
+.cours-fiche__creneau {
+    font-size: 0.93rem;
+    color: var(--sepia);
+    margin-top: 0.2rem;
+}
+
+.cours-fiche__sub {
+    font-size: 0.86rem;
+    color: var(--sepia-doux);
+    margin-top: 0.25rem;
+}
+
+.cours-fiche__liste {
+    margin-top: 0.55rem;
+    padding-left: 1.1rem;
+    font-size: 0.9rem;
+    color: var(--sepia-doux);
+    display: grid;
+    gap: 0.2rem;
+}
+
+.pratique-dl {
+    display: grid;
+    grid-template-columns: 105px 1fr;
+    gap: 0.5rem 1rem;
+    padding: 1.15rem 0;
+    border-block: 1px solid var(--trait);
+    margin-bottom: 1.25rem;
+    font-size: 0.93rem;
+}
+
+.pratique-dl dt {
+    font-weight: 600;
+    color: var(--foret);
+}
+
+.pratique-dl dd {
+    color: var(--sepia-doux);
+}
+
+.pratique-dl dd strong {
+    color: var(--sepia);
+    font-weight: 500;
+}
+
+.details-edito {
+    border: 1px solid var(--trait);
+    border-radius: var(--radius);
+    background: var(--verge-teinte);
+    margin-bottom: 1.25rem;
+}
+
+.details-edito summary {
+    padding: 0.85rem 1.1rem;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.05rem;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.details-edito summary::-webkit-details-marker {
+    display: none;
+}
+
+.details-edito summary::after {
+    content: "+";
+    font-family: var(--font-corps);
+    font-size: 1.2rem;
+    color: var(--terracotta);
+}
+
+.details-edito[open] summary::after {
+    content: "−";
+}
+
+.details-edito__corps {
+    padding: 0 1.1rem 1rem;
+    font-size: 0.92rem;
+    color: var(--sepia-doux);
+}
+
+.details-edito__corps ul {
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.45rem;
+}
+
+.reserve {
+    font-size: 0.87rem;
+    color: var(--sepia-doux);
+    font-style: italic;
+    line-height: 1.6;
+}
+
+/* Colonne formulaire */
+.col-formulaire {
+    background: var(--blanc);
+    border: 1px solid var(--trait);
+    border-radius: var(--radius);
+    padding: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.col-formulaire__aide {
+    font-size: 0.92rem;
+    color: var(--sepia-doux);
+    margin-bottom: 1.15rem;
+}
+
+.form-zone__statut {
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--sepia-doux);
+    padding: 1rem 0;
+}
+
+.form-iframe {
+    display: block;
+    width: 100%;
+    min-height: 700px;
+    border: none;
+    border-radius: var(--radius);
+}
+
+@media (hover: none) {
+    .form-zone:has(.form-iframe) { position: relative; }
+    .form-zone:has(.form-iframe)::before,
+    .form-zone:has(.form-iframe)::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 26px;
+        z-index: 2;
+    }
+    .form-zone:has(.form-iframe)::before { left: 0; }
+    .form-zone:has(.form-iframe)::after { right: 0; }
+}
+
+.form-repli {
+    background: var(--verge);
+    border: 1px solid var(--trait);
+    border-radius: var(--radius);
+    padding: 1.35rem;
+}
+
+.form-repli__texte {
+    font-size: 0.94rem;
+    color: var(--sepia-doux);
+    margin-bottom: 1.1rem;
+}
+
+.form-repli__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-bottom: 0.95rem;
+}
+
+.form-repli__choix {
+    font-size: 0.88rem;
+    color: var(--sepia-doux);
+}
+
+/* ==========================================================================
+   CONTACT & MENTIONS (ACCORDÉONS)
+   ========================================================================== */
+
+.contact-colonnes {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+}
+
+.coordonnees {
+    list-style: none;
+    border-top: 1px solid var(--trait);
+}
+
+.coordonnees li {
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--trait);
+}
+
+.coordonnees__label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sepia-doux);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.coordonnees__val {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+}
+
+.copie-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.35rem;
+}
+
+.copie-btn {
+    background: transparent;
+    border: 1px solid var(--trait-fort);
+    border-radius: var(--radius);
+    padding: 0.22rem 0.6rem;
+    font: 500 0.78rem/1.3 var(--font-corps);
+    color: var(--sepia-doux);
+    cursor: pointer;
+}
+
+.copie-btn:hover {
+    border-color: var(--foret);
+    color: var(--foret);
+}
+
+.copie-msg {
+    font-size: 0.8rem;
+    color: var(--terracotta);
+}
+
+.mentions-barre {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.mentions-pile {
+    display: grid;
+    gap: 0.65rem;
+    max-width: 78ch;
+}
+
+.mentions-pile p {
+    margin-bottom: 0.75rem;
+}
+
+.mentions-pile p:last-child {
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   PIED DE PAGE
+   ========================================================================== */
+
+.site-footer {
+    border-top: 1px solid var(--trait);
+    background: var(--foret);
+    color: var(--verge);
+    padding-block: 2.75rem;
+}
+
+.footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.25rem 2rem;
+}
+
+.footer-titre {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+}
+
+.footer-sub {
+    font-size: 0.88rem;
+    color: rgba(250, 248, 243, 0.76);
+    margin-top: 0.25rem;
+}
+
+.footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem 1.4rem;
+    font-size: 0.9rem;
+}
+
+.footer-nav a,
+.footer-nav .lien-bouton {
+    color: var(--verge);
+    text-decoration-color: rgba(250, 248, 243, 0.45);
+    text-underline-offset: 4px;
+}
+
+/* ==========================================================================
+   BANDEAU & MODALE COOKIES
+   ========================================================================== */
+
+.bandeau-cookies {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 1500;
+    max-width: 1080px;
+    margin: 0 auto;
+    background: var(--sepia);
+    color: var(--verge);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 12px 36px rgba(31, 29, 26, 0.28);
+}
+
+.bandeau-cookies__contenu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.bandeau-cookies h2 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: #F2D2B6;
+    margin-bottom: 0.25rem;
+}
+
+.bandeau-cookies p {
+    font-size: 0.9rem;
+    color: rgba(250, 248, 243, 0.86);
+}
+
+.bandeau-cookies a {
+    color: #F2D2B6;
+}
+
+.bandeau-cookies__actions {
+    display: flex;
+    gap: 0.65rem;
+    flex-shrink: 0;
+}
+
+.bandeau-cookies__actions .btn {
+    background: var(--verge);
+    color: var(--sepia);
+    border-color: var(--verge);
+    min-width: 132px;
+}
+
+.bandeau-cookies__actions .btn:hover {
+    background: #F2D2B6;
+    border-color: #F2D2B6;
+}
+
+.modale-cookies {
+    margin: auto;
+    max-width: 540px;
+    width: calc(100% - 2rem);
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    border: 1px solid var(--trait-fort);
+    border-radius: 6px;
+    background: var(--verge);
+    color: var(--sepia);
+    padding: 1.85rem;
+}
+
+.modale-cookies::backdrop {
+    background: rgba(31, 29, 26, 0.58);
+}
+
+.modale-cookies h2 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.6rem;
+    margin-bottom: 0.9rem;
+}
+
+.modale-cookies p {
+    font-size: 0.95rem;
+    color: var(--sepia-doux);
+    margin-bottom: 0.9rem;
+}
+
+.modale-cookies strong {
+    color: var(--sepia);
+}
+
+.modale-cookies__encadre {
+    background: var(--verge-teinte);
+    border-left: 3px solid var(--terracotta);
+    padding: 0.85rem 1rem;
+    border-radius: 0 4px 4px 0;
+}
+
+.modale-cookies__actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+.modale-cookies__actions .btn {
+    flex: 1 1 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 960px) {
+    .scene-livre,
+    .discipline,
+    .bio-layout,
+    .inscription-layout,
+    .contact-colonnes {
+        grid-template-columns: 1fr;
+    }
+
+    .discipline--inverse .discipline__media {
+        order: 0;
+    }
+
+    .valeurs-liste {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .saut-mobile {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 820px) {
+    .menu-toggle {
+        display: inline-block;
+    }
+
+    .site-nav ul {
+        display: none;
+        position: fixed;
+        inset: 0;
+        top: 76px;
+        background: var(--verge);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 2rem var(--gutter);
+        gap: 0.85rem;
+        border-top: 1px solid var(--trait);
+        overflow-y: auto;
+    }
+
+    .site-nav ul.is-open {
+        display: flex;
+    }
+
+    .site-nav a {
+        font-family: var(--font-serif);
+        font-size: 1.55rem;
+    }
+
+    .bandeau-cookies {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 0;
+    }
+
+    .bandeau-cookies__contenu {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .bandeau-cookies__actions .btn {
+        flex: 1;
+    }
+}
+
+@media (max-width: 560px) {
+    .pratique-dl {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+    }
+
+    .pratique-dl dd {
+        margin-bottom: 0.65rem;
+    }
+
+    .modale-cookies__actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-height: 500px) {
+    .site-header { position: static; }
+    .bandeau-cookies { max-height: 100vh; overflow-y: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

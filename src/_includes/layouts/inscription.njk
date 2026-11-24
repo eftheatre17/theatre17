@@ -1,168 +1,213 @@
 ---
 layout: layouts/base.njk
 ---
-{# Gabarit commun aux trois pages d'inscription.
-   Auparavant ces pages etaient trois fichiers de 92 lignes identiques
-   a 95 % : seules changeaient l'adresse du formulaire et le titre.
-   Elles ne sont plus decrites que par quelques lignes d'en-tete. #}
-<section class="form-page">
-    <div class="container">
-        <div class="form-container">
-            <div class="form-placeholder fade-in-up">
-                <h1>{{ titre1 | safe }}</h1>
-
-                {% if intro %}<p class="form-intro">{{ intro }}</p>{% endif %}
-
-                <p>Pour vous pré-inscrire, remplissez le formulaire.
-                   Les champs marqués d'un * sont obligatoires.</p>
-
-                {# Zone du formulaire.
-                   Le HTML ne contient JAMAIS l'iframe : c'est le JavaScript qui
-                   l'insère, et seulement si le visiteur a accepté les cookies
-                   tiers dans le bandeau. Sans accord, aucune requête ne part
-                   vers Google — le repli ci-dessous reste affiché. #}
-                <div class="form-zone"
-                     data-form-url="{{ formUrl }}"
-                     data-form-titre="Formulaire de préinscription — {{ lieu }}">
-
-                    <div class="form-repli">
-                        <p class="form-repli__texte">
-                            Le formulaire est hébergé par <strong>Google Forms</strong> et n'est pas
-                            affiché ici, faute d'accord pour les cookies tiers. Vous pouvez malgré
-                            tout vous inscrire :
-                        </p>
-
-                        <div class="form-repli__actions">
-                            <a class="btn" href="{{ formUrl }}" target="_blank" rel="noopener noreferrer">
-                                Ouvrir le formulaire sur Google
-                                <span class="form-repli__indice">nouvel onglet</span>
-                            </a>
-                            <a class="btn btn-secondary"
-                               href="mailto:{{ site.contact.email }}?subject=Préinscription — {{ lieu }}">
-                                M'écrire par email
-                                <span class="form-repli__indice">sans passer par Google</span>
-                            </a>
-                        </div>
-
-                        <p class="form-repli__choix">
-                            <button type="button" class="lien-bouton js-cookies-rouvrir">
-                                Modifier mon choix de cookies
-                            </button>
-                        </p>
-                    </div>
-                </div>
-
-                {# Détail de la saison, repris du formulaire.
-                   Placé après le formulaire : c'est lui qu'on vient remplir.
-                   Ces informations restent indispensables — ce sont elles que
-                   les familles cherchent, et les moteurs de recherche ne
-                   peuvent pas les lire tant qu'elles n'existent que dans
-                   l'iframe de Google. #}
+{# Gabarit commun aux trois pages d'inscription : Dompierre, La Jarrie, Éloquence.
+   Bandeau sombre en en-tête + contenu lumineux (horaires/stages scannables + formulaire). #}
+<section class="bandeau-page">
+    <div class="container bandeau-page__grid">
+        <div>
+            <p class="etiquette etiquette--ambre">
+                {%- if saison.annee -%}
+                Saison {{ saison.annee }}{% if saison.association %} · Association {{ saison.association }}{% endif %}
+                {%- else -%}
+                Stages ponctuels · Prise de parole en public
+                {%- endif -%}
+            </p>
+            <h1>{{ titre1 | safe }}</h1>
+            {% if intro or chapeau %}
+            <p>{{ intro or chapeau }}</p>
+            {% endif %}
+            <div class="plateau-actions" style="margin-top:1.25rem;">
+                <a href="#formulaire" class="btn btn--ambre">Se préinscrire</a>
                 {% if cours or stages %}
-                <section class="saison">
-                    {# L'éloquence fonctionne par stages ponctuels : « La saison »
-                       seule, sans millésime, ne voudrait rien dire. #}
-                    <h2>{% if saison.annee %}Les cours de théâtre {{ saison.annee }} : enfants, ados et adultes{% else %}Les prochains stages{% endif %}</h2>
-
-                    {% if cours %}
-                    <ul class="cours-liste">
-                        {%- for c in cours %}
-                        <li class="cours-carte">
-                            <h3 class="cours-carte__nom">{{ c.nom }}</h3>
-                            <p class="cours-carte__creneau">
-                                <span class="cours-carte__jour">{{ c.jour }}</span>
-                                <span class="cours-carte__horaire">{{ c.horaire }}</span>
-                            </p>
-                            <p class="cours-carte__tarif">
-                                <strong>{{ c.an }}</strong> l'année
-                                {%- if c.trimestre %}
-                                <span class="cours-carte__precision">ou {{ c.trimestre }} par trimestre</span>
-                                {%- endif %}
-                            </p>
-                            {% if c.note %}<p class="cours-carte__note">{{ c.note }}</p>{% endif %}
-                        </li>
-                        {%- endfor %}
-                    </ul>
-                    {% endif %}
-
-                    {% if stages %}
-                    <ul class="cours-liste">
-                        {%- for s in stages %}
-                        <li class="cours-carte">
-                            <h3 class="cours-carte__nom">{{ s.nom }}</h3>
-                            {# Contrairement à « Mardi · 17h30 », une date de stage
-                               et son horaire sont trop longs pour tenir sur une
-                               ligne séparés d'un point : ils s'empilent. #}
-                            <p class="cours-carte__creneau">
-                                <span class="cours-carte__jour">{{ s.dates }}</span>
-                                <span class="cours-carte__horaire cours-carte__horaire--bloc">{{ s.horaire }}</span>
-                            </p>
-                            <ul class="cours-carte__tarifs">
-                                {%- for t in s.tarifs %}
-                                <li>{{ t }}</li>
-                                {%- endfor %}
-                            </ul>
-                        </li>
-                        {%- endfor %}
-                    </ul>
-                    {% endif %}
-
-                    {# Paires intitulé / valeur : une liste de définitions dit
-                       exactement cela, et se met en deux colonnes sans balisage
-                       supplémentaire. #}
-                    <dl class="saison__pratique">
-                        {% if saison.salle %}
-                        <dt>Lieu</dt>
-                        <dd>
-                            {{ saison.salle }}
-                            {%- if saison.adresse %}<br>
-                            <span class="saison__adresse">{{ saison.adresse }}</span>
-                            {%- endif %}
-                        </dd>
-                        {% endif %}
-                        {% if saison.reprise %}
-                        <dt>Reprise</dt>
-                        <dd>{{ saison.reprise }}{% if saison.fin %}<br><span class="saison__adresse">Fin des cours {{ saison.fin }}</span>{% endif %}</dd>
-                        {% endif %}
-                        {% if saison.essai %}
-                        <dt>Essai</dt>
-                        <dd>{{ saison.essai }}</dd>
-                        {% endif %}
-                        {% if saison.association %}
-                        <dt>Adhésion</dt>
-                        <dd>{{ saison.adhesion }} à l'association {{ saison.association }}, en plus du tarif du cours</dd>
-                        {% endif %}
-                    </dl>
-
-                    {% if modalites %}
-                    <h3>Bon à savoir</h3>
-                    <ul class="saison__modalites">
-                        {%- for m in modalites %}
-                        <li>{{ m }}</li>
-                        {%- endfor %}
-                    </ul>
-                    {% endif %}
-
-                    {# Garde-fou. Ces informations sont recopiées à la main
-                       depuis le formulaire : elles peuvent avoir pris du
-                       retard sur lui. Le dire franchement vaut mieux que de
-                       laisser une famille se déplacer sur un horaire périmé. #}
-                    <p class="saison__reserve">
-                        <strong>Ces informations sont données à titre indicatif.</strong>
-                        Les horaires et les tarifs peuvent évoluer d'ici la rentrée.
-                        Le formulaire ci-dessus fait foi ; en cas de doute,
-                        écrivez à <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>
-                        ou appelez le <a href="tel:{{ site.contact.telephoneLien }}">{{ site.contact.telephoneAffiche }}</a>.
-                    </p>
-                </section>
+                <a href="#horaires" class="btn btn--fantome">{% if stages %}Voir les formules{% else %}Voir les horaires{% endif %}</a>
                 {% endif %}
-
-                <p class="form-infos">
-                    <strong>Informations complémentaires :</strong><br>
-                    Professeure : {{ site.professeure }}<br>
-                    Contact : <a href="/contact/">voir la page Contact</a>
-                </p>
             </div>
+        </div>
+
+        <dl class="bandeau-page__infos">
+            {% if saison.salle %}
+            <div>
+                <dt>Salle</dt>
+                <dd>{{ saison.salle }}{% if saison.adresse %} — {{ saison.adresse }}{% endif %}</dd>
+            </div>
+            {% endif %}
+            {% if saison.reprise %}
+            <div>
+                <dt>Reprise</dt>
+                <dd>{{ saison.reprise }}{% if saison.fin %} (fin {{ saison.fin }}){% endif %}</dd>
+            </div>
+            {% endif %}
+            {% if saison.essai %}
+            <div>
+                <dt>Essai</dt>
+                <dd>{{ saison.essai }}</dd>
+            </div>
+            {% endif %}
+            {% if saison.association %}
+            <div>
+                <dt>Adhésion</dt>
+                <dd>{{ saison.adhesion }} à l'association {{ saison.association }}, en plus du tarif du cours</dd>
+            </div>
+            {% endif %}
+            {% if saison.groupe %}
+            <div>
+                <dt>Groupe</dt>
+                <dd>{{ saison.groupe }}</dd>
+            </div>
+            {% endif %}
+        </dl>
+    </div>
+</section>
+
+{% if cours or stages %}
+<section class="section" id="horaires">
+    <div class="container"{% if cours %} data-filtre-groupe{% endif %}>
+        {% if cours %}
+        <div class="filtres-barre">
+            <div>
+                <p class="etiquette">Planning {{ saison.annee }}</p>
+                <h2 style="font-family:var(--font-display);font-size:clamp(1.9rem,3.4vw,2.75rem);text-transform:uppercase;margin-top:0.25rem;">
+                    Les cours de théâtre {{ saison.annee }} : enfants, ados et adultes
+                </h2>
+            </div>
+
+            <div class="filtres" role="group" aria-label="Filtrer par tranche d'âge">
+                <button type="button" class="filtre-btn" data-filtre="tous" aria-pressed="true">Tous ({{ cours.length }})</button>
+                <button type="button" class="filtre-btn" data-filtre="enfants" aria-pressed="false">Enfants</button>
+                <button type="button" class="filtre-btn" data-filtre="ados" aria-pressed="false">{{ labelAdos or 'Ados' }}</button>
+                <button type="button" class="filtre-btn" data-filtre="adultes" aria-pressed="false">Adultes</button>
+            </div>
+        </div>
+
+        <p class="filtre-statut" data-filtre-statut aria-live="polite" style="margin-bottom:0.85rem;">{{ cours.length }} créneaux affichés</p>
+
+        <div class="grille-horaires">
+            <div class="horaire-ligne horaire-ligne--entete" aria-hidden="true">
+                <span>Groupe</span>
+                <span>Jour</span>
+                <span>Horaire</span>
+                <span style="text-align:right;">Tarif</span>
+            </div>
+            {%- for c in cours %}
+            <div class="horaire-ligne" data-public="{{ c.public }}">
+                <span class="horaire-ligne__nom">{{ c.nom }}</span>
+                <span class="horaire-ligne__jour">{{ c.jour }}</span>
+                <span>{{ c.horaire }}</span>
+                <span class="horaire-ligne__tarif">
+                    {{ c.an }} l'année
+                    {%- if c.trimestre %}
+                    <span class="horaire-ligne__sub">ou {{ c.trimestre }} par trimestre</span>
+                    {%- endif %}
+                </span>
+                {% if c.note %}<p class="horaire-ligne__note">{{ c.note }}</p>{% endif %}
+            </div>
+            {%- endfor %}
+        </div>
+        {% endif %}
+
+        {% if stages %}
+        <div class="section-titre" style="margin-bottom:1.75rem;">
+            <div>
+                <p class="etiquette">Formules &amp; tarifs</p>
+                <h2>Les prochains stages</h2>
+            </div>
+            <p>En week-end ou à la journée selon les demandes, ainsi qu'en intervention sur site pour entreprises, collèges, lycées et associations.</p>
+        </div>
+
+        <div class="stages-cartes">
+            {%- for s in stages %}
+            <article class="stage-carte">
+                <h3>{{ s.nom }}</h3>
+                <p class="stage-carte__date">{{ s.dates }}</p>
+                <p class="stage-carte__heure">{{ s.horaire }}</p>
+                <ul>
+                    {%- for t in s.tarifs %}
+                    <li>{{ t }}</li>
+                    {%- endfor %}
+                </ul>
+            </article>
+            {%- endfor %}
+        </div>
+        {% endif %}
+
+        <div class="pratique-bloc">
+            <div>
+                {% if modalites %}
+                <h3>Bon à savoir</h3>
+                <ul>
+                    {%- for m in modalites %}
+                    <li>{{ m }}</li>
+                    {%- endfor %}
+                </ul>
+                {% endif %}
+            </div>
+
+            {# Garde-fou : informations recopiées du formulaire, avec mention indicative. #}
+            <aside class="reserve-encart">
+                <strong>Ces informations sont données à titre indicatif.</strong>
+                Les horaires et les tarifs peuvent évoluer d'ici la rentrée.
+                Le formulaire ci-dessous fait foi ; en cas de doute,
+                écrivez à <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>
+                ou appelez le <a href="tel:{{ site.contact.telephoneLien }}">{{ site.contact.telephoneAffiche }}</a>.
+            </aside>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="section" id="formulaire"{% if cours or stages %} style="padding-top:0;"{% endif %}>
+    <div class="container">
+        <div class="form-cadre">
+            <p class="etiquette">Préinscription</p>
+            <h2 style="font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.5rem);text-transform:uppercase;margin:0.3rem 0 0.45rem;">
+                Formulaire — {{ lieu }}
+            </h2>
+            <p style="color:var(--encre-douce);margin-bottom:1.25rem;">
+                Pour vous pré-inscrire, remplissez le formulaire. Les champs marqués d'un * sont obligatoires.
+            </p>
+
+            {# Zone du formulaire.
+               Le HTML ne contient JAMAIS l'iframe : c'est le JavaScript qui
+               l'insère, et seulement si le visiteur a accepté les cookies
+               tiers dans le bandeau. Sans accord, aucune requête ne part
+               vers Google — le repli ci-dessous reste affiché. #}
+            <div class="form-zone"
+                 data-form-url="{{ formUrl }}"
+                 data-form-titre="Formulaire de préinscription — {{ lieu }}">
+
+                <div class="form-repli">
+                    <p class="form-repli__texte">
+                        Le formulaire est hébergé par <strong>Google Forms</strong> et n'est pas
+                        affiché ici, faute d'accord pour les cookies tiers. Vous pouvez malgré
+                        tout vous inscrire :
+                    </p>
+
+                    <div class="form-repli__actions">
+                        <a class="btn" href="{{ formUrl }}" target="_blank" rel="noopener noreferrer">
+                            Ouvrir le formulaire sur Google ↗
+                            <span class="form-repli__indice">(nouvel onglet)</span>
+                        </a>
+                        <a class="btn btn--contour"
+                           href="mailto:{{ site.contact.email }}?subject=Préinscription — {{ lieu }}">
+                            M'écrire par email
+                            <span class="form-repli__indice">(sans passer par Google)</span>
+                        </a>
+                    </div>
+
+                    <p class="form-repli__choix">
+                        <button type="button" class="lien-bouton js-cookies-rouvrir">
+                            Modifier mon choix de cookies
+                        </button>
+                    </p>
+                </div>
+            </div>
+
+            <p class="form-infos">
+                <strong>Informations complémentaires :</strong><br>
+                Professeure : {{ site.professeure }}<br>
+                Contact : <a href="/contact/">voir la page Contact</a>
+            </p>
         </div>
     </div>
 </section>
